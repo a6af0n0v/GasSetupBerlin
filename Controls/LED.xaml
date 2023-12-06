@@ -1,0 +1,12 @@
+﻿<UserControl x:Class="MeasureConsole.Controls.LED"
+             xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+             xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+             xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006" 
+             xmlns:d="http://schemas.microsoft.com/expression/blend/2008" 
+             xmlns:local="clr-namespace:MeasureConsole.Controls"
+             mc:Ignorable="d" 
+             >
+    <Grid >
+        <Image x:Name="iMain" Source="LED_OFF.png"></Image>
+    </Grid>
+</UserControl>

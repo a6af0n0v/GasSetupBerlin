@@ -1,0 +1,25 @@
+﻿<Window x:Class="MeasureConsole.Dialogs.HuberSetTDlg"
+        xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+        xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+        xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+        xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+        xmlns:local="clr-namespace:MeasureConsole.Dialogs"
+        mc:Ignorable="d"
+        Title="Set Huber Temperature" SizeToContent="WidthAndHeight" Topmost="True" WindowStartupLocation="CenterScreen">
+    <Grid Margin="10">
+        <Grid.ColumnDefinitions>
+            <ColumnDefinition/>
+            <ColumnDefinition/>
+        </Grid.ColumnDefinitions>
+        <Grid.RowDefinitions>
+            <RowDefinition/>
+            <RowDefinition/>
+            <RowDefinition/>
+        </Grid.RowDefinitions>
+        <Slider MinWidth="300" x:Name="sValue" Minimum="-10" SmallChange="0.1" LargeChange="5" Grid.ColumnSpan="2" Grid.Column="0" Grid.Row="0" Margin="1 10 1 1" Value="25" Maximum="50"></Slider>
+        <Label Grid.Row="1" Grid.Column="0" Margin="1">Value, C</Label>
+        <TextBox Grid.Row="1" Grid.Column="1" x:Name="tbValue" Margin="1" Text="{Binding Value, ElementName=sValue, FallbackValue=25, Mode=TwoWay, StringFormat=\{0:F\}, UpdateSourceTrigger=PropertyChanged}" IsEnabled="False"></TextBox>
+        <Button Content="Cancel" Grid.Column="0" Grid.Row="2" x:Name="btnCancel" Margin="1 1 1 10" Click="btnCancel_Click"></Button>
+        <Button Content="Set" Grid.Column="1" Grid.Row="2" x:Name="btnSet" Margin="1 1 1 10" Click="btnSet_Click"></Button>
+    </Grid>
+</Window>

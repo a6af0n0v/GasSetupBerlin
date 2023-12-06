@@ -1,0 +1,157 @@
+﻿<!DOCTYPE html>
+<html lang="en" xmlns="http://www.w3.org/1999/xhtml">
+<head>
+    <meta charset="utf-8" />
+    <title>What's new</title>
+</head>
+
+<body>
+    <h3>Version 5.2</h3>
+    <ul>
+        <li>Huber Circulating chiller support.</li>
+        <li>List of recent js files</li>
+        <li>Tabs in JS editor</li>
+        <li>Button "Connect All"</li>
+        <li>Settings Dialog</li>
+    </ul>
+    <h2>Version 5.1</h2>
+    <ul>
+        <li>JavaScript engine is updated up to version v3.0.0. Now a
+        
+        
+        
+        
+        and async instructions are available in JS.</li>
+        <li>Logger starts a new file when the file size (or the nubmer of lines) is more than a user defined value.</li>
+        <li>The status bar (with log messages) keeps a limited user defined number of messages.</li>
+    </ul>
+    <h2>Version 4.2</h2>
+    <ul>
+        <li>
+            Event hadlers MeasurementStarted, MeasurementEnded are assigned when palmsense.PSCommSimpleWPF is set.
+        </li>
+    </ul>
+    <h2>Version 4.1</h2>
+    <ul>
+        <li>
+            MethodScript functionality was added for EmStat Pico. Use palmsense.RunMethodScript(string path, string csv="") to execute MethodScript and save it to a csv file.
+        </li>
+        <li>
+            PalmSens SDK for WPF version updated from 5.7 to 5.9.
+        </li>
+
+    </ul>
+
+    <h2>Version 4.0</h2>
+    <ul>
+        <li>
+            The new chamber supports BME680 temperature/humidity sensor.
+            Check help page to know how to switch between different modes of operation.
+        </li>
+        <li>Number of points on the temperature chart is increased up to 100.</li>
+    </ul>
+    <h2>Version 3.2</h2>
+    <ul>
+        <li>Command palmsense.SaveMeasurements is now a sync method. That means that JS execution will be halted untill CSV file is saved. </li>
+    </ul>
+    <h2>Version 3.1</h2>
+    <ul>
+        <li>Jint interpreter updated to v3.0.0-beta-2036</li>
+        <li>
+            JavaScript execution can be <u>stopped when the current statement is complete</u> with Stop button.
+            JavaScript execution can be <u>immediately terminated</u> with Kill button.
+        </li>
+        <li>JavaScript can be saved to hard disk. Button "Save" added to Main menu.</li>
+        <li>
+            Added support for multichannel Palmsense measurements. Execute palmsense.Measure(channel) to measure a single channel. Ommit argument <i>channel</i> for measurements without MUX.
+        </li>
+        <div>
+            Alternatively: If <i>palmsense.Measure(ch)</i> doesn't work or sequentiall measurements needed, try <i>palmsense.SetupMUX(bool[] array)</i>,
+            where array is an array of booleans representing the channel states, for example {true, true, false, false, false, false, false} to measure first two channels.
+        </div>
+        <li>Temperature regulator set value should be given in 0.1 Celcius deg. <b>Important! setTemp(37) will try to run PID at 3.7C which is almost unreachable for a small Peltier and completely impossible in a setup with only heating element. </b></li>
+    </ul>
+    <h2>Version 3.0</h2>
+    <ul>
+        <li>The new chamber supports heating element (not Peltier). Temperature can be set using menu button 'Set temp' or in Java Script using arduino.setTemp(int t).</li>
+        <li>Blinking indicator showing communication to Arduino.</li>
+    </ul>
+    <h2>Version 2.4</h2>
+    <ul>
+        <li>
+            Support of AHT10 temperature/humidity sensor board. Use AHT10 compiler tag to build an application with AHT10 support.
+            Humidity can be read from JS using arduino.Humidity.
+        </li>
+    </ul>
+    <h2>Version 2.3</h2>
+    <ul>
+        <li>Max flow rate acceptable by arduino.setFlow is back to 200 ccm/min. </li>
+    </ul>
+
+    <h2>Version 2.2</h2>
+    <ul>
+        <li>Bug with arduino.setFlow fixed. </li>
+    </ul>
+    <h2>Version 2.1</h2>
+    <ul>
+        <li>Read arduino.Temperature to get current temperature.</li>
+    </ul>
+    <h2>Version 2.0</h2>
+    <ul>
+        <li>Bug with restore of the width of JavaScript list has been fixed.</li>
+        <li>
+            This version is designed for the new arduino shield. The new shield has external DAC and ADC modules.
+            If you need to work with the old shield, remove compilation symbol I2C from project build settings. External DAC can output
+            voltage from 0 to 5V with 12 bit resolution. External ADC can measure +/- 6.144V with 16 bit resolution, thus 1 bit = 0.1875mV.
+            <i>The new shield works only with the new firmware of arduino. </i>
+        </li>
+        <li>
+            Event handler <i>SimpleCurveStartReceivingData</i> removed after Palmsense measurement completion.
+            It can solve the bug with doubling of data in CSV file.
+        </li>
+
+    </ul>
+
+
+    <h2>Version 1.4</h2>
+    <ul>
+        <li>
+            JSListWidth, last selected COM port are now preserved between sessions.
+        </li>
+        <li>
+            Bug with NullReferenceException during execution of Measure method has been fixed.
+        </li>
+    </ul>
+
+    <h2>Version 1.3</h2>
+    <ul>
+        <li>
+            More space for temperature chart added.
+        </li>
+        <li>
+            If <i>Don't show next time</i> checkbox is set, <i>What's New</i> dialog won't be displayed next time.
+        </li>
+    </ul>
+
+    <h2>Version 1.2</h2>
+    <ul>
+        <li>
+            Function SaveMeasurements of IPalmsense interface now has the 2nd optional parameter <i>csv</i> which is defualt to False.
+            If <i>csv</i> is True Palmsense measurements are saved in CSV table rather than pssession file.
+            <br />
+            Example:<br />
+            <i>palmsense.SaveMeasurements("test.csv", true);</i>
+        </li>
+        <li>
+            <i>Help</i> page added.
+        </li>
+        <li>
+            <i>What's new</i> page added.
+        </li>
+        <li>
+            Java Script editor, <i>Execute script</i> menu button are disabled during script execution. Script editor changes background color to grey while script execution.
+        </li>
+
+    </ul>
+</body>
+</html>

@@ -1,0 +1,22 @@
+﻿<Window x:Class="MeasureConsole.WhatsNew"
+        xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+        xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+        xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+        xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+        xmlns:local="clr-namespace:MeasureConsole"
+        mc:Ignorable="d"
+        Title="Whats New" Height="450" Width="800" WindowStartupLocation="CenterScreen" Closed="Window_Closed">
+    <Grid>
+        <Grid.ColumnDefinitions>
+            <ColumnDefinition Width="auto"/>
+            <ColumnDefinition Width="*"/>
+        </Grid.ColumnDefinitions>
+        <Grid.RowDefinitions>
+            <RowDefinition/>
+            <RowDefinition Height="auto"/>
+        </Grid.RowDefinitions>
+        <WebBrowser x:Name="wbBrowser" Margin="10" Grid.Column="1"/>
+        <Image Source="/icons/whatsnew.jpg" Width="200" Height="200" VerticalAlignment="Top"/>
+        <CheckBox x:Name="cbDontShowAgain" HorizontalAlignment="Right" Content="Don't show next time" Margin="10" Grid.Row="1" Grid.ColumnSpan="2" FontSize="16" Checked="CheckBox_Checked" />
+    </Grid>
+</Window>

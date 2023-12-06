@@ -1,0 +1,322 @@
+﻿<!DOCTYPE html>
+
+<html lang="en" xmlns="http://www.w3.org/1999/xhtml">
+<head>
+    <meta charset="utf-8" />
+    <title>Help</title>
+    
+    <style>
+        body{
+            
+            overflow: hidden;
+
+        }
+        p {
+            color: black;
+            font-size: 120%;
+        }
+        h3
+        {
+            color: darkblue;
+            font-size: 130%;
+        }
+        h2 {
+            color: darkblue;
+            font-size: 200%;
+        }
+
+        div
+        {
+            float: left;
+            margin: 10px;
+        }
+        li
+        {
+            list-style: none;
+        }
+        .menu{
+            background: #dfe9f5;
+            padding-top: 10px;
+            position: fixed;
+            left:0px;
+            top: 0px;
+            width: 250px;
+            bottom: 0px;
+        }
+        .main-content {
+            padding-left: 251px;
+            
+        }
+
+    </style>
+</head>
+<body>
+    <div class="wrapper">
+        <div class ="menu">
+            <ul>
+                <li><a href="#JS"> Java Script Support </a></li>
+                <li><a href="#helpers"> Helper functions </a></li>
+                <li><a href="#arduino"> Arduino object </a></li>
+                <li><a href="#palmsense"> Palmsense object </a></li>
+                <li><a href="#commands"> Arduino commands </a></li>
+                <li><a href="#protocol"> Communication protocol </a></li>
+                <li><a href="#mux"> Multiplexer settings </a></li>
+                <li><a href="#dip-switch"> How to switch between different modes of operation </a></li>
+
+            </ul>
+        </div>
+        
+        <div class="main-content" style="width: 60%">
+            <a id="JS" />
+            <h2>Java Script support</h2>
+            <p>
+                The App uses Jint which is a Javascript interpreter for .NET.
+                It can run on any modern .NET platform as it supports .NET Standard 2.0 and .NET 4.6.1 targets
+            </p>
+            <a href="https://github.com/sebastienros/jint">Jint page</a>
+
+            <h3>Version 2.x</h3>
+            <p>
+                ✔ Full support for ECMAScript 5.1 (ES5)
+                .NET Interoperability
+            </p>
+            <h3>Version 3.x</h3>
+            <p>
+                The entire execution engine was rebuild with performance in mind, in many cases at least twice as fast as the old engine. All the features of 2.x and more:
+            </p>
+            <h3>ECMAScript 2015 (ES6)</h3>
+            <p>
+                ✔ Arrow function expression <br />
+                ✔ Class support <br />
+                ✔ Enhanced object literals <br />
+                ✔ Template strings <br />
+                ✔ Destructuring <br />
+                ✔ Default, rest and spread <br />
+                ✔ Lexical scoping of variables (let and const) <br />
+                ✔ for...of <br />
+                ✔ Map and Set <br />
+                ✔ Proxies <br />
+                ✔ Symbols <br />
+                ✔ Reflect <br />
+                ✔ Binary and octal literals <br />
+                ❌ Generators <br />
+                ❌ Unicode <br />
+                ❌ Modules and module loaders <br />
+                ❌ Weakmap and Weakset <br />
+                ✔ Promises (Experimental, API is unstable) <br />
+                ❌ Tail calls <br />
+            </p>
+            <h3>ECMAScript 2016</h3>
+            <p>
+                ✔ Block-scoping of variables and functions <br />
+                ✔ Destructuring patterns (of variables) <br />
+                ✔ Exponentiation operator ** <br />
+                ✔ Array.prototype.includes <br />
+                ❌ await, async <br />
+            </p>
+            <h3>            ECMAScript 2017        </h3>
+            <p>
+                ✔ Object.values, Object.entries and Object.getOwnPropertyDescriptors
+            </p>
+            <h3>ECMAScript 2018</h3>
+            <p>
+                ✔ Rest/spread operators for object literals (...identifier)<br />
+                ✔ Promise.prototype.finally <br />
+            </p>
+            <h3>
+                ECMAScript 2019
+            </h3>
+            ✔ Array.prototype.flat, Array.prototype.flatMap
+            <h3>
+                ECMAScript 2020
+            </h3>
+            <p>
+                ✔ Nullish coalescing operator (??) <br />
+                ✔ globalThis object<br />
+                ❌ BigInt<br />
+            </p>
+            <h3>
+                Other
+            </h3>
+            Further refined .NET CLR interop capabilities
+            Constraints for execution (recursion, memory usage, duration)
+
+
+            <a id="helpers" />
+            <h2><a href="#js">Helper functions</a></h2>
+            <h3>public static void log(string format, params object[] args)</h3>
+            <p>Prints logs to StatusBar and to log.txt file</p>
+            <p>format - C# format string notation, arg - arguments.</p>
+
+            <h3>public static void wait(int ms)</h3>
+            <p>suspends JS thread for ms milliseconds</p>
+
+
+            <a id="arduino" />
+            <h2><a href="#js">Arduino API</a></h2>
+            <h3>void openValve(int ch)</h3>
+            <p>Opens the valve indicated by ch (0..4)</p>
+            <h3>void closeValve(int ch)</h3>
+            <p>Closes the valve indicated by ch (0..4)</p>
+            <h3>void sendCustomCmd(string cmd)</h3>
+            <p>Sends custom command to Arduino. See commands <a href="#Commands">description</a></p>
+            <h3>void setVoltage(int ch, int voltage)</h3>
+            <p>Sets value of corresponding DAC to specified value. Value is an integer from 0 to 255 which correlates with voltage from 0V up to 3.3V.</p>
+            <h3>void setFlow(int ch, int flow_rate)</h3>
+            <p>Sets the flow rate of corresponding MFC to specified value. Value is an integer from 0 to 110 ccm/min.</p>
+            <h3>void setDuty(int duty)</h3>
+            <p>Not implemented yet.</p>
+            <h3>void setTemp(int temp)</h3>
+            <p>
+                Sets the value for temperature PID regulator.
+                You can wait for the required temperature with waitForTempCommand.
+            </p>
+            <h3>void waitForTemp(double temp, double range);</h3>
+            <p>JSThread is set on hold till gas temperature doesn't end up in [temp-range; temp+range] range. </p>
+
+
+            <a id="palmsense" />
+            <h2><a href="#js">Palmsense API</a></h2>
+            <h3>void LoadMethod(string path)</h3>
+            <p>Loads .psmethod file located at specified path.</p>
+            <h3>void Measure()</h3>
+            <p>Starts Palmsense measurement. Load method either manualy from the menu or by calling LoadMethod function.</p>
+            <h3>void SaveMeasurements(string path, csv = false)</h3>
+            <p>Save meausurment data to a file specified by <i>path</i>. If <i>csv</i> is false, data saved in pssession format (default), otherwise in cvs spreadsheet table. </p>
+            <h3>void RunMethodScript(string scriptName, string csv="")</h3>
+            <p>Executes MethodScript generated in PSTrace and saves the measurements in csv file (if csv argument is different from "").
+            Do not open Palmsense port prior to calling RunMethodScript, the port is opened and closed automatically. Do not load .psmethod file.
+            </p>
+            <a id="commands" />
+            <h2><a href="#js">Arduino commands description</a></h2>
+            <p>
+                Arduino command is a text command starting with $ symbol and ending with # symbol. Between these symbols there
+                are a command specific action code and zero or more numeric parameters.
+            </p>
+            <h3>Set voltage</h3>
+            <p>$b{channel}{voltage}#</p>
+            <p>chanel can be 0 or 1</p>
+            <p>voltage from 0 t0 255 for internal DAC, or from 0 to 4095 for external 12bit DAC.</p>
+            <h3>Set duty</h3>
+            <p>$c{duty}#</p>
+            <p>duty is the duty rate of PWM unit which used to output current to peltier element. The higher the duty rate, the higher the power of peltier.</p>
+            <h3>Open valve</h3>
+            <p>$f{channel}#</p>
+            <p>chanel is integer from 0 to 4</p>
+            <h3>Close valve</h3>
+            <p>chanel is integer from 0 to 4</p>
+            <h3>$t{temp}#</h3>
+            <p>temp is an integer expressed in 0.1 of Celcius degree. temp = 370 will set PID at 37.0 C.</p>
+            <p>Sets the temperature target for temperature PID regulator. </p>
+
+            <a id="protocol" />
+            <h2><a href="#js">Arduino protocol description with I2C ADC units</a></h2>
+            <p><i>Example: 10 2000 3000 4000 5000 60000000 70 8000 9000</i></p>
+            <p>10      - 2 bytes -  package number in hex</p>
+            <p>2000    - 4 bytes -  DAC1 setup </p>
+            <p>3000    - 4 bytes -  DAC2 setup </p>
+            <p>4000    - 4 bytes -  ADC1 reading</p>
+            <p>5000    - 4 bytes -  ADC2 reading</p>
+            <p>60000000- 8 bytes -  digital IO </p>
+            <p>70      - 2 bytes -  duty rate for peltier PWM driver</p>
+            <p>8000    - 4 bytes -  temperature reading </p>
+            <p>9000    - 4 bytes -  humidity reading (only with AHT10 board)</p>
+
+            <h2>Arduino protocol description without I2C ADC units (internal Arduino ADCs). </h2>
+            <p><i>Example: 10 20 30 4000 5000 60000000 70 8000 9000</i></p>
+            <p>10      - 2 bytes -  package number in hex</p>
+            <p>20      - 2 bytes -  DAC1 setup </p>
+            <p>30      - 2 bytes -  DAC2 setup </p>
+            <p>4000    - 4 bytes -  ADC1 reading</p>
+            <p>5000    - 4 bytes -  ADC2 reading</p>
+            <p>60000000- 8 bytes -  digital IO </p>
+            <p>70      - 2 bytes -  duty rate for peltier PWM driver</p>
+            <p>8000    - 4 bytes -  temperature reading </p>
+            <p>9000    - 4 bytes -  humidity reading (only with AHT10 board)</p>
+
+            <a id="mux">
+                <h2><a href="#js">Multiplexer settings</a></h2>
+                <
+
+                <p>
+                    The PalmSens.Method class is also used to specify the multiplexer settings for sequential and alternating measurements.
+                    Alternating multiplexer measurements restricted to the chronoamperometry and chronopotentiometry techniques.
+                </p>
+                <pre>
+methodCA.MuxMethod = MuxMethod.None; //Default setting, no multiplexer
+methodCA.MuxMethod = MuxMethod.Alternatingly;
+methodCA.MuxMethod = MuxMethod.Sequentially;
+//The channels on which to measure are specified in a boolean array 
+PalmSens.Method.UseMuxChannel: methodCA.UseMuxChannel = new bool[] { true, true,
+false, false, false, false, false, true };
+                </pre>
+                <p>
+                    The code above will perform a measurement on the first two and last channels of an 8-channel multiplexer.
+                    For a 16-channel multiplexer you would also need to assign true or false to the last 8 channels.
+                </p>
+                <p>
+                    Alternating multiplexer measurement can only measure on successive channels and must start with the first channel (i.e. it is possible to alternatingly measure on channels 1 through 4 but it is not possible to alternatingly measure on channel 1, 3 and 5).
+
+                </p>
+                <p>
+                    The enumerator property PalmSens.Method.MuxMethod defines the type multiplexer measurement.
+                </p>
+                <p>
+                    When using a MUX8-R2 multiplexer the multiplexer settings must be set digitally instead of via the physical switches on the earlier multiplexer models.
+                    The type of multiplexer should be specified in the connected device’s capabilities,
+                    when the multiplexer is connected before connecting to the software the capabilities are updated automatically.
+                    Otherwise, when using the MUX8-R2 the PalmSens.Devices.DeviceCapabilities.MuxType should be set to PalmSens.Comm.MuxType.Protocol
+                    manually or by calling PalmSens.Comm.CommManager.ClientConnection.ReadMuxInfo, PalmSens.Comm.CommManager.ClientConnection.ReadMuxInfoAsync
+                    when connected asynchronously.
+                </p>
+                <p>
+                    For the MUX8-R2 the settings for a measurement are set in PalmSens.Method.MuxSett property with an instance of the PalmSens.Method.MuxSettings class.
+                    For manual control these settings can be set using the PalmSens.Comm.ClientConnection.SetMuxSettings function, PalmSens.Comm.ClientConnection.SetMuxSettingsAsync
+                    when connected asynchronously.
+                </p>
+                <pre>
+method.MuxSett = new Method.MuxSettings(false)
+{
+    CommonCERE = false,
+    ConnSEWE = false,
+    ConnectCERE = true,
+    OCPMode = false,
+    SwitchBoxOn = false,
+    UnselWE = Method.MuxSettings.UnselWESetting.FLOAT
+};
+                </pre>
+
+            </a>
+
+            <a id="dip-switch" />
+            <h2><a href="#js">How to switch between different modes of operation</a></h2>
+            <p>Use DIP-switch on Arduino board to configure hardware installed.</p>
+            <pre>
+    |SW1        |SW4
+-------------------------
+ON  |I2C        |PELT
+OFF |INTERNAL   |RESISTOR
+            </pre>
+            <pre>
+Temperature and humidity sensor config
+SW2     |SW3    |
+------------------------
+OFF     |OFF    |DS18B20
+OFF     |ON     |AHT10
+ON      |ON     |BME
+            </pre>
+            <h3>Configure MeasureConsole App</h3>
+            <p>
+                Open the project in Visual Studio, right click on project name in Solution Explorer,
+                select <i>Properties</i>. Add necessary options on Build tab in <i>Conditional compilation symbols</i> field.
+            </p>
+            <p>Valid symbols are:</p>
+            <ul>
+                <li>I2C</li>
+                <li>AHT10</li>
+                <li>BME</li>
+            </ul>
+        </div>
+    </div>
+</body>
+</html>

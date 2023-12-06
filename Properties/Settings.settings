@@ -1,0 +1,106 @@
+﻿<?xml version='1.0' encoding='utf-8'?>
+<SettingsFile xmlns="http://schemas.microsoft.com/VisualStudio/2004/01/settings" CurrentProfile="(Default)" GeneratedClassNamespace="MeasureConsole.Properties" GeneratedClassName="Settings">
+  <Profiles />
+  <Settings>
+    <Setting Name="Version" Type="System.Int32" Scope="User">
+      <Value Profile="(Default)">0</Value>
+    </Setting>
+    <Setting Name="ArduinoPort" Type="System.String" Scope="User">
+      <Value Profile="(Default)" />
+    </Setting>
+    <Setting Name="PalmsensePortIndex" Type="System.Int32" Scope="User">
+      <Value Profile="(Default)">0</Value>
+    </Setting>
+    <Setting Name="JSListWidth" Type="System.Double" Scope="User">
+      <Value Profile="(Default)">300</Value>
+    </Setting>
+    <Setting Name="LastFiles" Type="System.Collections.Specialized.StringCollection" Scope="User">
+      <Value Profile="(Default)">&lt;?xml version="1.0" encoding="utf-16"?&gt;
+&lt;ArrayOfString xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:xsd="http://www.w3.org/2001/XMLSchema"&gt;
+  &lt;string&gt;test.jks&lt;/string&gt;
+  &lt;string&gt;last.js&lt;/string&gt;
+&lt;/ArrayOfString&gt;</Value>
+    </Setting>
+    <Setting Name="LastFilesMaxCount" Type="System.Int32" Scope="User">
+      <Value Profile="(Default)">5</Value>
+    </Setting>
+    <Setting Name="HuberPort" Type="System.String" Scope="User">
+      <Value Profile="(Default)">COM20</Value>
+    </Setting>
+    <Setting Name="HuberPollingInterval" Type="System.Int32" Scope="User">
+      <Value Profile="(Default)">5000</Value>
+    </Setting>
+    <Setting Name="LogFolder" Type="System.String" Scope="User">
+      <Value Profile="(Default)" />
+    </Setting>
+    <Setting Name="CSVFolder" Type="System.String" Scope="User">
+      <Value Profile="(Default)" />
+    </Setting>
+    <Setting Name="DataFolder" Type="System.String" Scope="User">
+      <Value Profile="(Default)" />
+    </Setting>
+    <Setting Name="Gas1" Type="System.String" Scope="User">
+      <Value Profile="(Default)">Gas1</Value>
+    </Setting>
+    <Setting Name="Gas2" Type="System.String" Scope="User">
+      <Value Profile="(Default)">Gas2</Value>
+    </Setting>
+    <Setting Name="Gas3" Type="System.String" Scope="User">
+      <Value Profile="(Default)">Gas3</Value>
+    </Setting>
+    <Setting Name="Gas4" Type="System.String" Scope="User">
+      <Value Profile="(Default)">Gas4</Value>
+    </Setting>
+    <Setting Name="Gas5" Type="System.String" Scope="User">
+      <Value Profile="(Default)">Gas5</Value>
+    </Setting>
+    <Setting Name="Valve1IO" Type="System.Int32" Scope="User">
+      <Value Profile="(Default)">0</Value>
+    </Setting>
+    <Setting Name="Valve2IO" Type="System.Int32" Scope="User">
+      <Value Profile="(Default)">0</Value>
+    </Setting>
+    <Setting Name="Valve3IO" Type="System.Int32" Scope="User">
+      <Value Profile="(Default)">0</Value>
+    </Setting>
+    <Setting Name="Valve4IO" Type="System.Int32" Scope="User">
+      <Value Profile="(Default)">0</Value>
+    </Setting>
+    <Setting Name="Valve5IO" Type="System.Int32" Scope="User">
+      <Value Profile="(Default)">0</Value>
+    </Setting>
+    <Setting Name="Valve6IO" Type="System.Int32" Scope="User">
+      <Value Profile="(Default)">0</Value>
+    </Setting>
+    <Setting Name="Valve7IO" Type="System.Int32" Scope="User">
+      <Value Profile="(Default)">0</Value>
+    </Setting>
+    <Setting Name="CSVColumnNames" Type="System.String" Scope="User">
+      <Value Profile="(Default)">N; MFC1_Flow_CMD; MFC2_FLOW_CMD; MFC1_Flow; MFC2_Flow; T; rH; V0; V1; V2; V3; V4; Huber</Value>
+    </Setting>
+    <Setting Name="huberFaultTValue" Type="System.Int32" Scope="User">
+      <Value Profile="(Default)">-273</Value>
+    </Setting>
+    <Setting Name="AutoConnect" Type="System.Boolean" Scope="User">
+      <Value Profile="(Default)">False</Value>
+    </Setting>
+    <Setting Name="MaxPointsOnChart" Type="System.Int32" Scope="User">
+      <Value Profile="(Default)">100</Value>
+    </Setting>
+    <Setting Name="Gas6" Type="System.String" Scope="User">
+      <Value Profile="(Default)">Gas6</Value>
+    </Setting>
+    <Setting Name="Gas7" Type="System.String" Scope="User">
+      <Value Profile="(Default)">Gas7</Value>
+    </Setting>
+    <Setting Name="MaxNumberOfLinesInCSV" Type="System.Int32" Scope="User">
+      <Value Profile="(Default)">200</Value>
+    </Setting>
+    <Setting Name="MaxNumberOfMsgInStatusBar" Type="System.Int32" Scope="User">
+      <Value Profile="(Default)">20</Value>
+    </Setting>
+    <Setting Name="MaxNumberOfLinesInLog" Type="System.Int32" Scope="User">
+      <Value Profile="(Default)">200</Value>
+    </Setting>
+  </Settings>
+</SettingsFile>
