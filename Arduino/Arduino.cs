@@ -4,6 +4,8 @@ using System.IO.Ports;
 using System.Windows;
 using System.Threading;
 using Prism.Events;
+using System.Runtime.Remoting.Channels;
+using static MeasureConsole.JSONNode.JSONMeasurement.DatasetNode.Values;
 
 namespace MeasureConsole
 {
@@ -24,9 +26,17 @@ namespace MeasureConsole
                 _temperature = value;
             }
         }
+        public double SHTTemperature
+        {
+            get; private set;
+        }
         public double Humidity
         {
             get; set;
+        }
+        public double SHTHumidity
+        {
+            get; private set;
         }
         public double Pressure
         {
@@ -61,6 +71,19 @@ namespace MeasureConsole
         }
         private IEventAggregator _ea;
         private Timer tmr;
+
+        public void init()
+        {
+            //set mfc 0
+            _serialPort.WriteLine($"$b10#");
+            _serialPort.WriteLine($"$b20#");
+            //set props 0
+            _serialPort.WriteLine($"$v00#");
+            _serialPort.WriteLine($"$v10#");
+            //set pid off
+            _serialPort.WriteLine($"$h0#");
+            Logger.WriteLine("Arduino in default state: MFCs closed, target humidity 0%");
+        }
 
         public Arduino(IEventAggregator ea)
         {
@@ -98,6 +121,7 @@ namespace MeasureConsole
                 return; //throw ex;
             }
             Logger.WriteLine("Port is open");
+            init();
         }
 
         ~Arduino()
@@ -132,7 +156,7 @@ namespace MeasureConsole
             {
                 if (_serialPort.IsOpen)
                 {
-                    int expected_bytes = 48;
+                    int expected_bytes = 56;
                     if (_serialPort.BytesToRead >= expected_bytes) 
                     {
                         //Console.WriteLine($"Bytes to read {_serialPort.BytesToRead}");
@@ -140,7 +164,7 @@ namespace MeasureConsole
                         try
                         {
                             message = _serialPort.ReadLine();
-                            //Console.Write(message);
+                            //Console.WriteLine(message);
                             var package = new Package();                           
                             package.package_number = Convert.ToInt32(message.Substring(0, 2), 16);
                             package.porta = Convert.ToInt32(message.Substring(3, 2), 16);
@@ -164,6 +188,10 @@ namespace MeasureConsole
                             package.pressure = Convert.ToInt32(message.Substring(38, 8), 16);
                             Pressure = package.pressure / 100;
                             //Logger.WriteLine("t - {}", package.temperature);
+                            package.shtHumidity = Convert.ToInt32(message.Substring(47, 4), 16);
+                            SHTHumidity = package.shtHumidity / 1000;
+                            package.shtTemperature = Convert.ToInt32(message.Substring(52, 4), 16);
+                            SHTTemperature = package.shtTemperature / 100;
                             _ea.GetEvent<SuccessfulReadEvent>().Publish(package);
                         }
                         catch (Exception ex)
@@ -227,6 +255,32 @@ namespace MeasureConsole
             }
             _serialPort.WriteLine(cmd);
             
+        }
+
+        public void setProportionalValve(int channel, float value)
+        {
+            if(channel<0 || channel>1)
+            {
+                Logger.WriteLine("setProportionalValve. Argument 'channel' is out of range");
+                return;
+            }
+            if (value < 0 || value > 100)
+            {
+                Logger.WriteLine("setProportionalValve. Argument 'value' is out of range");
+                return;
+            }
+            float setpoint = 5 * value / 100;
+            _serialPort.WriteLine($"$v{channel}{setpoint}#");
+        }
+
+        public void setHumidity(int value)
+        {
+            _serialPort.WriteLine($"$h{value}#");
+        }
+
+        public void setPIDTerms(float c, float p, float i, float d)
+        {
+            _serialPort.WriteLine($"$k{c},{p},{i},{d}#");
         }
     }
 

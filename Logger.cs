@@ -161,15 +161,18 @@ namespace MeasureConsole
                 var v3 = ((package.porta & (1 << settings.Valve4IO)) == 0) ? 0 : 1;
                 var v4 = ((package.porta & (1 << settings.Valve5IO)) == 0) ? 0 : 1;
                 var v5 = ((package.porta & (1 << settings.Valve6IO)) == 0) ? 0 : 1;
-                var v6 = ((package.porta & (1 << settings.Valve7IO)) == 0) ? 0 : 1;
+                //var v6 = ((package.porta & (1 << settings.Valve7IO)) == 0) ? 0 : 1;
 
                 double humidity = (double)package.humidity/1000;
                 double pressure = (double)package.pressure/100;
+                double shtHumidity = (double)(package.shtHumidity/1000);
+                double shtTemperature = (double)(package.shtTemperature/100);
                 double huberT = (double)package.huber/100;
 
 
                 writer.WriteLine($"{package.package_number}; {MFC1_Flow}; {MFC2_Flow};" +
-                    $" {temperature:N1}; {humidity:N2}; {pressure:N3}; {v0}; {v1}; {v2}; {v3}; {v4}; {package.huber:N1}");
+                    $" {temperature:N1}; {humidity:N2}; {pressure:N3}; {v0}; {v1}; {v2}; {v3}; {v4}; {v5};"+
+                    $" {huberT:N1}; {package.shtHumidity}; {package.shtTemperature}");
                 processParametersToSaveInCSV = $"MFC1: {MFC1_Flow}; " +
                     $"MFC2: {MFC2_Flow}; t: {temperature:N1}; t_huber: {huberT:N4}; h: {humidity:N2}; p: {pressure:N3};";
                 linesInCSVFile++;

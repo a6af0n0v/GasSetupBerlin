@@ -6,13 +6,13 @@
         xmlns:local="clr-namespace:MeasureConsole"
         mc:Ignorable="d"
         Title="Splash" 
-        SizeToContent="WidthAndHeight" WindowStyle="None" Topmost="True" WindowStartupLocation="CenterScreen">
+        SizeToContent="WidthAndHeight" WindowStyle="None" Topmost="True" WindowStartupLocation="CenterScreen" Background="Black" Foreground="{x:Null}" AllowsTransparency="True">
     <Grid>
         <Grid.RowDefinitions>
             <RowDefinition/>
             <RowDefinition/>
         </Grid.RowDefinitions>
         <Image Source="/icons/logo.png" />
-        <Label Content="Loading... Please wait... Version 5.2" Grid.Row="1" HorizontalAlignment="Center"></Label>
+        <Label Content="Loading... Please wait... Version 6.1" Grid.Row="1" HorizontalAlignment="Center" Foreground="White"></Label>
     </Grid>
 </Window>

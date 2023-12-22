@@ -31,7 +31,7 @@ namespace MeasureConsole.Dialogs
             tbGas4Name.Text = settings.Gas4; 
             tbGas5Name.Text = settings.Gas5;
             tbGas6Name.Text = settings.Gas6;
-            tbGas7Name.Text = settings.Gas7;
+          
             tbCSVColumnNames.Text = settings.CSVColumnNames;
             sValve1IO.Value = settings.Valve1IO;
             sValve2IO.Value = settings.Valve2IO;
@@ -39,7 +39,7 @@ namespace MeasureConsole.Dialogs
             sValve4IO.Value = settings.Valve4IO;
             sValve5IO.Value = settings.Valve5IO;
             sValve6IO.Value = settings.Valve6IO;
-            sValve7IO.Value = settings.Valve7IO;
+  
             tbArduinoPort.Text = settings.ArduinoPort;
             spLastFilesMaxCount.Value = settings.LastFilesMaxCount;
             sMaxNumberOfLinesInCSV.Value = settings.MaxNumberOfLinesInCSV;
@@ -57,6 +57,31 @@ namespace MeasureConsole.Dialogs
                 cbAutoConnectToPeripherals.SelectedIndex = 0;
             else
                 cbAutoConnectToPeripherals.SelectedIndex = 1;
+
+            if ((settings.ShowOnGraph & 0x01) != 0)
+                cbBMEt.IsChecked = true;
+            else
+                cbBMEt.IsChecked = false;
+
+            if ((settings.ShowOnGraph & 0x02) !=0)
+                cbBMErh.IsChecked = true;
+            else
+                cbBMErh.IsChecked = false;
+
+            if ((settings.ShowOnGraph & 0x04) != 0)
+                cbHubert.IsChecked = true;
+            else
+                cbHubert.IsChecked = false;
+
+            if ((settings.ShowOnGraph & 0x08) != 0)
+                cbSHTrh.IsChecked = true;
+            else
+                cbSHTrh.IsChecked = false;
+
+            if ((settings.ShowOnGraph & 0x10) != 0)
+                cbSHTt.IsChecked = true;
+            else
+                cbSHTt.IsChecked = false;
         }
 
         private void spLastFilesMaxCount_Loaded(object sender, RoutedEventArgs e)
@@ -73,14 +98,14 @@ namespace MeasureConsole.Dialogs
             settings.Gas4 = tbGas4Name.Text;
             settings.Gas5 = tbGas5Name.Text;
             settings.Gas6 = tbGas6Name.Text;
-            settings.Gas7 = tbGas7Name.Text;
+
             settings.Valve1IO = sValve1IO.Value;
             settings.Valve2IO = sValve2IO.Value;
             settings.Valve3IO = sValve3IO.Value;
             settings.Valve4IO = sValve4IO.Value;
             settings.Valve5IO = sValve5IO.Value;
             settings.Valve6IO = sValve6IO.Value;
-            settings.Valve7IO = sValve7IO.Value;
+    
             settings.ArduinoPort = tbArduinoPort.Text;
             settings.CSVColumnNames = tbCSVColumnNames.Text;
             settings.LastFilesMaxCount = spLastFilesMaxCount.Value;
@@ -100,6 +125,13 @@ namespace MeasureConsole.Dialogs
             else
                 settings.AutoConnect = false;
 
+            int showOnChartValue = Convert.ToInt16(cbBMEt.IsChecked)  |
+                (Convert.ToInt16(cbBMErh.IsChecked) << 1) |
+                (Convert.ToInt16(cbHubert.IsChecked) << 2) |
+                (Convert.ToInt16(cbSHTrh.IsChecked) << 3) |
+                (Convert.ToInt16(cbSHTt.IsChecked) << 4);
+
+            settings.ShowOnGraph = showOnChartValue;
 
             var mainwnd = Container.Resolve<MainWindow>();
             mainwnd.OnSettingsUpdated();
@@ -111,5 +143,12 @@ namespace MeasureConsole.Dialogs
         {
             Close();
         }
+
+        private void showOnChartCheckBox_Click(object sender, RoutedEventArgs e)
+        {
+            
+    
+        }
+
     }
 }

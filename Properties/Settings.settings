@@ -14,13 +14,6 @@
     <Setting Name="JSListWidth" Type="System.Double" Scope="User">
       <Value Profile="(Default)">300</Value>
     </Setting>
-    <Setting Name="LastFiles" Type="System.Collections.Specialized.StringCollection" Scope="User">
-      <Value Profile="(Default)">&lt;?xml version="1.0" encoding="utf-16"?&gt;
-&lt;ArrayOfString xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:xsd="http://www.w3.org/2001/XMLSchema"&gt;
-  &lt;string&gt;test.jks&lt;/string&gt;
-  &lt;string&gt;last.js&lt;/string&gt;
-&lt;/ArrayOfString&gt;</Value>
-    </Setting>
     <Setting Name="LastFilesMaxCount" Type="System.Int32" Scope="User">
       <Value Profile="(Default)">5</Value>
     </Setting>
@@ -76,7 +69,7 @@
       <Value Profile="(Default)">0</Value>
     </Setting>
     <Setting Name="CSVColumnNames" Type="System.String" Scope="User">
-      <Value Profile="(Default)">N; MFC1_Flow_CMD; MFC2_FLOW_CMD; MFC1_Flow; MFC2_Flow; T; rH; V0; V1; V2; V3; V4; Huber</Value>
+      <Value Profile="(Default)">N; MFC1_Flow; MFC2_Flow; T; rH; P; V0; V1; V2; V3; V4; V5; Huber; SHTrH; SHTt</Value>
     </Setting>
     <Setting Name="huberFaultTValue" Type="System.Int32" Scope="User">
       <Value Profile="(Default)">-273</Value>
@@ -101,6 +94,16 @@
     </Setting>
     <Setting Name="MaxNumberOfLinesInLog" Type="System.Int32" Scope="User">
       <Value Profile="(Default)">200</Value>
+    </Setting>
+    <Setting Name="LastFiles" Type="System.Collections.Specialized.StringCollection" Scope="User">
+      <Value Profile="(Default)">&lt;?xml version="1.0" encoding="utf-16"?&gt;
+&lt;ArrayOfString xmlns:xsd="http://www.w3.org/2001/XMLSchema" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"&gt;
+  &lt;string&gt;test.jks&lt;/string&gt;
+  &lt;string&gt;last.js&lt;/string&gt;
+&lt;/ArrayOfString&gt;</Value>
+    </Setting>
+    <Setting Name="ShowOnGraph" Type="System.Int32" Scope="User">
+      <Value Profile="(Default)">65535</Value>
     </Setting>
   </Settings>
 </SettingsFile>

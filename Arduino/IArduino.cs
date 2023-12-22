@@ -13,5 +13,9 @@ namespace MeasureConsole
         void            waitForTemp(double temp, double range);
         void            open();
         void            sendCustomCmd(string cmd);
+        void            setProportionalValve(int channel, float value);
+        void            setHumidity(int value);
+        void            setPIDTerms(float c, float p, float i, float d);
+
     };
 }

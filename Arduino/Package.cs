@@ -10,5 +10,7 @@
         public int humidity;
         public int pressure;
         public int huber;
+        public int shtTemperature;
+        public int shtHumidity;
     }
 }

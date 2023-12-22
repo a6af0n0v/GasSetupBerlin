@@ -21,20 +21,22 @@
             <ColumnDefinition Width="60"/>
             <ColumnDefinition Width="60"/>
             <ColumnDefinition Width="120"/>
-            
+
         </Grid.ColumnDefinitions>
 
         <Grid.RowDefinitions>
             <RowDefinition Height="60"/>
+            <RowDefinition Height="15"/>
             <RowDefinition Height="60"/>
+            <RowDefinition Height="15"/>
             <RowDefinition Height="60"/>
+            <RowDefinition Height="15"/>
             <RowDefinition Height="60"/>
+            <RowDefinition Height="15"/>
             <RowDefinition Height="60"/>
+            <RowDefinition Height="15"/>
             <RowDefinition Height="60"/>
-            <RowDefinition Height="60"/>
-            <RowDefinition Height="60"/>
-            <RowDefinition Height="60"/>
-            <RowDefinition Height="60"/>
+            <RowDefinition Height="*"/>
         </Grid.RowDefinitions>
         <Image Source="/icons/scheme1.png" />
         <Label Content="N2" Margin="10" x:Name="lGas1"></Label>
@@ -45,64 +47,72 @@
         <Image Source="/icons/scheme1.png" Grid.Row="6"/>
         <Label Content="CO2" Margin="10" Grid.Row="6" x:Name="lGas4"></Label>
         <Label Content="CO2" Margin="10" Grid.Row="8" x:Name="lGas5"></Label>
-        <Image Source="/icons/scheme2.png" Grid.Column="2" Grid.RowSpan="3"/>
-        <Image Source="/icons/scheme6.png" Grid.Column="2" Grid.RowSpan="5" Grid.Row="4"/>
-        <Image Source="/icons/scheme4.png" Grid.Column="4" Grid.RowSpan="3" Grid.Row="2"/>
-        <Image Source="/icons/scheme5.png" Grid.Column="5" Grid.ColumnSpan="3" Grid.RowSpan="5"/>
-        
+        <Image Source="/icons/scheme2.png" Grid.Column="2" Grid.RowSpan="5"/>
+        <Image Source="/icons/scheme6.png" Grid.Column="2" Grid.RowSpan="5" Grid.Row="6" />
+        <Image Source="/icons/scheme4.png" Grid.Column="4" Grid.RowSpan="3" Grid.Row="4"/>
+        <Image Source="/icons/scheme7.png" Grid.Column="6" Grid.RowSpan="6" Grid.Row="2" Grid.ColumnSpan="2"/>
+        <Image Source="/icons/scheme1.png" Grid.Row="10"/>
+        <Image Source="/icons/bottle.png" Grid.Row="8" Grid.Column="6" Grid.RowSpan="32" Grid.ColumnSpan="2"/>
         <Image Source="/icons/scheme1.png" Grid.Row="8"/>
-        <Image Source="/icons/scheme_chiller.png" Grid.Column="9" Grid.Row="0" Grid.RowSpan="2"/>
-        <Grid Grid.Column="9" Grid.Row="2">
-            <Grid.RowDefinitions>
-                <RowDefinition Height="auto"></RowDefinition>
-                <RowDefinition Height="*"></RowDefinition>
-            </Grid.RowDefinitions>
-            <Grid.ColumnDefinitions>
-                <ColumnDefinition Width="*"></ColumnDefinition>
-                <ColumnDefinition Width="auto"></ColumnDefinition>
-            </Grid.ColumnDefinitions>
-            <TextBox x:Name="tbHuberT" Grid.Column="0" Grid.Row="0" Text="0.00" VerticalContentAlignment="Center" IsReadOnly="True"/>
-            <Label Grid.Row="0" Grid.Column="1">C</Label>
-        </Grid>
+        <Image Source="/icons/sensors.png" Grid.Row="0" Grid.Column="8" Grid.ColumnSpan="3" Grid.RowSpan="4"/>
+        <Image Source="/icons/scheme_chiller.png" Grid.Column="10" Grid.Row="8" Grid.RowSpan="3"/>
+        <TextBox x:Name="tbHuberT" Grid.Column="10" Grid.Row="8" Text="0.00" VerticalContentAlignment="Center" IsReadOnly="True" BorderBrush="{x:Null}" HorizontalContentAlignment="Center" Foreground="Red" Background="{x:Null}" FontSize="14" Margin="30,0,10,15"/>
+
         <controls:Valve Grid.Column="1" Grid.Row="0" Channel="0" x:Name="cValve0"/>
         <controls:Valve Grid.Column="1" Grid.Row="2" Channel="1" x:Name="cValve1"/>
         <controls:Valve Grid.Column="1" Grid.Row="4" Channel="2" x:Name="cValve2"/>
         <controls:Valve Grid.Column="1" Grid.Row="6" Channel="3" x:Name="cValve3"/>
-        <controls:mfc x:Name="cMfc1" Grid.Column="3" Grid.Row="2" Channel="2" />
-        <controls:mfc x:Name="cMfc2" Grid.Column="3" Grid.Row="4" Channel="1"/>
+        <controls:mfc x:Name="cMfc1" Grid.Column="3" Grid.Row="4" Channel="2" isMFC="True"/>
+        <controls:mfc x:Name="cMfc2" Grid.Column="3" Grid.Row="6" Channel="1" isMFC="True"/>
+        <controls:mfc x:Name="cProp1" Grid.Column="5" Grid.Row="4" Channel="0" isMFC="False"/>
+        <controls:mfc x:Name="cProp2" Grid.Column="5" Grid.Row="6" Channel="1" isMFC="False"/>
         <controls:Valve Grid.Column="1" Grid.Row="8" Channel="4" x:Name="cValve4"/>
-        <Label Grid.Row="3" Grid.Column="9" Content="Valve#6" VerticalAlignment="Bottom" x:Name="lGas6"></Label>
-        <controls:Valve Grid.Column="9" Grid.Row="4" Channel="5" x:Name="cValve5"/>
-        <Label Grid.Row="5" Grid.Column="9" Content="Valve#7" VerticalAlignment="Bottom" x:Name="lGas7"></Label>
-        <controls:Valve Grid.Column="9" Grid.Row="6" Channel="6" x:Name="cValve6"/>
-        <Button x:Name="btnMethod" Content="Method" Grid.Column="6" Grid.ColumnSpan="2" Margin="45 10 10 23" Click="btnMethod_Click"></Button>
-        <Button x:Name="btnMeasure" Content="Measure" Grid.Column="6" Grid.Row="1" Grid.ColumnSpan="2" Margin="45 -15 10 48" Click="btnMeasure_Click"></Button>
-        <Button x:Name="btnSave" Content="Save" Grid.Column="6" Grid.Row="1" Grid.ColumnSpan="2" Margin="45 20 10 18" Click="btnSave_Click"></Button>
-        <Grid Grid.Column="5" Margin="50 300 40 40" Grid.ColumnSpan="3" Grid.RowSpan="7">
+        <Label Grid.Row="10" Grid.Column="0" Content="Valve#6"  x:Name="lGas6" Margin="10"></Label>
+        <controls:Valve Grid.Column="1" Grid.Row="10" Channel="5" x:Name="cValve5"/>
+        <Image Grid.Column="5" Grid.Row="3" Source="/icons/festo.png" ></Image>
+        <Image Grid.Column="3" Grid.Row="3" Source="/icons/sensirion.png" ></Image>
+        <Image Grid.Column="5" Grid.Row="5" Source="/icons/festo.png" ></Image>
+        <Image Grid.Column="3" Grid.Row="5" Source="/icons/sensirion.png" ></Image>
+        <Image Grid.Column="10" Grid.Row="4" Source="/icons/scheme3.png" Grid.RowSpan="4"></Image>
+        <Button x:Name="btnShowPIDDialog" Grid.Column="7" Grid.Row="10" Margin="10,15,10,15" Click="ShowPIDDialogClicked" >
+            <Grid>
+                <Image Source="/icons/pid.png"></Image>
+            </Grid>
+        </Button>
+        
+        <Grid Grid.Column="8" Margin="70 10 5 -40" Grid.ColumnSpan="3" Grid.RowSpan="2">
             <Grid.ColumnDefinitions>
-                <ColumnDefinition/>
                 <ColumnDefinition Width="auto"/>
-                <ColumnDefinition/>
+                <ColumnDefinition Width="*"/>
+                <ColumnDefinition Width="*"/>
+                <ColumnDefinition Width="auto"/>
             </Grid.ColumnDefinitions>
             <Grid.RowDefinitions>
-                <RowDefinition Height="auto"/>
-                <RowDefinition Height="auto"/>
-                <RowDefinition Height="auto"/>
+                <RowDefinition Height="Auto"/>
+                <RowDefinition Height="Auto"/>
+                <RowDefinition Height="Auto"/>
+                <RowDefinition Height="Auto"/>
+                <RowDefinition Height="*"/>
             </Grid.RowDefinitions>
-            <Label>t </Label>
+            <Label>t</Label>
             <TextBox x:Name="tbTemp" TextAlignment="Center" VerticalContentAlignment="Center" Grid.Column="1">00.0</TextBox>
-            <Label Grid.Column="2"> C</Label>
+            <TextBox x:Name="tbSHTTemp" TextAlignment="Center" VerticalContentAlignment="Center" Grid.Column="2">00.0</TextBox>
+            <Label Grid.Column="3">C</Label>
 
-            <Label Grid.Row="1">rH</Label>
+            <Label Grid.Row="1" Grid.RowSpan="2" >rH</Label>
             <TextBox Grid.Row="1" x:Name="tbHumidity" TextAlignment="Center" VerticalContentAlignment="Center" Grid.Column="1">00.0</TextBox>
-            <Label Grid.Row="1" Grid.Column="2">%</Label>
+            <TextBox Grid.Row="1" x:Name="tbSHTHumidity" TextAlignment="Center" VerticalContentAlignment="Center" Grid.Column="2">00.0</TextBox>
+            <Label Grid.Row="1" Grid.Column="3">%</Label>
 
             <Label Grid.Row="2">P</Label>
-            <TextBox Grid.Row="2" Grid.Column="1" x:Name="tbPressure" TextAlignment="Center" VerticalAlignment="Center">0</TextBox>
-            <Label Grid.Row="2" Grid.Column="2">Pa</Label>
-            
+            <TextBox Grid.Row="2" Grid.Column="1" x:Name="tbPressure" TextAlignment="Center" VerticalContentAlignment="Center">0</TextBox>
+            <Label Grid.Row="2" Grid.Column="3">Pa</Label>
+
+            <Label Grid.Row="3" Grid.Column="1" VerticalAlignment="Top" Padding="5,0,5,5" HorizontalContentAlignment="Center">BME</Label>
+            <Label Grid.Row="3" Grid.Column="2" Padding="5,0,5,5" HorizontalContentAlignment="Center">SHT</Label>
+
         </Grid>
-        
-        <controls:LED Width="20" Height="20" Grid.Column="7" Grid.Row="4" Margin="10 20 30 20"  x:Name="ledHeartBeat"></controls:LED>
+
+        <controls:LED Width="20" Height="20" Grid.Column="8" Grid.Row="0"    x:Name="ledHeartBeat"></controls:LED>
     </Grid>
 </UserControl>

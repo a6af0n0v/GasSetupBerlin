@@ -36,15 +36,20 @@
         }
         .menu{
             background: #dfe9f5;
-            padding-top: 10px;
+            padding-top: 20px;
             position: fixed;
             left:0px;
             top: 0px;
-            width: 250px;
+            width: 400px;
             bottom: 0px;
+           
+        }
+        .menuitem{
+            padding-inline-start: 0px;
+            margin: 10px;
         }
         .main-content {
-            padding-left: 251px;
+            padding-left: 401px;
             
         }
 
@@ -53,11 +58,12 @@
 <body>
     <div class="wrapper">
         <div class ="menu">
-            <ul>
-                <li><a href="#JS"> Java Script Support </a></li>
+            <ul class ="menuitem">
+                <li ><a href="#JS"> Java Script Support </a></li>
                 <li><a href="#helpers"> Helper functions </a></li>
                 <li><a href="#arduino"> Arduino object </a></li>
                 <li><a href="#palmsense"> Palmsense object </a></li>
+                <li><a href="#huber"> Huber object </a></li>
                 <li><a href="#commands"> Arduino commands </a></li>
                 <li><a href="#protocol"> Communication protocol </a></li>
                 <li><a href="#mux"> Multiplexer settings </a></li>
@@ -151,92 +157,120 @@
             <h3>public static void wait(int ms)</h3>
             <p>suspends JS thread for ms milliseconds</p>
 
-
             <a id="arduino" />
             <h2><a href="#js">Arduino API</a></h2>
-            <h3>void openValve(int ch)</h3>
-            <p>Opens the valve indicated by ch (0..4)</p>
-            <h3>void closeValve(int ch)</h3>
-            <p>Closes the valve indicated by ch (0..4)</p>
+            <h3>void openValve(int channel)</h3>
+            <p>Opens the valve indicated by channel [0..5]</p>
+            <h3>void closeValve(int channel)</h3>
+            <p>Closes the valve indicated by channel [0..5]</p>
             <h3>void sendCustomCmd(string cmd)</h3>
-            <p>Sends custom command to Arduino. See commands <a href="#Commands">description</a></p>
-            <h3>void setVoltage(int ch, int voltage)</h3>
-            <p>Sets value of corresponding DAC to specified value. Value is an integer from 0 to 255 which correlates with voltage from 0V up to 3.3V.</p>
-            <h3>void setFlow(int ch, int flow_rate)</h3>
-            <p>Sets the flow rate of corresponding MFC to specified value. Value is an integer from 0 to 110 ccm/min.</p>
-            <h3>void setDuty(int duty)</h3>
-            <p>Not implemented yet.</p>
-            <h3>void setTemp(int temp)</h3>
+            <p>Sends custom command to Arduino. See commands <a href="#commands">description</a></p>
+            <h3>void setFlow(int channel, float flow_rate)</h3>
             <p>
-                Sets the value for temperature PID regulator.
-                You can wait for the required temperature with waitForTempCommand.
+                Sets the flow rate of corresponding MFC to specified value. Argument 'flow_rate' is a float number from 0 to 1,
+                channel argument range is [1,2].
             </p>
-            <h3>void waitForTemp(double temp, double range);</h3>
+            <h3>void waitForTemp(double temp, double range)</h3>
             <p>JSThread is set on hold till gas temperature doesn't end up in [temp-range; temp+range] range. </p>
+            <h3>void setProportionalValve(int channel, float value)</h3>
+            <p>
+                Controls the state of the proportional valves individually. Argument 'channel' should be in range [0,1].
+                Argument 'value' is a float number in range [0,5], where 0 is fully closed, 5 - fully open.
+            </p>
+            <h3>void setHumidity(int value)</h3>
+            <p>
+                Enables automatic control of gas humidity. Argument 'value' is the target humidity in 0.001 of %rh.<br />
+                For example, <br /><i>setHumidity(35000)</i> will enable humidity PID regulator at the target humidity 35%,<br />
+                <i>setHumidity(0)</i> will disable PID, fully open dry and close the wet proportional valve,
+                <br /><i>setHumidity(100100)</i> will disable PID, fully open wet and close the dry proportional valve.
+            </p>
 
+            <h3>void setPIDTerms(float c, float p, float i, float d)</h3>
+            <p>
+                Sets the terms of humidity PID regulator.<br />
+                c - constant, default value 0;<br />
+                p - proportional term, default value 0.00005;<br />
+                i - integral term, default value 0.0000001;<br />
+                d - derivative term, default value -0.00001;<br />
+                The terms are not saved in Flash memory and reset to default at each power on.
+            </p>
 
             <a id="palmsense" />
             <h2><a href="#js">Palmsense API</a></h2>
             <h3>void LoadMethod(string path)</h3>
             <p>Loads .psmethod file located at specified path.</p>
             <h3>void Measure()</h3>
-            <p>Starts Palmsense measurement. Load method either manualy from the menu or by calling LoadMethod function.</p>
+            <p>Starts Palmsense measurement. Load method either manually from the menu or by calling LoadMethod function.</p>
             <h3>void SaveMeasurements(string path, csv = false)</h3>
             <p>Save meausurment data to a file specified by <i>path</i>. If <i>csv</i> is false, data saved in pssession format (default), otherwise in cvs spreadsheet table. </p>
             <h3>void RunMethodScript(string scriptName, string csv="")</h3>
-            <p>Executes MethodScript generated in PSTrace and saves the measurements in csv file (if csv argument is different from "").
-            Do not open Palmsense port prior to calling RunMethodScript, the port is opened and closed automatically. Do not load .psmethod file.
+            <p>
+                Executes MethodScript generated in PSTrace and saves the measurements in csv file (if csv argument is different from "").
+                Do not open Palmsense port prior to calling RunMethodScript, the port is opened and closed automatically. Do not load .psmethod file.
             </p>
+            <a id="huber" />
+            <h2><a href="#js">Huber Object</a></h2>
+            <h3>void setTemperature(int t)</h3>
+            <p>Set the desired target temperature for Huber circulating chiller. Argument 't' is an integer
+            representing target temperature in 0.01C in range from [0, 4000].</p>
+            <h3>void start()</h3>
+            <p>Start Huber control cycle.</p>
+            <h3>void stop()</h3>
+            <p>Stop Huber control cycle.</p>
+
             <a id="commands" />
             <h2><a href="#js">Arduino commands description</a></h2>
             <p>
                 Arduino command is a text command starting with $ symbol and ending with # symbol. Between these symbols there
                 are a command specific action code and zero or more numeric parameters.
             </p>
-            <h3>Set voltage</h3>
-            <p>$b{channel}{voltage}#</p>
-            <p>chanel can be 0 or 1</p>
-            <p>voltage from 0 t0 255 for internal DAC, or from 0 to 4095 for external 12bit DAC.</p>
-            <h3>Set duty</h3>
-            <p>$c{duty}#</p>
-            <p>duty is the duty rate of PWM unit which used to output current to peltier element. The higher the duty rate, the higher the power of peltier.</p>
+            <h3>Set flow</h3>
+            <p>$b{channel}{setpoint}#</p>
+            <p>channel can be 1 or 2</p>
+            <p>setpoint - float number from 0 to 1.</p>
+
             <h3>Open valve</h3>
             <p>$f{channel}#</p>
-            <p>chanel is integer from 0 to 4</p>
+            <p>channel is an integer from 0 to 5</p>
             <h3>Close valve</h3>
-            <p>chanel is integer from 0 to 4</p>
-            <h3>$t{temp}#</h3>
-            <p>temp is an integer expressed in 0.1 of Celcius degree. temp = 370 will set PID at 37.0 C.</p>
-            <p>Sets the temperature target for temperature PID regulator. </p>
+            <p>$g{channel}#</p>
+            <p>channel is an integer from 0 to 5</p>
+            <h3>Set humidity PID target</h3>
+            <p>$h{value}#</p>
+            <p>
+                value in range (0,100000) - enables PID and sets target humidity equal to the given value (in 0.001 of %rh)<br />
+                in case value is greater or equal to 100000  or equal to 0 the PID will be disabled and proportional valves will be set up correspondently.
+            </p>
+            <h3>Set proportional valve</h3>
+            <p>$v{ch}{value}#</p>
+            ch is in range [0, 1]
+            value is a float in range [0, 5]
+            <p>
+
+            </p>
+            <h3>Set humidity PID terms</h3>
+            <p>$k{c},{p},{i},{d}#</p>
+            <p>
+                All terms are float numbers. Default values are 0,0.00005,0.0000001,-0.00001
+            </p>
+
 
             <a id="protocol" />
-            <h2><a href="#js">Arduino protocol description with I2C ADC units</a></h2>
-            <p><i>Example: 10 2000 3000 4000 5000 60000000 70 8000 9000</i></p>
+            <h2><a href="#js">Arduino protocol description </a></h2>
+            <p><i>Example: 10 20 30000000 40000000 5000 60000000 70000000 8000 9000</i></p>
             <p>10      - 2 bytes -  package number in hex</p>
-            <p>2000    - 4 bytes -  DAC1 setup </p>
-            <p>3000    - 4 bytes -  DAC2 setup </p>
-            <p>4000    - 4 bytes -  ADC1 reading</p>
-            <p>5000    - 4 bytes -  ADC2 reading</p>
-            <p>60000000- 8 bytes -  digital IO </p>
-            <p>70      - 2 bytes -  duty rate for peltier PWM driver</p>
-            <p>8000    - 4 bytes -  temperature reading </p>
-            <p>9000    - 4 bytes -  humidity reading (only with AHT10 board)</p>
-
-            <h2>Arduino protocol description without I2C ADC units (internal Arduino ADCs). </h2>
-            <p><i>Example: 10 20 30 4000 5000 60000000 70 8000 9000</i></p>
-            <p>10      - 2 bytes -  package number in hex</p>
-            <p>20      - 2 bytes -  DAC1 setup </p>
-            <p>30      - 2 bytes -  DAC2 setup </p>
-            <p>4000    - 4 bytes -  ADC1 reading</p>
-            <p>5000    - 4 bytes -  ADC2 reading</p>
-            <p>60000000- 8 bytes -  digital IO </p>
-            <p>70      - 2 bytes -  duty rate for peltier PWM driver</p>
-            <p>8000    - 4 bytes -  temperature reading </p>
-            <p>9000    - 4 bytes -  humidity reading (only with AHT10 board)</p>
+            <p>20      - 2 bytes -  state of input valves</p>
+            <p>30000000- 8 bytes -  MFC1 flow rate </p>
+            <p>40000000- 8 bytes -  MFC2 flow rate </p>
+            <p>5000    - 4 bytes -  BME temperature</p>
+            <p>60000000- 8 bytes -  BME humidity</p>
+            <p>70000000- 8 bytes -  BME pressure</p>
+            <p>8000    - 4 bytes -  SHT humidity</p>
+            <p>9000    - 4 bytes -  SHT temperature</p>
 
             <a id="mux">
                 <h2><a href="#js">Multiplexer settings</a></h2>
-                <
+                
 
                 <p>
                     The PalmSens.Method class is also used to specify the multiplexer settings for sequential and alternating measurements.
@@ -291,31 +325,11 @@ method.MuxSett = new Method.MuxSettings(false)
             <a id="dip-switch" />
             <h2><a href="#js">How to switch between different modes of operation</a></h2>
             <p>Use DIP-switch on Arduino board to configure hardware installed.</p>
-            <pre>
-    |SW1        |SW4
--------------------------
-ON  |I2C        |PELT
-OFF |INTERNAL   |RESISTOR
-            </pre>
-            <pre>
-Temperature and humidity sensor config
-SW2     |SW3    |
-------------------------
-OFF     |OFF    |DS18B20
-OFF     |ON     |AHT10
-ON      |ON     |BME
-            </pre>
-            <h3>Configure MeasureConsole App</h3>
-            <p>
-                Open the project in Visual Studio, right click on project name in Solution Explorer,
-                select <i>Properties</i>. Add necessary options on Build tab in <i>Conditional compilation symbols</i> field.
-            </p>
-            <p>Valid symbols are:</p>
-            <ul>
-                <li>I2C</li>
-                <li>AHT10</li>
-                <li>BME</li>
-            </ul>
+            <p>SW1 - disable BME Sensor</p>
+            <p>SW2 - disable Sensirion MFCs</p>
+            <p>SW3 - swap input valves coil polarity</p>
+            <p>SW4 - enable debug messages over UART</p>
+
         </div>
     </div>
 </body>

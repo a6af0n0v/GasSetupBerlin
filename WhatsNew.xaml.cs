@@ -22,7 +22,7 @@ namespace MeasureConsole
     /// </summary>
     public partial class WhatsNew : Window
     {
-        public int Version = 52;
+        public int Version = 61;
         public WhatsNew()
         {
             InitializeComponent();

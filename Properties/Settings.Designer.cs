@@ -12,7 +12,7 @@ namespace MeasureConsole.Properties {
     
     
     [global::System.Runtime.CompilerServices.CompilerGeneratedAttribute()]
-    [global::System.CodeDom.Compiler.GeneratedCodeAttribute("Microsoft.VisualStudio.Editors.SettingsDesigner.SettingsSingleFileGenerator", "16.0.0.0")]
+    [global::System.CodeDom.Compiler.GeneratedCodeAttribute("Microsoft.VisualStudio.Editors.SettingsDesigner.SettingsSingleFileGenerator", "17.8.0.0")]
     internal sealed partial class Settings : global::System.Configuration.ApplicationSettingsBase {
         
         private static Settings defaultInstance = ((Settings)(global::System.Configuration.ApplicationSettingsBase.Synchronized(new Settings())));
@@ -68,20 +68,6 @@ namespace MeasureConsole.Properties {
             }
             set {
                 this["JSListWidth"] = value;
-            }
-        }
-        
-        [global::System.Configuration.UserScopedSettingAttribute()]
-        [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
-        [global::System.Configuration.DefaultSettingValueAttribute("<?xml version=\"1.0\" encoding=\"utf-16\"?>\r\n<ArrayOfString xmlns:xsi=\"http://www.w3." +
-            "org/2001/XMLSchema-instance\" xmlns:xsd=\"http://www.w3.org/2001/XMLSchema\">\r\n  <s" +
-            "tring>test.jks</string>\r\n  <string>last.js</string>\r\n</ArrayOfString>")]
-        public global::System.Collections.Specialized.StringCollection LastFiles {
-            get {
-                return ((global::System.Collections.Specialized.StringCollection)(this["LastFiles"]));
-            }
-            set {
-                this["LastFiles"] = value;
             }
         }
         
@@ -303,8 +289,7 @@ namespace MeasureConsole.Properties {
         
         [global::System.Configuration.UserScopedSettingAttribute()]
         [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
-        [global::System.Configuration.DefaultSettingValueAttribute("N; MFC1_Flow_CMD; MFC2_FLOW_CMD; MFC1_Flow; MFC2_Flow; T; rH; V0; V1; V2; V3; V4;" +
-            " Huber")]
+        [global::System.Configuration.DefaultSettingValueAttribute("N; MFC1_Flow; MFC2_Flow; T; rH; P; V0; V1; V2; V3; V4; V5; Huber; SHTrH; SHTt")]
         public string CSVColumnNames {
             get {
                 return ((string)(this["CSVColumnNames"]));
@@ -407,6 +392,32 @@ namespace MeasureConsole.Properties {
             }
             set {
                 this["MaxNumberOfLinesInLog"] = value;
+            }
+        }
+        
+        [global::System.Configuration.UserScopedSettingAttribute()]
+        [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+        [global::System.Configuration.DefaultSettingValueAttribute("<?xml version=\"1.0\" encoding=\"utf-16\"?>\r\n<ArrayOfString xmlns:xsd=\"http://www.w3." +
+            "org/2001/XMLSchema\" xmlns:xsi=\"http://www.w3.org/2001/XMLSchema-instance\">\r\n  <s" +
+            "tring>test.jks</string>\r\n  <string>last.js</string>\r\n</ArrayOfString>")]
+        public global::System.Collections.Specialized.StringCollection LastFiles {
+            get {
+                return ((global::System.Collections.Specialized.StringCollection)(this["LastFiles"]));
+            }
+            set {
+                this["LastFiles"] = value;
+            }
+        }
+        
+        [global::System.Configuration.UserScopedSettingAttribute()]
+        [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+        [global::System.Configuration.DefaultSettingValueAttribute("65535")]
+        public int ShowOnGraph {
+            get {
+                return ((int)(this["ShowOnGraph"]));
+            }
+            set {
+                this["ShowOnGraph"] = value;
             }
         }
     }

@@ -16,11 +16,7 @@ using System.Windows.Shapes;
 
 namespace MeasureConsole.Dialogs
 {
-    /// <summary>
-    /// Interaction logic for MFCDialog.xaml
-    /// </summary>
-    /// 
-    public partial class MFCDialog : Window
+    public partial class PIDDialog : Window
     {
         public DialogResult result { get; set; }
         private int _value = 0;
@@ -32,34 +28,33 @@ namespace MeasureConsole.Dialogs
             }
             set
             {
+                sValue.Value = value;
                 _value = value;
             } 
         }
 
-        public MFCDialog(bool isMFC)
+        public PIDDialog()
         {
             InitializeComponent();
             sValue.Maximum = 100;
-            if (isMFC)
-            {
-                Title = "MFC";
-            }
-            else {
-                Title = "Piezo";
-            }
-
         }
 
-        private void Button_Click(object sender, RoutedEventArgs e)
+        private void StopDryClicked(object sender, RoutedEventArgs e)
         {
-            Value = Convert.ToInt32(sValue.Value);
+            Value = 0;
             result = System.Windows.Forms.DialogResult.OK;
             Close();
         }
 
-        private void Button_Click_1(object sender, RoutedEventArgs e)
+        private void StopWetClicked(object sender, RoutedEventArgs e)
         {
-            Value = 0;
+            Value = 100;
+            result = System.Windows.Forms.DialogResult.OK;
+            Close();
+        }
+        private void PIDStartClicked(object sender, RoutedEventArgs e)
+        {
+            Value = Convert.ToInt32(sValue.Value);
             result = System.Windows.Forms.DialogResult.OK;
             Close();
         }

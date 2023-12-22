@@ -33,6 +33,7 @@ namespace MeasureConsole.Controls
         private float _value;
 
         public int Channel { get; set; }
+        public bool isMFC { get; set; }
 
         public float Value // in l/min
         {
@@ -43,19 +44,26 @@ namespace MeasureConsole.Controls
             set 
             { 
                 _value = value;
-                lbValue.Content = (_value*100).ToString("N2");
+                if(isMFC)
+                    lbValue.Content = (_value*100).ToString("N2");
             }
         }
 
         
         private void Button_Click(object sender, RoutedEventArgs e)
         {
-            MFCDialog dlg = new MFCDialog();
+            var container = Factory.Container;
+            var mainWnd = container.Resolve<MainWindow>();
+            if (mainWnd.Scheme.PIDEnabled == true)
+            {
+                Logger.WriteLine("PID activated. To control valves manually disable PID.");
+                return;
+            }
+            MFCDialog dlg = new MFCDialog(isMFC);
             var pos = Mouse.GetPosition(null);
             dlg.Left = pos.X;
             dlg.Top = pos.Y;
             dlg.ShowDialog();
-            var container = Factory.Container;
             var arduino = container.Resolve<IArduino>();
             {
                 if ((dlg.result == System.Windows.Forms.DialogResult.OK)||
@@ -69,14 +77,30 @@ namespace MeasureConsole.Controls
                         else
                         {
                             setValue = ((float)dlg.Value / 100);
-                            arduino.setFlow(Channel, setValue);
+                            if (isMFC)
+                            {
+                                
+                                arduino.setFlow(Channel, setValue);
+                            }
+                            else //proportional valve
+                            {
+                                arduino.setProportionalValve(Channel, setValue);
+                                if(Channel == 0)
+                                {
+                                    mainWnd.Scheme.PropValve1SetValue = setValue;
+                                }
+                                else if(Channel==1)
+                                {
+                                    mainWnd.Scheme.PropValve2SetValue = setValue;
+                                }
+                            }
                         }
                         
                         //Console.WriteLine($"value raw {setValue}");
                     }
                     else
                     {
-                        Logger.WriteLine("Can't set MFC value. Arduino is not connected.");
+                        Logger.WriteLine("Can't set value. Arduino is not connected.");
                     }
                 }
 
