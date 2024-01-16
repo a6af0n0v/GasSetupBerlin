@@ -165,8 +165,8 @@ namespace MeasureConsole
 
                 double humidity = (double)package.humidity/1000;
                 double pressure = (double)package.pressure/100;
-                double shtHumidity = (double)(package.shtHumidity/1000);
-                double shtTemperature = (double)(package.shtTemperature/100);
+                double shtHumidity = ((double)package.shtHumidity)/1000;
+                double shtTemperature = ((double) package.shtTemperature)/100;
                 double huberT = (double)package.huber/100;
 
 
@@ -174,7 +174,7 @@ namespace MeasureConsole
                     $" {temperature:N1}; {humidity:N2}; {pressure:N3}; {v0}; {v1}; {v2}; {v3}; {v4}; {v5};"+
                     $" {huberT:N1}; {package.shtHumidity}; {package.shtTemperature}");
                 processParametersToSaveInCSV = $"MFC1: {MFC1_Flow}; " +
-                    $"MFC2: {MFC2_Flow}; t: {temperature:N1}; t_huber: {huberT:N4}; h: {humidity:N2}; p: {pressure:N3};";
+                    $"MFC2: {MFC2_Flow}; t_huber: {huberT:N1}; t_bme: {temperature:N1};t_sht: {shtTemperature:N1}; h_bme: {humidity:N1}; h_sht: {shtHumidity:N1}; p_bme: {pressure:N3};";
                 linesInCSVFile++;
                 if (linesInCSVFile > settings.MaxNumberOfLinesInCSV)
                 {

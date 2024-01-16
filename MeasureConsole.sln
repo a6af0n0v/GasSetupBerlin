@@ -1,0 +1,43 @@
+﻿
+Microsoft Visual Studio Solution File, Format Version 12.00
+# Visual Studio Version 17
+VisualStudioVersion = 17.8.34330.188
+MinimumVisualStudioVersion = 10.0.40219.1
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "MeasureConsole", "MeasureConsole.csproj", "{52D82956-827C-488B-AE37-21E8BA1C0141}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "MSConsoleExample", "..\MethodSCRIPTExample_C#\MSConsoleExample\MSConsoleExample.csproj", "{672B90E2-2022-4D07-8CBB-C08FF82160EE}"
+EndProject
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "PalmSens.Core.Simplified", "..\PalmSens SDK for WPF 5.9\PSLibraries\PalmSens.Core.Simplified\PalmSens.Core.Simplified.csproj", "{A4981698-04C2-454C-8780-82248396486C}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "PalmSens.Core.Simplified.WPF", "..\PalmSens SDK for WPF 5.9\PSLibraries\PalmSens.Core.Simplified.WPF\PalmSens.Core.Simplified.WPF.csproj", "{4AB617ED-6E9A-4AB9-8677-05E2253AC840}"
+EndProject
+Global
+	GlobalSection(SolutionConfigurationPlatforms) = preSolution
+		Debug|Any CPU = Debug|Any CPU
+		Release|Any CPU = Release|Any CPU
+	EndGlobalSection
+	GlobalSection(ProjectConfigurationPlatforms) = postSolution
+		{52D82956-827C-488B-AE37-21E8BA1C0141}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{52D82956-827C-488B-AE37-21E8BA1C0141}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{52D82956-827C-488B-AE37-21E8BA1C0141}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{52D82956-827C-488B-AE37-21E8BA1C0141}.Release|Any CPU.Build.0 = Release|Any CPU
+		{672B90E2-2022-4D07-8CBB-C08FF82160EE}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{672B90E2-2022-4D07-8CBB-C08FF82160EE}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{672B90E2-2022-4D07-8CBB-C08FF82160EE}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{672B90E2-2022-4D07-8CBB-C08FF82160EE}.Release|Any CPU.Build.0 = Release|Any CPU
+		{A4981698-04C2-454C-8780-82248396486C}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{A4981698-04C2-454C-8780-82248396486C}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{A4981698-04C2-454C-8780-82248396486C}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{A4981698-04C2-454C-8780-82248396486C}.Release|Any CPU.Build.0 = Release|Any CPU
+		{4AB617ED-6E9A-4AB9-8677-05E2253AC840}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{4AB617ED-6E9A-4AB9-8677-05E2253AC840}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{4AB617ED-6E9A-4AB9-8677-05E2253AC840}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{4AB617ED-6E9A-4AB9-8677-05E2253AC840}.Release|Any CPU.Build.0 = Release|Any CPU
+	EndGlobalSection
+	GlobalSection(SolutionProperties) = preSolution
+		HideSolutionNode = FALSE
+	EndGlobalSection
+	GlobalSection(ExtensibilityGlobals) = postSolution
+		SolutionGuid = {E97BB74B-B0E2-4378-BB8F-5BFD9A0FDABE}
+	EndGlobalSection
+EndGlobal

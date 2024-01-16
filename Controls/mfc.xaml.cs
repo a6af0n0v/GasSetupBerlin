@@ -76,14 +76,15 @@ namespace MeasureConsole.Controls
                             setValue = 0;
                         else
                         {
-                            setValue = ((float)dlg.Value / 100);
+
                             if (isMFC)
                             {
-                                
+                                setValue = ((float)dlg.Value / 100);
                                 arduino.setFlow(Channel, setValue);
                             }
                             else //proportional valve
                             {
+                                setValue = ((float)dlg.Value);
                                 arduino.setProportionalValve(Channel, setValue);
                                 if(Channel == 0)
                                 {

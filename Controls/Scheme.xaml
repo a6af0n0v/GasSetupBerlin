@@ -62,8 +62,8 @@
         <controls:Valve Grid.Column="1" Grid.Row="2" Channel="1" x:Name="cValve1"/>
         <controls:Valve Grid.Column="1" Grid.Row="4" Channel="2" x:Name="cValve2"/>
         <controls:Valve Grid.Column="1" Grid.Row="6" Channel="3" x:Name="cValve3"/>
-        <controls:mfc x:Name="cMfc1" Grid.Column="3" Grid.Row="4" Channel="2" isMFC="True"/>
-        <controls:mfc x:Name="cMfc2" Grid.Column="3" Grid.Row="6" Channel="1" isMFC="True"/>
+        <controls:mfc x:Name="cMfc1" Grid.Column="3" Grid.Row="4" Channel="1" isMFC="True"/>
+        <controls:mfc x:Name="cMfc2" Grid.Column="3" Grid.Row="6" Channel="2" isMFC="True"/>
         <controls:mfc x:Name="cProp1" Grid.Column="5" Grid.Row="4" Channel="0" isMFC="False"/>
         <controls:mfc x:Name="cProp2" Grid.Column="5" Grid.Row="6" Channel="1" isMFC="False"/>
         <controls:Valve Grid.Column="1" Grid.Row="8" Channel="4" x:Name="cValve4"/>

@@ -171,7 +171,7 @@ namespace MeasureConsole
                 chart.Series["TemperatureSHT"].ChartType = SeriesChartType.Line;
                 chart.Series["TemperatureSHT"].BorderWidth = 3;
             }
-            if ((ShowOnGraph & 0x80) != 0)
+            if ((ShowOnGraph & 0x08) != 0)
             {
 
                 chart.Series.Add(new Series("HumiditySHT"));
@@ -300,8 +300,8 @@ namespace MeasureConsole
                 Scheme.cValve4.State = ((package.porta & (1 << settings.Valve5IO)) == 0) ? false : true;
                 Scheme.cValve5.State = ((package.porta & (1 << settings.Valve6IO)) == 0) ? false : true;
                 
-                Scheme.cMfc1.Value = package.mfc2;
-                Scheme.cMfc2.Value = package.mfc1;
+                Scheme.cMfc1.Value = package.mfc1;
+                Scheme.cMfc2.Value = package.mfc2;
 
                 Scheme.Humidity = ((double)package.humidity / 1000);
                 PlotHumidity((double)package.humidity / 1000);

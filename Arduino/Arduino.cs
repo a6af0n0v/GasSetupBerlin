@@ -6,6 +6,7 @@ using System.Threading;
 using Prism.Events;
 using System.Runtime.Remoting.Channels;
 using static MeasureConsole.JSONNode.JSONMeasurement.DatasetNode.Values;
+using System.Linq;
 
 namespace MeasureConsole
 {
@@ -137,11 +138,12 @@ namespace MeasureConsole
         public void setFlow(int channel, float flow)
         {
             _serialPort.WriteLine($"$b{channel}{flow}#");
-            Console.WriteLine($"$b{channel}{flow}#");
+            //Console.WriteLine($"$b{channel}{flow}#");
         }
 
         public void openValve(int channel)
         {
+            //Console.WriteLine($"$f{channel}#");
             _serialPort.WriteLine($"$f{channel}#");
         }
 
@@ -187,10 +189,19 @@ namespace MeasureConsole
                             
                             package.pressure = Convert.ToInt32(message.Substring(38, 8), 16);
                             Pressure = package.pressure / 100;
+                            int offset = 0;
+                            if (message.ElementAt<char>(51) != ' ')
+                            {
+                                offset = 1;
+                            }
+
                             //Logger.WriteLine("t - {}", package.temperature);
-                            package.shtHumidity = Convert.ToInt32(message.Substring(47, 4), 16);
+                            //package.shtHumidity = Convert.ToInt32(message.Substring(47, 4), 16);
+                            //SHTHumidity = package.shtHumidity / 1000;
+                            //package.shtTemperature = Convert.ToInt32(message.Substring(52, 4), 16);
+                            package.shtHumidity = Convert.ToInt32(message.Substring(47, 4 + offset), 16);
                             SHTHumidity = package.shtHumidity / 1000;
-                            package.shtTemperature = Convert.ToInt32(message.Substring(52, 4), 16);
+                            package.shtTemperature = Convert.ToInt32(message.Substring(52 + offset, 4), 16);
                             SHTTemperature = package.shtTemperature / 100;
                             _ea.GetEvent<SuccessfulReadEvent>().Publish(package);
                         }
@@ -270,6 +281,7 @@ namespace MeasureConsole
                 return;
             }
             float setpoint = 5 * value / 100;
+            //Console.WriteLine($"$v{channel}{setpoint}#");
             _serialPort.WriteLine($"$v{channel}{setpoint}#");
         }
 

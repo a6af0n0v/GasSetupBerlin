@@ -82,7 +82,7 @@
                     <RibbonButton x:Name="btnSaveData" Label="Save Data" LargeImageSource="icons/icon_save.png" Click="btnSaveMeasurement_Click"/>
                 </RibbonGroup>
                 
-                <WPF:PSCommSimpleWPF x:Name="psCommSimpleWPF" Height="100" Width="100" Disconnected="psCommSimpleWPF_Disconnected" />
+                <WPF:PSCommSimpleWPF x:Name="psCommSimpleWPF" Height="100" Width="100"  />
                             </RibbonTab>
             <RibbonTab Header="Huber">
                 <RibbonGroup Header="Setup">
