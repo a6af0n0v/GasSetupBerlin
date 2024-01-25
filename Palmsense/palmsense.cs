@@ -42,7 +42,8 @@ namespace MeasureConsole
         private Method method = null;
         private Device _device;
         private SimpleMeasurement activeSimpleMeasurement = null;
-        private Queue<KeyValuePair<double, double>> measurements;
+        //private Queue<KeyValuePair<double, double>> measurements;
+        private Queue<KeyValuePair<KeyValuePair<double, double>, string>> measurements;
         private SerialPort scriptPort;
 
         public PSCommSimpleWPF PSCommSimpleWPF
@@ -71,7 +72,8 @@ namespace MeasureConsole
             double[] axisYData = new double[] { 0.1, 1.5, 1.9 };
             chart.Series["Series1"].Points.DataBindXY(axisXData, axisYData);*/
             PalmSens.Windows.CoreDependencies.Init();
-            measurements = new Queue<KeyValuePair<double, double>>();
+            //measurements = new Queue<KeyValuePair<double, double>>();
+            measurements = new Queue<KeyValuePair<KeyValuePair<double, double>, string>>();
         }
         ~Palmsense()
         {
@@ -102,10 +104,20 @@ namespace MeasureConsole
             //for (int i = startIndex; i < curve.YAxisValues.Length; i++)
             for (int i = startIndex; i < startIndex+count; i++)
             {
-                // Console.WriteLine($"x={curve.XAxisValues[i]:F2}|y={curve.YAxisValues[i]:F2}");
+                //Console.WriteLine($"x={curve.XAxisValues[i]:F4}|y={curve.YAxisValues[i]:F4}");
                 double xValue = curve.XAxisValue(i);
                 double yValue = curve.YAxisValue(i);
-                measurements.Enqueue(new KeyValuePair<double, double>(xValue, yValue));
+                //double xUnit = curve.XUnit[0];
+                //double yUnit = curve.YUnit[0];
+                //Console.WriteLine($"{xUnit}, {yUnit}");
+                string YAxisType = $"{curve.YAxisDataType}";
+                //Logger.WriteLine(YAxisType);
+                //Console.WriteLine($"{curve.XAxisDataType}, {curve.YAxisDataType}");
+                KeyValuePair<double, double> values = new KeyValuePair<double, double>(xValue, yValue);
+                KeyValuePair<KeyValuePair<double, double>, string> triple = new KeyValuePair<KeyValuePair<double, double>, string>(values, YAxisType);
+
+                measurements.Enqueue(triple);
+                //measurements.Enqueue(new KeyValuePair<double, double>(xValue, yValue));
                 //measurements.Enqueue(new KeyValuePair<double, double>(curve.XAxisValues[i], curve.YAxisValues[i]));
             }
 
@@ -228,9 +240,12 @@ namespace MeasureConsole
                 writer.WriteLine("V; uA");
                 foreach (var pair in measurements)
                 {
-                    writer.WriteLine($"{pair.Key}; {pair.Value}");
-                    list_x.Add(pair.Key);
-                    list_y.Add(pair.Value);
+                    //writer.WriteLine($"{pair.Key}; {pair.Value}");
+                    writer.WriteLine($"{pair.Key.Key}; {pair.Key.Value}; {pair.Value}");
+                    //list_x.Add(pair.Key);
+                    //list_y.Add(pair.Value);
+                    list_x.Add(pair.Key.Key);
+                    list_y.Add(pair.Key.Value);
                 }
                 measurements.Clear();
             }

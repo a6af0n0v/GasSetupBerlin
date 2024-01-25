@@ -289,7 +289,8 @@ namespace MeasureConsole.Properties {
         
         [global::System.Configuration.UserScopedSettingAttribute()]
         [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
-        [global::System.Configuration.DefaultSettingValueAttribute("N; MFC1_Flow; MFC2_Flow; T; rH; P; V0; V1; V2; V3; V4; V5; Huber; SHTrH; SHTt")]
+        [global::System.Configuration.DefaultSettingValueAttribute("N; timestamp; MFC1_Flow; MFC2_Flow; T; rH; P; V0; V1; V2; V3; V4; V5; Huber; SHTr" +
+            "H; SHTt")]
         public string CSVColumnNames {
             get {
                 return ((string)(this["CSVColumnNames"]));

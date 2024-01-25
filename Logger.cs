@@ -169,8 +169,9 @@ namespace MeasureConsole
                 double shtTemperature = ((double) package.shtTemperature)/100;
                 double huberT = (double)package.huber/100;
 
+                string now = DateTime.Now.ToString("dd-MM-yyyy HH:mm:ss");
 
-                writer.WriteLine($"{package.package_number}; {MFC1_Flow}; {MFC2_Flow};" +
+                writer.WriteLine($"{package.package_number}; {now}; {MFC1_Flow}; {MFC2_Flow};" +
                     $" {temperature:N1}; {humidity:N2}; {pressure:N3}; {v0}; {v1}; {v2}; {v3}; {v4}; {v5};"+
                     $" {huberT:N1}; {package.shtHumidity}; {package.shtTemperature}");
                 processParametersToSaveInCSV = $"MFC1: {MFC1_Flow}; " +

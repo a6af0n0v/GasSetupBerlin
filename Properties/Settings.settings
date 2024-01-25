@@ -69,7 +69,7 @@
       <Value Profile="(Default)">0</Value>
     </Setting>
     <Setting Name="CSVColumnNames" Type="System.String" Scope="User">
-      <Value Profile="(Default)">N; MFC1_Flow; MFC2_Flow; T; rH; P; V0; V1; V2; V3; V4; V5; Huber; SHTrH; SHTt</Value>
+      <Value Profile="(Default)">N; timestamp; MFC1_Flow; MFC2_Flow; T; rH; P; V0; V1; V2; V3; V4; V5; Huber; SHTrH; SHTt</Value>
     </Setting>
     <Setting Name="huberFaultTValue" Type="System.Int32" Scope="User">
       <Value Profile="(Default)">-273</Value>
