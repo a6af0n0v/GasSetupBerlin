@@ -175,7 +175,7 @@ namespace MeasureConsole
                     $" {temperature:N1}; {humidity:N2}; {pressure:N3}; {v0}; {v1}; {v2}; {v3}; {v4}; {v5};"+
                     $" {huberT:N1}; {package.shtHumidity}; {package.shtTemperature}");
                 processParametersToSaveInCSV = $"MFC1: {MFC1_Flow}; " +
-                    $"MFC2: {MFC2_Flow}; t_huber: {huberT:N1}; t_bme: {temperature:N1};t_sht: {shtTemperature:N1}; h_bme: {humidity:N1}; h_sht: {shtHumidity:N1}; p_bme: {pressure:N3};";
+                    $"MFC2: {MFC2_Flow}; t_huber: {huberT:N2}; t_bme: {temperature:N2};t_sht: {shtTemperature:N2}; h_bme: {humidity:N2}; h_sht: {shtHumidity:N2}; p_bme: {pressure:N3};";
                 linesInCSVFile++;
                 if (linesInCSVFile > settings.MaxNumberOfLinesInCSV)
                 {
