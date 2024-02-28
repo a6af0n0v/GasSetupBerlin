@@ -118,6 +118,12 @@ namespace MeasureConsole
             using (var f = File.Open(path, FileMode.Create))
             using (var writer = new StreamWriter(f))
             {
+                // parameters added for that point in time, method could be used directly (not called from SaveMeasurements), but this is not the usual scenario
+                // in this case the values would not be correct
+                string now = DateTime.Now.ToString("dd-MM-yyyy HH:mm:ss");
+                writer.WriteLine($"Date and time: ; {now}");
+                writer.WriteLine(Logger.processParametersToSaveInCSV);
+                writer.WriteLine("V; uA");
                 writer.WriteLine($"Frequency; Phase; Idc; Z; ZRe; ZIm");
                     for (int i = 0; i < topNode.measurements[0].dataset.values[0].datavalues.Count;i++)
                     {
