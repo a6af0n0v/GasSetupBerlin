@@ -5,6 +5,7 @@ using System.Text.Json;
 using System.Collections.Generic;
 using System.Windows.Documents;
 using Autofac;
+using Newtonsoft.Json;
 
 namespace MeasureConsole
 {
@@ -100,7 +101,7 @@ namespace MeasureConsole
             json = json.Substring(0,lastIndex+1);
             //Console.WriteLine("JSON OBJECT");
             //Console.WriteLine(json);
-            JSONNode topNode = JsonSerializer.Deserialize<JSONNode>(json);
+            JSONNode topNode = System.Text.Json.JsonSerializer.Deserialize<JSONNode>(json);
             /*foreach(var mnt in topNode.measurements)
             {
                 //Console.WriteLine(mnt.title);
@@ -159,7 +160,7 @@ namespace MeasureConsole
             json = json.Substring(0, lastIndex + 1);
             //Console.WriteLine("JSON OBJECT");
             //Console.WriteLine(json);
-            JSONNode topNode = JsonSerializer.Deserialize<JSONNode>(json);
+            JSONNode topNode = System.Text.Json.JsonSerializer.Deserialize<JSONNode>(json);
             /*foreach(var mnt in topNode.measurements)
             {
                 //Console.WriteLine(mnt.title);
@@ -343,8 +344,12 @@ namespace MeasureConsole
         }
 
         // Init file for dump data approach
-        public static void CreateInitFile(string dump, string path)
+        public static void CreateInitFile(string dump_json, string path)
         {
+            string jsonString = dump_json;
+            var infoDict = JsonConvert.DeserializeObject<Dictionary<string, string>>(jsonString);
+            string dump = DumpInfoToString(infoDict);
+
             using (var f = File.Open(path, FileMode.Append))
             using (var writer = new StreamWriter(f))
             {
@@ -354,6 +359,16 @@ namespace MeasureConsole
                 writer.WriteLine(dump);
             }
             Controls.JSList.IsPreviousStatemenComplete = true;
+        }
+
+        private static String DumpInfoToString(Dictionary<string, string> dump)
+        {
+            string data = "";
+            foreach (var pair in dump)
+            {
+                data += $"{pair.Key}: {pair.Value}; ";
+            }
+            return data;
         }
 
         // End file to mark completed measurements
