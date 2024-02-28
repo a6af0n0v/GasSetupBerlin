@@ -150,6 +150,64 @@ namespace MeasureConsole
 
         }
 
+        // when using data dump
+
+        public static void PSSessionToCSV(string dump,string pssessionFileName, string output = "tmp.csv")
+        {
+            var json = File.ReadAllText(pssessionFileName);
+            var lastIndex = json.LastIndexOf("}");
+            json = json.Substring(0, lastIndex + 1);
+            //Console.WriteLine("JSON OBJECT");
+            //Console.WriteLine(json);
+            JSONNode topNode = JsonSerializer.Deserialize<JSONNode>(json);
+            /*foreach(var mnt in topNode.measurements)
+            {
+                //Console.WriteLine(mnt.title);
+                foreach (var value in mnt.dataset.values)
+                {
+                    Console.WriteLine(value.description);
+                    foreach (var datavalue in value.datavalues)
+                    {
+                        //Console.WriteLine($"{datavalue.v} - {datavalue.c} - {datavalue.s}");
+                    }
+                }
+            }*/
+            var settings = Container.Resolve<Properties.Settings>();
+            var path = Path.Combine(settings.DataFolder, output);
+            using (var f = File.Open(path, FileMode.Create))
+            using (var writer = new StreamWriter(f))
+            {
+                // parameters added for that point in time, method could be used directly (not called from SaveMeasurements), but this is not the usual scenario
+                // in this case the values would not be correct
+                string now = DateTime.Now.ToString("dd-MM-yyyy HH:mm:ss");
+                writer.WriteLine($"Date and time: ; {now}");
+                writer.WriteLine(Logger.processParametersToSaveInCSV);
+                writer.WriteLine(dump);
+                writer.WriteLine($"Frequency; Phase; Idc; Z; ZRe; ZIm");
+                for (int i = 0; i < topNode.measurements[0].dataset.values[0].datavalues.Count; i++)
+                {
+                    var Idc = topNode.measurements[0].dataset.values[0].datavalues[i].v;
+                    var potential = topNode.measurements[0].dataset.values[1].datavalues[i].v;
+                    var time = topNode.measurements[0].dataset.values[2].datavalues[i].v;
+                    var Frequency = topNode.measurements[0].dataset.values[3].datavalues[i].v;
+                    var ZRe = topNode.measurements[0].dataset.values[4].datavalues[i].v;
+                    var ZIm = topNode.measurements[0].dataset.values[5].datavalues[i].v;
+                    var Z = topNode.measurements[0].dataset.values[6].datavalues[i].v;
+                    var Phase = topNode.measurements[0].dataset.values[7].datavalues[i].v;
+                    var Iac = topNode.measurements[0].dataset.values[8].datavalues[i].v;
+                    var nPointsAC = topNode.measurements[0].dataset.values[9].datavalues[i].v;
+                    var realtintac = topNode.measurements[0].dataset.values[10].datavalues[i].v;
+                    var ymean = topNode.measurements[0].dataset.values[11].datavalues[i].v;
+                    var debugtext = topNode.measurements[0].dataset.values[12].datavalues[i].v;
+                    var Y = topNode.measurements[0].dataset.values[13].datavalues[i].v;
+                    var YRe = topNode.measurements[0].dataset.values[14].datavalues[i].v;
+                    var YIm = topNode.measurements[0].dataset.values[15].datavalues[i].v;
+
+                    writer.WriteLine($"{Frequency}; {Phase}; {Idc}; {Z}; {ZRe}; {ZIm}");
+                }
+            }
+
+        }
         public static void LogToCSV(Package package)
         {
             var settings = Container.Resolve<Properties.Settings>();
@@ -280,6 +338,33 @@ namespace MeasureConsole
             {
                 writer.WriteLine("");
                 writer.WriteLine($"E={potential} V");
+            }
+            Controls.JSList.IsPreviousStatemenComplete = true;
+        }
+
+        // Init file for dump data approach
+        public static void CreateInitFile(string dump, string path)
+        {
+            using (var f = File.Open(path, FileMode.Append))
+            using (var writer = new StreamWriter(f))
+            {
+                string now = DateTime.Now.ToString("dd-MM-yyyy HH:mm:ss");
+                writer.WriteLine($"Date and time: ; {now}");
+                writer.WriteLine(Logger.processParametersToSaveInCSV);
+                writer.WriteLine(dump);
+            }
+            Controls.JSList.IsPreviousStatemenComplete = true;
+        }
+
+        // End file to mark completed measurements
+        public static void CreateEndFile(string path)
+        {
+            using (var f = File.Open(path, FileMode.Append))
+            using (var writer = new StreamWriter(f))
+            {
+                string now = DateTime.Now.ToString("dd-MM-yyyy HH:mm:ss");
+                writer.WriteLine($"Date and time: ; {now}");
+                writer.WriteLine("all done");
             }
             Controls.JSList.IsPreviousStatemenComplete = true;
         }

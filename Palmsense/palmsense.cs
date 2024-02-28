@@ -20,6 +20,10 @@ using System.IO;
 using EmStatConsoleExample;
 using System.IO.Ports;
 using System.Windows.Documents;
+using PalmSens.Units;
+using System.Text.Json.Serialization;
+
+using Newtonsoft.Json;
 
 namespace MeasureConsole
 {
@@ -226,6 +230,39 @@ namespace MeasureConsole
             return (list_x, list_y);
         }
 
+        // when using data dump into files
+        public (List<double> list_x, List<double> list_y) SaveMeasurements(string dump_json, string path, bool csv = false)
+        {
+            string jsonString = dump_json;
+            var infoDict = JsonConvert.DeserializeObject<Dictionary<string, string>>(jsonString);
+            string dump = DumpInfoToString(infoDict);
+
+            Controls.JSList.IsPreviousStatemenComplete = false;
+            List<double> list_x = new List<double>();
+            List<double> list_y = new List<double>();
+            if (activeSimpleMeasurement == null)
+            {
+                Logger.WriteLine("Measure first");
+                return (list_x, list_y);
+            }
+            if (csv == false)
+            {
+                SaveToPSSession(path);
+                string pathinter = path;
+                string pathout = pathinter.Replace(".pssession", ".csv");
+                Logger.WriteLine($"Pathout set to {pathout}");
+                Logger.PSSessionToCSV(dump, path, pathout);
+            }
+            else
+            {
+                (list_x, list_y) = SaveToCSV(dump,path);
+            }
+            Controls.JSList.IsPreviousStatemenComplete = true;
+            Logger.WriteLine($"Data successfully saved to {path}");
+            Controls.JSList.mre.Reset();
+            return (list_x, list_y);
+        }
+
         private (List<double> list_x, List<double> list_y) SaveToCSV(string path)
         {
             Controls.JSList.IsPreviousStatemenComplete = false;
@@ -252,6 +289,46 @@ namespace MeasureConsole
             Controls.JSList.IsPreviousStatemenComplete = true;
             Controls.JSList.mre.Reset();
             return (list_x, list_y);
+        }
+
+        // when using dump into files
+        private (List<double> list_x, List<double> list_y) SaveToCSV(string dump, string path)
+        {
+            Controls.JSList.IsPreviousStatemenComplete = false;
+            List<double> list_x = new List<double>();
+            List<double> list_y = new List<double>();
+            using (var f = File.Open(path, FileMode.Append))
+            using (var writer = new StreamWriter(f))
+            {
+                string now = DateTime.Now.ToString("dd-MM-yyyy HH:mm:ss");
+                writer.WriteLine($"Date and time: ; {now}");
+                writer.WriteLine(Logger.processParametersToSaveInCSV);
+                writer.WriteLine(dump);
+                foreach (var pair in measurements)
+                {
+                    //writer.WriteLine($"{pair.Key}; {pair.Value}");
+                    writer.WriteLine($"{pair.Key.Key}; {pair.Key.Value}; {pair.Value}");
+                    //list_x.Add(pair.Key);
+                    //list_y.Add(pair.Value);
+                    list_x.Add(pair.Key.Key);
+                    list_y.Add(pair.Key.Value);
+                }
+                measurements.Clear();
+            }
+            Controls.JSList.IsPreviousStatemenComplete = true;
+            Controls.JSList.mre.Reset();
+            return (list_x, list_y);
+        }
+
+        // converts the info dump dictionarz into a line to write into text file
+        private String DumpInfoToString(Dictionary<string, string> dump)
+        {
+            String data = "";
+            foreach (var pair in dump)
+            {
+                data +=  $"{pair.Key}: {pair.Value}; ";
+            }
+            return data;
         }
 
         public void SetupMUX(bool[] channels)
@@ -284,6 +361,7 @@ namespace MeasureConsole
             Controls.JSList.IsPreviousStatemenComplete = true;
             Controls.JSList.mre.Reset();
         }
+
 
         public void Connect(Device device)
         {
