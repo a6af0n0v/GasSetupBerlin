@@ -1,5 +1,6 @@
 ﻿using Autofac;
 using MeasureConsole.Controls;
+using MeasureConsole.Demonstrators;
 using MeasureConsole.Dialogs;
 using PalmSens.Core.Simplified.WPF;
 using Prism.Events;
@@ -44,6 +45,7 @@ namespace MeasureConsole.Bootstrap
             builder.RegisterType<Splash>().AsSelf().SingleInstance();
             builder.RegisterType<WhatsNew>().AsSelf();
             builder.RegisterType<HelpWindow>().AsSelf();
+            builder.RegisterType<Demonstrator>().As<IDemonstrator>().SingleInstance();
             builder.RegisterType<Huber>().As<IHuber>().SingleInstance();
             builder.RegisterType<Properties.Settings>().AsSelf().SingleInstance();
             builder.RegisterType<Dialogs.SettingsWindow>().AsSelf();

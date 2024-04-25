@@ -58,12 +58,13 @@
 <body>
     <div class="wrapper">
         <div class ="menu">
-            <ul class ="menuitem">
-                <li ><a href="#JS"> Java Script Support </a></li>
+            <ul class="menuitem">
+                <li><a href="#JS"> Java Script Support </a></li>
                 <li><a href="#helpers"> Helper functions </a></li>
                 <li><a href="#arduino"> Arduino object </a></li>
                 <li><a href="#palmsense"> Palmsense object </a></li>
                 <li><a href="#huber"> Huber object </a></li>
+                <li><a href="#demo"> Demo object </a></li>
                 <li><a href="#commands"> Arduino commands </a></li>
                 <li><a href="#protocol"> Communication protocol </a></li>
                 <li><a href="#mux"> Multiplexer settings </a></li>
@@ -211,12 +212,44 @@
             <a id="huber" />
             <h2><a href="#js">Huber Object</a></h2>
             <h3>void setTemperature(int t)</h3>
-            <p>Set the desired target temperature for Huber circulating chiller. Argument 't' is an integer
-            representing target temperature in 0.01C in range from [0, 4000].</p>
+            <p>
+                Set the desired target temperature for Huber circulating chiller. Argument 't' is an integer
+                representing target temperature in 0.01C in range from [0, 4000].
+            </p>
             <h3>void start()</h3>
             <p>Start Huber control cycle.</p>
             <h3>void stop()</h3>
             <p>Stop Huber control cycle.</p>
+
+            <a id="demo" />
+            <h2><a href="#js">Demo Object</a></h2>
+            <a href="https://faradaic.atlassian.net/wiki/spaces/FARADAIC/pages/301858818/JS+Scripts+for+measuring+Demonstrators" target="_blank">See script examples in Confluence.</a>
+            <h3>DemonstratorDescriptor[] Discover()</h3>
+            <p>
+                Itterate all available serial ports and check if any valid demonstrators connected. If a demonstrator found, a corresponding DemonstraitorDescriptor is saved.
+                DemonstratorDescriptor object contains fields as follows:</br>
+                - <b>comName</b>:string, serial port name;<br />
+                - <b>demoId</b>:string, serial number of the demonstrator;<br />
+                - <b>portHandle</b>:SerialPort object.<br />
+                Function returns an array of DemonstraitorDescriptor objects.
+                The ports of the valid demonstraitors remain open. There is no need to call Open again.
+            </p>
+
+            <h3>void Open (string comName)</h3>
+            <p>
+                Open the serial port, check if it's a valid demonstrator. Do not use this command if you have already executed demo.Discover.
+            </p>
+
+            <h3>void Close (string comName)</h3>
+            <p>
+                Close the serial port specified by the argument comName.  
+            </p>
+
+            <h3>void RunMethodScript (string comName, string methodScriptPath, string csv)</h3>
+            <p>
+                Executes MethodScript generated in PSTrace and saves the measurements in csv file (if csv argument is different from "").
+                The port should be be open beforehand by executing Open or Discover command.          
+            </p>
 
             <a id="commands" />
             <h2><a href="#js">Arduino commands description</a></h2>
@@ -270,7 +303,7 @@
 
             <a id="mux">
                 <h2><a href="#js">Multiplexer settings</a></h2>
-                
+
 
                 <p>
                     The PalmSens.Method class is also used to specify the multiplexer settings for sequential and alternating measurements.
