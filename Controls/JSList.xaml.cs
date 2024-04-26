@@ -19,6 +19,7 @@ using System.Windows.Shapes;
 using JsTools;
 using Jint.Runtime.Debugger;
 using PalmSens.Core.Simplified.WPF;
+using MeasureConsole.Demonstrators;
 
 namespace MeasureConsole.Controls
 {
@@ -188,6 +189,7 @@ namespace MeasureConsole.Controls
             SetValue("CreateInitFile", new Action<string, string, double>(DataDump.CreateInitFile)).
             SetValue("CreateEndFile", new Action<string>(DataDump.CreateEndFile)).
             SetValue("arduino", Factory.Container.Resolve<IArduino>()).
+            SetValue("demo", Factory.Container.Resolve<IDemonstrator>()).   
             SetValue("convert", new Action<string, string>(Logger.PSSessionToCSV)).
             SetValue("palmsense", Factory.Container.Resolve<IPalmsense>()).
             SetValue("huber", Factory.Container.Resolve<IHuber>());

@@ -131,6 +131,7 @@
     <Compile Include="Controls\Scheme.xaml.cs">
       <DependentUpon>Scheme.xaml</DependentUpon>
     </Compile>
+    <Compile Include="Demonstrators\Demonstrator.cs" />
     <Compile Include="Dialogs\ArduinoInputDialog.xaml.cs">
       <DependentUpon>ArduinoInputDialog.xaml</DependentUpon>
     </Compile>
@@ -156,6 +157,7 @@
     </Compile>
     <Compile Include="Huber\Huber.cs" />
     <Compile Include="Huber\IHuber.cs" />
+    <Compile Include="Demonstrators\IDemonstrator.cs" />
     <Compile Include="JsTimer.cs" />
     <Compile Include="Logger.cs" />
     <Compile Include="Palmsense\palmsense.cs" />
