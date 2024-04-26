@@ -57,7 +57,7 @@ namespace MeasureConsole
             _serialPort.Parity = Parity.None;
             _serialPort.DataBits = 8;
             _serialPort.StopBits = StopBits.One;
-            _serialPort.ReadTimeout = 3000;
+            _serialPort.ReadTimeout = 6000;
             _serialPort.WriteTimeout = 500;
             reader = new Thread(read);
             reader.IsBackground = true;
@@ -68,7 +68,10 @@ namespace MeasureConsole
         {
 
         }
-
+        public void status()
+        {
+            sendCmd("CA?\r\n");
+        }
         private void readTemperature(object args)
         {
             sendCmd("TI?\r\n");
@@ -77,7 +80,7 @@ namespace MeasureConsole
         public void open()
         {
             if (PortName == "")
-                throw new SystemException("First seet the port name");
+                throw new SystemException("First set the port name");
             try
             {
                 _serialPort.Open();
@@ -128,6 +131,7 @@ namespace MeasureConsole
             try
             {
                 _serialPort.WriteLine(cmd);
+                Console.WriteLine($"Huber cmd {cmd}");
             }
             catch (Exception ex)
             {
@@ -174,6 +178,7 @@ namespace MeasureConsole
                         try
                         {
                             string message = _serialPort.ReadLine();
+                            
                             if(message.Contains("TI"))
                             { //Huber replied with current internal temperature
                                 int t = defaultT;
@@ -188,7 +193,7 @@ namespace MeasureConsole
                                 }
                                 _ea.GetEvent<HuberTChangeEvent>().Publish(t);
                             }
-                            //Logger.WriteLine(message);
+                            Console.WriteLine(message);
                         }
                         catch (System.IO.IOException)
                         {
@@ -209,7 +214,8 @@ namespace MeasureConsole
                         }
                         catch(TimeoutException)
                         {
-                            //it's ok
+                        //it's ok
+                        Console.WriteLine("Huber timeout");
                         }
                     //}
                 }

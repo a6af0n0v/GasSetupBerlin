@@ -15,5 +15,6 @@ namespace MeasureConsole
         void start();
         void stop();
         void setTemperature(int t); //in hundred of degree wo dec point
+        void status();
     }
 }
