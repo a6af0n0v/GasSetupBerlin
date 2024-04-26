@@ -185,7 +185,7 @@ namespace MeasureConsole.Controls
             SetValue("ChangePotentialinCA", new Action<string, string, double>(MethodCreation.ChangePotentialinCA)).
             SetValue("ChangePotentialinCAmultistep", new Action<string, string, double>(MethodCreation.ChangePotentialinCAmultistep)).
             SetValue("DumpPotentialinFile", new Action<double, string>(DataDump.DumpPotentialinFile)).
-            SetValue("CreateInitFile", new Action<string, string>(DataDump.CreateInitFile)).
+            SetValue("CreateInitFile", new Action<string, string, double>(DataDump.CreateInitFile)).
             SetValue("CreateEndFile", new Action<string>(DataDump.CreateEndFile)).
             SetValue("arduino", Factory.Container.Resolve<IArduino>()).
             SetValue("convert", new Action<string, string>(Logger.PSSessionToCSV)).

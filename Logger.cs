@@ -344,7 +344,7 @@ namespace MeasureConsole
         }
 
         // Init file for dump data approach
-        public static void CreateInitFile(string dump_json, string path)
+        public static void CreateInitFile(string dump_json, string path, double wait)
         {
             string jsonString = dump_json;
             var infoDict = JsonConvert.DeserializeObject<Dictionary<string, string>>(jsonString);
@@ -357,6 +357,7 @@ namespace MeasureConsole
                 writer.WriteLine($"Date and time: ; {now}");
                 writer.WriteLine(Logger.processParametersToSaveInCSV);
                 writer.WriteLine(dump);
+                writer.WriteLine($"Wait before: ; {wait}");
             }
             Controls.JSList.IsPreviousStatemenComplete = true;
         }
