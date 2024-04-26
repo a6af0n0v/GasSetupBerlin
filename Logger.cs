@@ -150,6 +150,24 @@ namespace MeasureConsole
             }
 
         }
+        public static void DumpScript(string fileName)
+        {
+            if (fileName == null && fileName != "")
+                Logger.WriteLine($"Dumping script to {fileName}");
+            else
+                Logger.WriteLine("Invalid file name");
+            _mainWindow.Dispatcher.Invoke(() =>
+            {
+                var settings = Container.Resolve<Properties.Settings>();
+                var path = Path.Combine(settings.DataFolder, fileName);
+                using (var f = File.Open(path, FileMode.Create))
+                using (var writer = new StreamWriter(f))
+                {
+                    writer.Write(_mainWindow.jsList.Text);
+                }
+            }); 
+        }
+
 
         // when using data dump
 

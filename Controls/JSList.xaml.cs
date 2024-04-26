@@ -183,6 +183,7 @@ namespace MeasureConsole.Controls
             }).
             SetValue("log", new Action<string, object[]>(LoggerWrapper)).
             SetValue("wait", new Action<int>(Logger.Wait)).
+            SetValue("dumpScript", new Action<string>(Logger.DumpScript)).
             SetValue("ChangePotentialinCA", new Action<string, string, double>(MethodCreation.ChangePotentialinCA)).
             SetValue("ChangePotentialinCAmultistep", new Action<string, string, double>(MethodCreation.ChangePotentialinCAmultistep)).
             SetValue("DumpPotentialinFile", new Action<double, string>(DataDump.DumpPotentialinFile)).
