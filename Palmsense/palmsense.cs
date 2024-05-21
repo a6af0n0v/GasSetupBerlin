@@ -389,7 +389,8 @@ namespace MeasureConsole
             Logger.WriteLine($"Running method script: {path}");
             try
             {
-                MethodExample.RunMethodScript(path);
+                MethodExample MethodExampleObj = new MethodExample();
+                MethodExampleObj.RunMethodScript(path);
             }
             catch (Exception ex)
             {

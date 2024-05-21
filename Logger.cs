@@ -6,6 +6,7 @@ using System.Collections.Generic;
 using System.Windows.Documents;
 using Autofac;
 using Newtonsoft.Json;
+using EmStatConsoleExample;
 
 namespace MeasureConsole
 {
@@ -65,6 +66,7 @@ namespace MeasureConsole
         
         private static MainWindow _mainWindow;
         public static string processParametersToSaveInCSV { get; private set; }
+        public static string processParametersToSaveInCSV_demonstrator_part { get; private set; }
         private static int linesInLogFile = 0;
         private static int linesInCSVFile = 0;
         private static int currentLogChapterNumber = 0;
@@ -259,6 +261,8 @@ namespace MeasureConsole
                     $" {huberT:N1}; {package.shtHumidity}; {package.shtTemperature}");
                 processParametersToSaveInCSV = $"MFC1: {MFC1_Flow}; " +
                     $"MFC2: {MFC2_Flow}; t_huber: {huberT:N2}; t_bme: {temperature:N2};t_sht: {shtTemperature:N2}; h_bme: {humidity:N2}; h_sht: {shtHumidity:N2}; p_bme: {pressure:N3};";
+                processParametersToSaveInCSV_demonstrator_part = $"MFC1: {MFC1_Flow}; " +
+                    $"MFC2: {MFC2_Flow}; t_huber: {huberT:N2};";
                 linesInCSVFile++;
                 if (linesInCSVFile > settings.MaxNumberOfLinesInCSV)
                 {
