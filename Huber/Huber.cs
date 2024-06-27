@@ -8,12 +8,18 @@ using System.Text;
 using System.Threading;
 using System.Threading.Tasks;
 using Autofac;
+using System.Reflection.Emit;
+using PalmSens.Fitting.Models.Circuits.Elements;
+using Org.BouncyCastle.Crypto.Paddings;
+
+
+
 
 namespace MeasureConsole
 {
     public class Huber : IHuber
     {
-        
+        byte[] message = new byte[20];
         public string PortName
         {
             set
@@ -41,11 +47,17 @@ namespace MeasureConsole
                 return _serialPort.IsOpen;
             }
         }
-
+        string huberResponseString = "[S01G";
+        static int huberResponseReadPos = 0;
         static SerialPort _serialPort;
         private string _portName = "";
         private int defaultT;
+        private short istWert;  //
+        private short sollWert;      //real setPoint used by Huber
+        private int setPoint = -273; //desired setPoint, when there is no communication failure they should be =
+        private char  mode;
         private Thread reader;
+        private Mutex readerBusyMutex = new Mutex();
         private IEventAggregator _ea;
         private Timer tmr = null;
         private static IContainer Container = Factory.Container;
@@ -53,11 +65,11 @@ namespace MeasureConsole
         {
             _ea = ea;
             _serialPort = new SerialPort();
-            _serialPort.BaudRate = 9600;
+            _serialPort.BaudRate = 115200;
             _serialPort.Parity = Parity.None;
             _serialPort.DataBits = 8;
             _serialPort.StopBits = StopBits.One;
-            _serialPort.ReadTimeout = 6000;
+            _serialPort.ReadTimeout  = 500;
             _serialPort.WriteTimeout = 500;
             reader = new Thread(read);
             reader.IsBackground = true;
@@ -68,13 +80,18 @@ namespace MeasureConsole
         {
 
         }
-        public void status()
+        public char status()
         {
-            sendCmd("CA?\r\n");
+            return mode;
         }
         private void readTemperature(object args)
         {
-            sendCmd("TI?\r\n");
+            if (setPoint!=-273)
+            {
+                sendCmd($"[M01G0D**{setPoint,4:X4}");
+            }
+            else
+                sendCmd("[M01G0D******");  //if setpoint has not been set
         }
 
         public void open()
@@ -97,19 +114,17 @@ namespace MeasureConsole
             tmr = new Timer(readTemperature, null, timerInterval, timerInterval);
         }
 
-        public string readSetPoint()
+        public short readSetPoint()
         {
-            string setPoint = "";
-            sendCmd("SP?\r\n");
-            return setPoint;
+            return sollWert;
         }
         public void start()
         {
-            sendCmd("CA@ 00001\r\n");
+            sendCmd("[M01G0DC*****");
         }
         public void stop()
         {
-            sendCmd("CA@ 00000\r\n");
+            sendCmd("[M01G0DO*****");
         }
 
         public void setTemperature(int temp)//in hundreds of a degree without dec point
@@ -119,7 +134,19 @@ namespace MeasureConsole
                 Logger.WriteLine("Huber temperature should be in range 0..40C");
                 return;
             }
-            sendCmd($"SP@ {temp}\r\n");
+            setPoint = temp;
+            sendCmd($"[M01G0D**{temp,4:X4}");
+        }
+
+        private string calculateCRC(string cmd)
+        {
+            
+            byte crc = 0;
+            foreach(var element in cmd)
+            {
+                crc += (byte)element;
+            }
+            return $"{cmd}{crc,2:X2}\r\n";
         }
 
         private void sendCmd(string cmd)
@@ -130,8 +157,11 @@ namespace MeasureConsole
             }
             try
             {
-                _serialPort.WriteLine(cmd);
-                Console.WriteLine($"Huber cmd {cmd}");
+                string cmdWCrc = calculateCRC(cmd);
+                readerBusyMutex.WaitOne(1000);
+                _serialPort.WriteLine(cmdWCrc);
+                //Console.WriteLine($"Huber cmd {cmdWCrc}");
+                readerBusyMutex.ReleaseMutex();
             }
             catch (Exception ex)
             {
@@ -151,6 +181,16 @@ namespace MeasureConsole
                 _serialPort.Close();
             }
         }
+        private static byte[] HexStringToByteArray(string hex)
+        {
+            int numberChars = hex.Length;
+            byte[] bytes = new byte[numberChars / 2];
+            for (int i = 0; i < numberChars; i += 2)
+            {
+                bytes[i / 2] = Convert.ToByte(hex.Substring(i, 2), 16);
+            }
+            return bytes;
+        }
 
         private void cleanInBuffer()
         {
@@ -163,7 +203,6 @@ namespace MeasureConsole
             {
                 Logger.WriteLine(ex.Message);
             }
-
         }
 
         private void read()
@@ -172,30 +211,43 @@ namespace MeasureConsole
             {
                 if (_serialPort.IsOpen)
                 {
-                    //int expected_bytes = 3;
-                    //if (_serialPort.BytesToRead >= expected_bytes)
-                    //{
+                    int expected_bytes = 23; //expected answer [S01G15O0FE7009A4C504E7\r, at least 23
+                    if (_serialPort.BytesToRead >= expected_bytes)
+                    {
                         try
                         {
-                            string message = _serialPort.ReadLine();
-                            
-                            if(message.Contains("TI"))
-                            { //Huber replied with current internal temperature
-                                int t = defaultT;
-                                string t_str = message.Substring(3, message.Length - 3 -1);
-                                try
-                                {
-                                    t = Convert.ToInt32(t_str);
-                                }
-                                catch(Exception ex)
-                                {
-                                    Logger.WriteLine($"cannot parse Huber temperature package {t_str}");
-                                }
-                                _ea.GetEvent<HuberTChangeEvent>().Publish(t);
+                            readerBusyMutex.WaitOne(2000);
+                            string line = _serialPort.ReadTo("\r");
+                            //Console.Write(line);
+                            short setPoint = 0;
+                            int packageHeaderIndex = line.IndexOf("[S01G15");
+                            if (packageHeaderIndex != -1)
+                            {
+                                string tString  = line.Substring(packageHeaderIndex + 13, 4); //Inner Istwert
+                                string setPointString = line.Substring(packageHeaderIndex + 9, 4);
+                                mode = line.ElementAt(packageHeaderIndex + 7);
+                            try
+                            {
+                                byte[] byteArrayT = HexStringToByteArray(tString);
+                                byte[] byteArraySetPoint = HexStringToByteArray(setPointString);
+                                Array.Reverse(byteArrayT); Array.Reverse(byteArraySetPoint);
+                                istWert  = BitConverter.ToInt16(byteArrayT, 0);
+                                sollWert = BitConverter.ToInt16(byteArraySetPoint, 0);
+                                //Console.WriteLine($"Inner t: {istWert}, setpoint: {sollWert}, mode: {mode}");
                             }
-                            Console.WriteLine(message);
+                            catch (Exception ex)
+                            {
+                                Logger.WriteLine($"cannot parse Huber temperature package {tString}");
+                            }
+                            }
+                            else
+                            {
+                                Console.WriteLine("nothing found");
+                            }
+                            _ea.GetEvent<HuberTChangeEvent>().Publish(istWert);
+
                         }
-                        catch (System.IO.IOException)
+                    catch (System.IO.IOException)
                         {
                         
                             Logger.WriteLine("Huber connection lost");
@@ -215,9 +267,13 @@ namespace MeasureConsole
                         catch(TimeoutException)
                         {
                         //it's ok
-                        Console.WriteLine("Huber timeout");
+                        //Console.WriteLine("Huber timeout");
                         }
-                    //}
+                        finally
+                        {
+                            readerBusyMutex.ReleaseMutex();
+                        }
+                    }
                 }
             }
         }

@@ -11,10 +11,10 @@ namespace MeasureConsole
         string PortName { set; get; }
         bool isOpen { get; }
         void open();
-        string readSetPoint();
+        short readSetPoint();
         void start();
         void stop();
         void setTemperature(int t); //in hundred of degree wo dec point
-        void status();
+        char status();
     }
 }
