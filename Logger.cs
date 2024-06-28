@@ -79,7 +79,7 @@ namespace MeasureConsole
             public static string logFileName = /*"log.txt"; */DateTime.Now.ToString("dd-MM-yyyy");
             public static string CSVFileName = DateTime.Now.ToString("dd-MM-yyyy_HH_mm_ss");
         }
-
+        
         public static void CleanLog(MainWindow mainWnd)
         {
             _mainWindow = mainWnd;
