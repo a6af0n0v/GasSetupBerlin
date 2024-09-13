@@ -213,7 +213,19 @@ namespace MeasureConsole.Demonstrators
                             writer.WriteLine($"Date and time: ; {now}");
                             writer.WriteLine(String.Concat(Logger.processParametersToSaveInCSV_demonstrator_part, $" t_sht: {MethodExampleObj.temperature:N2}; h_sht: {MethodExampleObj.humidity:N2};"));
                             writer.WriteLine(header);
-                            if (TimeReadings_present && CurrentReadings_present)
+                            if (VoltageReadings_present && CurrentReadings_present && TimeReadings_present)
+                            {
+                                Logger.WriteLine($"Triple Output detected");
+                                for (var i = 0; i < MethodExampleObj.TimeReadings.Count; i++)
+                                {
+                                    writer.WriteLine($"{MethodExampleObj.TimeReadings[i]}; {MethodExampleObj.VoltageReadings[i]}; {MethodExampleObj.CurrentReadings[i] * 1000000}; Current");
+                                    if (Cell_potential_present)
+                                    {
+                                        writer.WriteLine($"{MethodExampleObj.TimeReadings[i]}; {MethodExampleObj.VoltageReadings[i]}; {MethodExampleObj.CellpotentialReadings[i]}; CEPotential");
+                                    }
+                                }
+                            }
+                            else if (TimeReadings_present && CurrentReadings_present)
                             {
                                 for (var i = 0; i < MethodExampleObj.TimeReadings.Count; i++)
                                 {
@@ -230,12 +242,12 @@ namespace MeasureConsole.Demonstrators
                                 {
                                     writer.WriteLine($"{MethodExampleObj.TimeReadings[i]}; {MethodExampleObj.VoltageReadings[i]};");
                                 }
-                            }
+                            }                     
                             else if (VoltageReadings_present && CurrentReadings_present)
                             {
                                 for (var i = 0; i < MethodExampleObj.VoltageReadings.Count; i++)
                                 {
-                                    writer.WriteLine($"{MethodExampleObj.VoltageReadings[i]}; {MethodExampleObj.CurrentReadings[i]*1000000}; Current");
+                                    writer.WriteLine($"{MethodExampleObj.VoltageReadings[i]}; {MethodExampleObj.CurrentReadings[i] * 1000000}; Current");
                                     if (Cell_potential_present)
                                     {
                                         writer.WriteLine($"{MethodExampleObj.VoltageReadings[i]}; {MethodExampleObj.CellpotentialReadings[i]}; CEPotential");
@@ -416,7 +428,18 @@ namespace MeasureConsole.Demonstrators
                             writer.WriteLine(dump);
                             writer.WriteLine(header);
 
-                            if (TimeReadings_present && CurrentReadings_present)
+                            if (VoltageReadings_present && CurrentReadings_present && TimeReadings_present)
+                            {
+                                for (var i = 0; i < MethodExampleObj.VoltageReadings.Count; i++)
+                                {
+                                    writer.WriteLine($"{MethodExampleObj.TimeReadings[i]}; {MethodExampleObj.VoltageReadings[i]}; {MethodExampleObj.CurrentReadings[i] * 1000000}; Current");
+                                    if (Cell_potential_present)
+                                    {
+                                        writer.WriteLine($"{MethodExampleObj.TimeReadings[i]}; {MethodExampleObj.VoltageReadings[i]}; {MethodExampleObj.CellpotentialReadings[i]}; CEPotential");
+                                    }
+                                }
+                            }
+                            else if (TimeReadings_present && CurrentReadings_present)
                             {
                                 for (var i = 0; i < MethodExampleObj.TimeReadings.Count; i++)
                                 {
@@ -438,7 +461,7 @@ namespace MeasureConsole.Demonstrators
                             {
                                 for (var i = 0; i < MethodExampleObj.VoltageReadings.Count; i++)
                                 {
-                                    writer.WriteLine($"{MethodExampleObj.VoltageReadings[i]}; {MethodExampleObj.CurrentReadings[i]*1000000}; Current");
+                                    writer.WriteLine($"{MethodExampleObj.VoltageReadings[i]}; {MethodExampleObj.CurrentReadings[i] * 1000000}; Current");
                                     if (Cell_potential_present)
                                     {
                                         writer.WriteLine($"{MethodExampleObj.VoltageReadings[i]}; {MethodExampleObj.CellpotentialReadings[i]}; CEPotential");
