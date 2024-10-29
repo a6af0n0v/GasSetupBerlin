@@ -12,18 +12,11 @@
             <TabItem Header="General" >
                 <Grid>
                     <Grid.ColumnDefinitions>
-                        <ColumnDefinition Width="auto"  ></ColumnDefinition>
+                        <ColumnDefinition Width="65.901"  ></ColumnDefinition>
+                        <ColumnDefinition Width="148.006"/>
                         <ColumnDefinition Width="*" MinWidth="200"/>
                     </Grid.ColumnDefinitions>
                     <Grid.RowDefinitions>
-                        <RowDefinition Height="auto"></RowDefinition>
-                        <RowDefinition Height="auto"></RowDefinition>
-                        <RowDefinition Height="auto"></RowDefinition>
-                        <RowDefinition Height="auto"></RowDefinition>
-                        <RowDefinition Height="auto"></RowDefinition>
-                        <RowDefinition Height="auto"></RowDefinition>
-                        <RowDefinition Height="auto"></RowDefinition>
-                        <RowDefinition Height="auto"></RowDefinition>
                         <RowDefinition Height="auto"></RowDefinition>
                         <RowDefinition Height="auto"></RowDefinition>
                         <RowDefinition Height="auto"></RowDefinition>
@@ -34,69 +27,30 @@
                         <RowDefinition Height="auto"></RowDefinition>
                         <RowDefinition Height="*"></RowDefinition>
                     </Grid.RowDefinitions>
-                    <Label Grid.Row="0" Grid.Column="0" VerticalAlignment="Center">Length of the recent-files list</Label>
-                    <controls:Spinner x:Name="spLastFilesMaxCount" Grid.Row="0"  Grid.Column="1" Margin="5" Column2Width="15" Height="35" Maximum="40"></controls:Spinner>
-                    <Label Grid.Row="1" Grid.Column="0" >Log folder</Label>
-                    <controls:FileSelector x:Name="fsLogFolder" Margin="5" Grid.Row="1" Grid.Column="1"></controls:FileSelector>
-                    <Label Grid.Row="4" Grid.Column="0" Grid.ColumnSpan="2">Gas1 name</Label>
-                    <TextBox Grid.Row="4" Grid.Column="1" Margin="5" x:Name="tbGas1Name"></TextBox>
-                    <Label Grid.Row="5" Grid.Column="0" Grid.ColumnSpan="2">Gas2 name</Label>
-                    <TextBox Grid.Row="5" Grid.Column="1" Margin="5" x:Name="tbGas2Name"></TextBox>
-                    <Label Grid.Row="6" Grid.Column="0" Grid.ColumnSpan="2" >Gas3 name</Label>
-                    <TextBox Grid.Row="6" Grid.Column="1" Margin="5" x:Name="tbGas3Name"></TextBox>
-                    <Label Grid.Row="7" Grid.Column="0" Grid.ColumnSpan="2">Gas4 name</Label>
-                    <TextBox Grid.Row="7" Grid.Column="1" Margin="5" x:Name="tbGas4Name"></TextBox>
-                    <Label Grid.Row="8" Grid.Column="0" Grid.ColumnSpan="2">Gas5 name</Label>
-                    <TextBox Grid.Row="8" Grid.Column="1" Margin="5" x:Name="tbGas5Name"></TextBox>
-                    <Label Grid.Row="9" Grid.Column="0" Grid.ColumnSpan="2">Gas6 name</Label>
-                    <TextBox Grid.Row="9" Grid.Column="1" Margin="5" x:Name="tbGas6Name"></TextBox>
-                   
-                    <Label VerticalAlignment="Center" Grid.Row="11" Grid.Column="0" >Max number of messages in status bar</Label>
-                    <controls:Spinner Grid.Row="11" Grid.Column="1" Margin="5" Column2Width="15" Height="35" x:Name="sMaxNumberOfMsgInStatusBar" Maximum="1000" Minimum="1"></controls:Spinner>
-                    <Label VerticalAlignment="Center" Grid.Row="12" Grid.Column="0" >Max number of lines in log file</Label>
-                    <controls:Spinner Grid.Row="12" Grid.Column="1" Margin="5" Column2Width="15" Height="35" x:Name="sMaxNumberOfLinesInLog" Maximum="1000" Minimum="1"></controls:Spinner>
-                    <Label VerticalAlignment="Center" Grid.Row="13" Grid.Column="0" >Max number of lines in csv file</Label>
-                    <controls:Spinner Grid.Row="13" Grid.Column="1" Margin="5" Column2Width="15" Height="35" x:Name="sMaxNumberOfLinesInCSV" Maximum="1001" Minimum="1"></controls:Spinner>
-                    <Label Grid.Row="14" Grid.Column="0" >CSV column names</Label>
-                    <TextBox Grid.Row="14" Grid.Column="1" Margin="5" x:Name="tbCSVColumnNames"></TextBox>
-                    <Label Grid.Row="15" Grid.Column="0" >Auto connect to peripherals</Label>
-                    <ComboBox Grid.Row="15" Grid.Column="1" Margin="5" x:Name="cbAutoConnectToPeripherals">
+                    <Label Grid.Column="0" VerticalAlignment="Center" Grid.ColumnSpan="3" Margin="0,0,200,0">Length of the recent-files list</Label>
+                    <controls:Spinner x:Name="spLastFilesMaxCount" Grid.Row="0"  Grid.Column="2" Margin="5,5,5,5" Column2Width="15" Height="35" Maximum="40"></controls:Spinner>
+                    <Label Grid.Row="1" Grid.Column="0" Grid.ColumnSpan="3" Margin="0,0,200,45" Grid.RowSpan="2" >Log folder</Label>
+                    <controls:FileSelector x:Name="fsLogFolder" Margin="5,5,5,5" Grid.Row="1" Grid.Column="2"></controls:FileSelector>
+                    <Label VerticalAlignment="Center" Grid.Row="2" Grid.Column="0" Grid.ColumnSpan="3" Margin="0,0,200,0" >Max number of messages in status bar</Label>
+                    <controls:Spinner Grid.Row="2" Grid.Column="2" Margin="5,5,5,5" Column2Width="15" Height="35" x:Name="sMaxNumberOfMsgInStatusBar" Maximum="1000" Minimum="1"></controls:Spinner>
+                    <Label VerticalAlignment="Center" Grid.Row="3" Grid.Column="0" Grid.ColumnSpan="3" Margin="0,0,200,0" >Max number of lines in log file</Label>
+                    <controls:Spinner Grid.Row="3" Grid.Column="2" Margin="5,5,5,5" Column2Width="15" Height="35" x:Name="sMaxNumberOfLinesInLog" Maximum="1000" Minimum="1"></controls:Spinner>
+                    <Label VerticalAlignment="Center" Grid.Row="4" Grid.Column="0" Grid.ColumnSpan="3" Margin="0,0,200,0" >Max number of lines in csv file</Label>
+                    <controls:Spinner Grid.Row="4" Grid.Column="2" Margin="5,5,5,5" Column2Width="15" Height="35" x:Name="sMaxNumberOfLinesInCSV" Maximum="1001" Minimum="1"></controls:Spinner>
+                    <Label Grid.Row="5" Grid.Column="0" Grid.ColumnSpan="3" Margin="0,0,200,32" Grid.RowSpan="2" >CSV column names</Label>
+                    <TextBox Grid.Row="5" Grid.Column="2" Margin="5,5,5,5" x:Name="tbCSVColumnNames"></TextBox>
+                    <Label Grid.Row="6" Grid.Column="0" Grid.ColumnSpan="3" Margin="0,0,200,45" Grid.RowSpan="2" >Auto connect to peripherals</Label>
+                    <ComboBox Grid.Row="6" Grid.Column="2" Margin="5,5,5,5" x:Name="cbAutoConnectToPeripherals">
                         <ComboBoxItem>Yes</ComboBoxItem>
                         <ComboBoxItem>No</ComboBoxItem>
                     </ComboBox>
-                    <Label Grid.Row="16" Grid.Column="0" VerticalAlignment="Center">Number of points on chart</Label>
-                    <controls:Spinner Grid.Row="16" Grid.Column="1" Margin="5" Column2Width="15" Height="35" x:Name="sMaxPointsOnChart" Maximum="1000" Minimum="5"></controls:Spinner>
+                    <Label Grid.Row="7" Grid.Column="0" VerticalAlignment="Center" Grid.ColumnSpan="3" Margin="0,0,200,0">Number of points on chart</Label>
+                    <controls:Spinner Grid.Row="7" Grid.Column="2" Margin="5,5,5,5" Column2Width="15" Height="35" x:Name="sMaxPointsOnChart" Maximum="1000" Minimum="5"></controls:Spinner>
+                    <Label Grid.Row="8" Grid.Column="0" VerticalAlignment="Center" Grid.ColumnSpan="3">Scene XML file</Label>
+                    <controls:FileSelector x:Name="fsSceneFile" Grid.Row="8" Grid.Column="2" Margin="5,5,5,5" IsFileDialog="True"></controls:FileSelector>
                 </Grid>
             </TabItem>
-            <TabItem Header="Chart">
-                <Grid>
-                    <Grid.ColumnDefinitions>
-                        <ColumnDefinition Width="auto"  ></ColumnDefinition>
-                        <ColumnDefinition Width="*" MinWidth="200"/>
-                    </Grid.ColumnDefinitions>
-                    <Grid.RowDefinitions>
-                        <RowDefinition/>
-                    </Grid.RowDefinitions>
-                    <Label>Show on chart</Label>
-                    <Grid Grid.Column="1">
-               
-                        <Grid.RowDefinitions>
-                            <RowDefinition/>
-                            <RowDefinition/>
-                            <RowDefinition/>
-                            <RowDefinition/>
-                            <RowDefinition/>
-                            <RowDefinition/>
-                        </Grid.RowDefinitions>
-                        <CheckBox x:Name="cbBMEt" Grid.Row="0" Margin="0,10,0,0" Click="showOnChartCheckBox_Click">BME Temperature</CheckBox>
-                        <CheckBox x:Name="cbBMErh" Grid.Row="1" Margin="0,10,0,0" Click="showOnChartCheckBox_Click">BME Humidity</CheckBox>
-                        <CheckBox x:Name="cbHubert" Grid.Row="2" Margin="0,10,0,0" Click="showOnChartCheckBox_Click">HuberTemperature</CheckBox>
-                        <CheckBox x:Name="cbSHTt" Grid.Row="3" Margin="0,10,0,0" Click="showOnChartCheckBox_Click">SHT Temperature</CheckBox>
-                        <CheckBox x:Name="cbSHTrh" Grid.Row="4" Margin="0,10,0,10" Click="showOnChartCheckBox_Click">SHT Humidity</CheckBox>
-                        <Label Grid.Row="5">Restart Application to see changes</Label>
-                    </Grid>
-                </Grid>
-            </TabItem>
+            
             <TabItem Header="Arduino" >
                 <Grid>
                     <Grid.ColumnDefinitions>
@@ -107,31 +61,14 @@
                         <RowDefinition Height="auto"></RowDefinition>
                         <RowDefinition Height="auto"></RowDefinition>
                         <RowDefinition Height="auto"></RowDefinition>
-                        <RowDefinition Height="auto"></RowDefinition>
-                        <RowDefinition Height="auto"></RowDefinition>
-                        <RowDefinition Height="auto"></RowDefinition>
-                        <RowDefinition Height="auto"></RowDefinition>
-                        <RowDefinition Height="auto"></RowDefinition>
-                        <RowDefinition Height="auto"></RowDefinition>
                         <RowDefinition Height="*"></RowDefinition>
                     </Grid.RowDefinitions>
                     <Label Grid.Row="0" Grid.Column="0" VerticalAlignment="Center">Port</Label>
                     <TextBox x:Name="tbArduinoPort" Grid.Row="0" Grid.Column="1"></TextBox>
                     <Label Grid.Row="1" Grid.Column="0">Arduino folder</Label>
                     <controls:FileSelector x:Name="fsArduinoFolder" Margin="5" Grid.Row="1" Grid.Column="1"></controls:FileSelector>
-                    <Label Grid.Row="2" Grid.Column="0" VerticalAlignment="Center">Valve 1 IO number</Label>
-                    <controls:Spinner Grid.Row="2" Grid.Column="1" Margin="5" Column2Width="15" Height="35" x:Name="sValve1IO" Maximum="7" Minimum="0"></controls:Spinner>
-                    <Label Grid.Row="3" Grid.Column="0" VerticalAlignment="Center">Valve 2 IO number</Label>
-                    <controls:Spinner Grid.Row="3" Grid.Column="1" Margin="5" Column2Width="15" Height="35" x:Name="sValve2IO" Maximum="7" Minimum="0"></controls:Spinner>
-                    <Label Grid.Row="4" Grid.Column="0" VerticalAlignment="Center">Valve 3 IO number</Label>
-                    <controls:Spinner Grid.Row="4" Grid.Column="1" Margin="5" Column2Width="15" Height="35" x:Name="sValve3IO" Maximum="7" Minimum="0"></controls:Spinner>
-                    <Label Grid.Row="5" Grid.Column="0" VerticalAlignment="Center">Valve 4 IO number</Label>
-                    <controls:Spinner Grid.Row="5" Grid.Column="1" Margin="5" Column2Width="15" Height="35" x:Name="sValve4IO" Maximum="7" Minimum="0"></controls:Spinner>
-                    <Label Grid.Row="6" Grid.Column="0" VerticalAlignment="Center">Valve 5 IO number</Label>
-                    <controls:Spinner Grid.Row="6" Grid.Column="1" Margin="5" Column2Width="15" Height="35" x:Name="sValve5IO" Maximum="7" Minimum="0"></controls:Spinner>
-                    <Label Grid.Row="7" Grid.Column="0" VerticalAlignment="Center">Valve 6 IO number</Label>
-                    <controls:Spinner Grid.Row="7" Grid.Column="1" Margin="5" Column2Width="15" Height="35" x:Name="sValve6IO" Maximum="7" Minimum="0"></controls:Spinner>
                    
+
                 </Grid>
             </TabItem>
             <TabItem Header="Palmsens">

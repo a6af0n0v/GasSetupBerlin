@@ -79,6 +79,7 @@
     <Reference Include="System.Runtime.CompilerServices.Unsafe, Version=6.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a, processorArchitecture=MSIL">
       <HintPath>..\packages\System.Runtime.CompilerServices.Unsafe.6.0.0\lib\net461\System.Runtime.CompilerServices.Unsafe.dll</HintPath>
     </Reference>
+    <Reference Include="System.Runtime.Serialization" />
     <Reference Include="System.Text.Encodings.Web, Version=8.0.0.0, Culture=neutral, PublicKeyToken=cc7b13ffcd2ddd51, processorArchitecture=MSIL">
       <HintPath>..\packages\System.Text.Encodings.Web.8.0.0\lib\net462\System.Text.Encodings.Web.dll</HintPath>
     </Reference>
@@ -117,19 +118,24 @@
       <SubType>Designer</SubType>
     </ApplicationDefinition>
     <Compile Include="Arduino\Arduino.cs" />
-    <Compile Include="Arduino\Package.cs" />
     <Compile Include="Controls\FileSelector.xaml.cs">
       <DependentUpon>FileSelector.xaml</DependentUpon>
     </Compile>
+    <Compile Include="Controls\HuberIndicator.xaml.cs">
+      <DependentUpon>HuberIndicator.xaml</DependentUpon>
+    </Compile>
     <Compile Include="Controls\IJSList.cs" />
+    <Compile Include="Controls\Indicator.xaml.cs">
+      <DependentUpon>Indicator.xaml</DependentUpon>
+    </Compile>
     <Compile Include="Controls\JSList.xaml.cs">
       <DependentUpon>JSList.xaml</DependentUpon>
     </Compile>
     <Compile Include="Controls\LED.xaml.cs">
       <DependentUpon>LED.xaml</DependentUpon>
     </Compile>
-    <Compile Include="Controls\Scheme.xaml.cs">
-      <DependentUpon>Scheme.xaml</DependentUpon>
+    <Compile Include="Controls\PID.xaml.cs">
+      <DependentUpon>PID.xaml</DependentUpon>
     </Compile>
     <Compile Include="Demonstrators\Demonstrator.cs" />
     <Compile Include="Dialogs\ArduinoInputDialog.xaml.cs">
@@ -167,6 +173,11 @@
     <Compile Include="Controls\Valve.xaml.cs">
       <DependentUpon>Valve.xaml</DependentUpon>
     </Compile>
+    <Compile Include="Controls\SceneControl.cs" />
+    <Compile Include="Controls\ISceneControl.cs" />
+    <Compile Include="Scene\Scene.xaml.cs">
+      <DependentUpon>Scene.xaml</DependentUpon>
+    </Compile>
     <Compile Include="Splash.xaml.cs">
       <DependentUpon>Splash.xaml</DependentUpon>
     </Compile>
@@ -174,6 +185,14 @@
       <DependentUpon>WhatsNew.xaml</DependentUpon>
     </Compile>
     <Page Include="Controls\FileSelector.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="Controls\HuberIndicator.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="Controls\Indicator.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>
@@ -185,7 +204,7 @@
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>
-    <Page Include="Controls\Scheme.xaml">
+    <Page Include="Controls\PID.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>
@@ -238,6 +257,10 @@
       <Generator>MSBuild:Compile</Generator>
     </Page>
     <Page Include="Controls\Valve.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="Scene\Scene.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>
@@ -315,12 +338,6 @@
     <Resource Include="icons\icon_save.png" />
   </ItemGroup>
   <ItemGroup>
-    <Resource Include="icons\scheme1.png" />
-    <Resource Include="icons\scheme2.png" />
-    <Resource Include="icons\scheme3.png" />
-    <Resource Include="icons\scheme4.png" />
-  </ItemGroup>
-  <ItemGroup>
     <Resource Include="icons\mfc_off.png" />
   </ItemGroup>
   <ItemGroup>
@@ -381,31 +398,26 @@
     <Resource Include="icons\icon_menu.png" />
   </ItemGroup>
   <ItemGroup>
-    <Resource Include="icons\scheme_chiller.png" />
-  </ItemGroup>
-  <ItemGroup>
-    <Resource Include="icons\scheme6.png" />
-  </ItemGroup>
-  <ItemGroup>
     <Resource Include="icons\logo.png" />
-  </ItemGroup>
-  <ItemGroup>
-    <Resource Include="icons\bottle.png" />
-  </ItemGroup>
-  <ItemGroup>
-    <Resource Include="icons\sensors.png" />
-  </ItemGroup>
-  <ItemGroup>
-    <Resource Include="icons\scheme7.png" />
   </ItemGroup>
   <ItemGroup>
     <Resource Include="icons\pid.png" />
   </ItemGroup>
   <ItemGroup>
-    <Resource Include="icons\festo.png" />
+    <Resource Include="Scene\Setup4.xml" />
   </ItemGroup>
   <ItemGroup>
-    <Resource Include="icons\sensirion.png" />
+    <Resource Include="Scene\setup4.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <Resource Include="Scene\Setup4Small.xml" />
+  </ItemGroup>
+  <ItemGroup>
+    <Resource Include="icons\mfc_err.png" />
+    <Resource Include="icons\mfc_ok.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <Resource Include="Scene\notfound.png" />
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
 </Project>

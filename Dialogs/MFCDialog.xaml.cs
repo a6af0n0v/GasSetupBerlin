@@ -63,5 +63,12 @@ namespace MeasureConsole.Dialogs
             result = System.Windows.Forms.DialogResult.OK;
             Close();
         }
+
+        private void btnCloseValve_Click(object sender, RoutedEventArgs e)
+        {
+            Value = 100;
+            result = System.Windows.Forms.DialogResult.OK;
+            Close();
+        }
     }
 }

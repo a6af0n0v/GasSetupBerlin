@@ -48,7 +48,7 @@ namespace MeasureConsole.Dialogs
 
         private void StopWetClicked(object sender, RoutedEventArgs e)
         {
-            Value = 100;
+            Value = 101;
             result = System.Windows.Forms.DialogResult.OK;
             Close();
         }

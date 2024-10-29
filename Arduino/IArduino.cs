@@ -16,6 +16,7 @@ namespace MeasureConsole
         void            setProportionalValve(int channel, float value);
         void            setHumidity(int value);
         void            setPIDTerms(float c, float p, float i, float d);
-
+        string          HandshakeString { get; set; }
+        void            close();
     };
 }

@@ -7,6 +7,7 @@
         xmlns:wf="clr-namespace:System.Windows.Forms;assembly=System.Windows.Forms"
         xmlns:dvc="clr-namespace:System.Windows.Forms.DataVisualization.Charting;assembly=System.Windows.Forms.DataVisualization" 
         xmlns:controls="clr-namespace:MeasureConsole.Controls"
+        xmlns:scene="clr-namespace:MeasureConsole.Scene"
         xmlns:WPF="clr-namespace:PalmSens.Core.Simplified.WPF;assembly=PalmSens.Core.Simplified.WPF" x:Class="MeasureConsole.MainWindow"
         mc:Ignorable="d"
         Title="Measurement Console" Icon="icons/logo_small.png" Closing="Window_Closing" Loaded="Window_Loaded" MinWidth="800" MinHeight="600" >
@@ -124,12 +125,14 @@
                             <ColumnDefinition Width="Auto"/>
                             <ColumnDefinition Width="*"/>
                         </Grid.ColumnDefinitions>
-                    <controls:Scheme  x:Name="Scheme" Grid.Column="1" Grid.Row="1" />
+                        <scene:Scene x:Name="Scheme" Grid.Row="1" Grid.Column="1" Width="800" Height="600"/>
                     </Grid>
                 </TabItem>
                 <TabItem Header="Charts">
                     <WindowsFormsHost>
-                        <dvc:Chart x:Name="chart"></dvc:Chart>
+                        <dvc:Chart x:Name="chart">
+                            
+                        </dvc:Chart>
                     </WindowsFormsHost>
                     <!--
                         <StackPanel Grid.Column="0" Grid.Row="0" Width="auto">

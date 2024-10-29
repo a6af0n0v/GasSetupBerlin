@@ -22,6 +22,8 @@ namespace MeasureConsole.Controls
     /// </summary>
     public partial class FileSelector : System.Windows.Controls.UserControl
     {
+
+        public bool IsFileDialog { set; get; } = false;
         public FileSelector()
         {
             InitializeComponent();
@@ -40,8 +42,20 @@ namespace MeasureConsole.Controls
         }
 
         private void Button_Click(object sender, RoutedEventArgs e)
-        {
-            
+        {            
+            if (IsFileDialog)
+            {
+                using (var dlg = new OpenFileDialog())
+                {
+                    dlg.Filter = "XML files |*.xml";
+                    dlg.RestoreDirectory = true;
+                    if (dlg.ShowDialog() == System.Windows.Forms.DialogResult.OK)
+                    {
+                        tbSelectedPath.Text = dlg.FileName;
+                    }
+                }
+            }
+            else
             using (var dlg = new FolderBrowserDialog())
             {
                 if (dlg.ShowDialog() == System.Windows.Forms.DialogResult.OK)

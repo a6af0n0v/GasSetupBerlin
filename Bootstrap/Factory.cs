@@ -1,6 +1,7 @@
 ﻿using Autofac;
 using MeasureConsole.Controls;
 using MeasureConsole.Demonstrators;
+using MeasureConsole.Scene;
 using MeasureConsole.Dialogs;
 using PalmSens.Core.Simplified.WPF;
 using Prism.Events;
@@ -39,6 +40,7 @@ namespace MeasureConsole.Bootstrap
             builder.RegisterType<Arduino>().As<IArduino>().SingleInstance();
             builder.RegisterType<MainWindow>().As<IMainWindow>().SingleInstance();
             builder.RegisterType<MainWindow>().AsSelf().SingleInstance();
+            //builder.RegisterType<Scene.Scene>().AsSelf().SingleInstance();            
             builder.RegisterType<HuberSetTDlg>().AsSelf();
             builder.RegisterType<Palmsense>().As<IPalmsense>().SingleInstance().WithParameter(new TypedParameter(typeof(PSCommSimpleWPF), "simpleWPF"));
             builder.RegisterType<EventAggregator>().As<IEventAggregator>().SingleInstance();

@@ -7,6 +7,10 @@ using Prism.Events;
 using System.Runtime.Remoting.Channels;
 using static MeasureConsole.JSONNode.JSONMeasurement.DatasetNode.Values;
 using System.Linq;
+using MeasureConsole.Bootstrap;
+using MeasureConsole.Scene;
+using Autofac;
+using MeasureConsole.Controls;
 
 namespace MeasureConsole
 {
@@ -16,6 +20,7 @@ namespace MeasureConsole
         private string _portName = "";
         private double _temperature = 0;
         private Thread reader;
+        public string HandshakeString { get; set; } = "$";
         public double Temperature
         {
             get
@@ -72,18 +77,17 @@ namespace MeasureConsole
         }
         private IEventAggregator _ea;
         private Timer tmr;
-
+        public void close()
+        {
+            if(_serialPort.IsOpen)
+                _serialPort.Close();
+        }
         public void init()
         {
-            //set mfc 0
-            _serialPort.WriteLine($"$b10#");
-            _serialPort.WriteLine($"$b20#");
-            //set props 0
-            _serialPort.WriteLine($"$v00#");
-            _serialPort.WriteLine($"$v10#");
-            //set pid off
-            _serialPort.WriteLine($"$h0#");
-            Logger.WriteLine("Arduino in default state: MFCs closed, target humidity 0%");
+            _serialPort.WriteLine(HandshakeString);
+            Console.WriteLine(HandshakeString);
+            Logger.WriteLine("System Initialized. All valves closed. MFCs are fully closed. PID is off.");
+            
         }
 
         public Arduino(IEventAggregator ea)
@@ -96,13 +100,15 @@ namespace MeasureConsole
             _serialPort.StopBits = StopBits.One;
             _serialPort.ReadTimeout = 500;
             _serialPort.WriteTimeout = 500;
+            _serialPort.DtrEnable = true;
+            //_serialPort.RtsEnable = true;
             reader = new Thread(read);
             reader.IsBackground = true;
             reader.Start();
             _ea.GetEvent<SuccessfulReadEvent>().Subscribe(OnMessageReceived);
         }
 
-        private void OnMessageReceived(Package package)
+        private void OnMessageReceived(string package)
         {
             //Logger.WriteLine($"{package.package_number} - {package.porta}");
         }
@@ -114,6 +120,8 @@ namespace MeasureConsole
             try
             {
                 _serialPort.Open();
+                System.Threading.Thread.Sleep(3000);
+                _serialPort.DiscardInBuffer();
             }
             catch (SystemException ex)
             {
@@ -137,13 +145,27 @@ namespace MeasureConsole
    
         public void setFlow(int channel, float flow)
         {
-            _serialPort.WriteLine($"$b{channel}{flow}#");
-            //Console.WriteLine($"$b{channel}{flow}#");
+            var cmd = $"$b{channel}{flow}#";
+            _serialPort.WriteLine(cmd.Replace(',', '.'));
+            Console.WriteLine(cmd);
+            var mainWnd = Factory.Container.Resolve<MainWindow>();
+           
+            foreach (var control in mainWnd.Scheme.Scheme.Controls)
+            {
+                if(control is mfc _mfc && _mfc.Channel == channel)
+                {
+                    mainWnd.Dispatcher.Invoke(() =>
+                    {
+                        _mfc.SollWert = flow * 100.0f;
+                    });
+                }
+            }
+
         }
 
         public void openValve(int channel)
         {
-            //Console.WriteLine($"$f{channel}#");
+            Console.WriteLine($"$f{channel}#");
             _serialPort.WriteLine($"$f{channel}#");
         }
 
@@ -158,7 +180,7 @@ namespace MeasureConsole
             {
                 if (_serialPort.IsOpen)
                 {
-                    int expected_bytes = 56;
+                    int expected_bytes = 36;
                     if (_serialPort.BytesToRead >= expected_bytes) 
                     {
                         //Console.WriteLine($"Bytes to read {_serialPort.BytesToRead}");
@@ -166,44 +188,23 @@ namespace MeasureConsole
                         try
                         {
                             message = _serialPort.ReadLine();
-                            //Console.WriteLine(message);
-                            var package = new Package();                           
-                            package.package_number = Convert.ToInt32(message.Substring(0, 2), 16);
-                            package.porta = Convert.ToInt32(message.Substring(3, 2), 16);
-                            byte[] mfc1_array = {   Convert.ToByte(message.Substring(12, 2), 16),
-                                                    Convert.ToByte(message.Substring(10,2), 16),
-                                                    Convert.ToByte(message.Substring(8,2), 16),
-                                                    Convert.ToByte(message.Substring(6,2), 16)};
-                            byte[] mfc2_array = {   Convert.ToByte(message.Substring(21, 2), 16),
-                                                    Convert.ToByte(message.Substring(19,2), 16),
-                                                    Convert.ToByte(message.Substring(17,2), 16),
-                                                    Convert.ToByte(message.Substring(15,2), 16)};
-                            package.mfc1 = System.BitConverter.ToSingle(mfc1_array,0);
-                            package.mfc2 = System.BitConverter.ToSingle(mfc2_array, 0);
-                            //Console.WriteLine($"{package.mfc1 } = {package.mfc2 }");                           
-                            package.temperature = Convert.ToInt32(message.Substring(24, 4), 16);
-                            Temperature = package.temperature / 100;
-
-                            package.humidity = Convert.ToInt32(message.Substring(29, 8), 16);
-                            Humidity = package.humidity / 1000;
-                            
-                            package.pressure = Convert.ToInt32(message.Substring(38, 8), 16);
-                            Pressure = package.pressure / 100;
-                            int offset = 0;
-                            if (message.ElementAt<char>(51) != ' ')
+                            int pckStart = message.LastIndexOf('$');
+                            if (pckStart != -1)
                             {
-                                offset = 1;
+                                int pckEnd = message.LastIndexOf('#');
+                                if (pckEnd != -1)
+                                {
+                                    string extra = message.Substring(pckEnd + 1);
+                                    if (extra.Length > 1)
+                                        Console.WriteLine($"extra info: {extra}");
+                                    string pckg = message.Substring(pckStart + 1, pckEnd - pckStart-1);
+                                    //$FD 01 91B1 801E 7FFF 9256 231D 088A#
+                                    if (pckg.Length == 35)
+                                        _ea.GetEvent<SuccessfulReadEvent>().Publish(pckg);
+                                    else
+                                        Console.WriteLine(pckg);
+                                }                                
                             }
-
-                            //Logger.WriteLine("t - {}", package.temperature);
-                            //package.shtHumidity = Convert.ToInt32(message.Substring(47, 4), 16);
-                            //SHTHumidity = package.shtHumidity / 1000;
-                            //package.shtTemperature = Convert.ToInt32(message.Substring(52, 4), 16);
-                            package.shtHumidity = Convert.ToInt32(message.Substring(47, 4 + offset), 16);
-                            SHTHumidity = package.shtHumidity / 1000;
-                            package.shtTemperature = Convert.ToInt32(message.Substring(52 + offset, 4), 16);
-                            SHTTemperature = package.shtTemperature / 100;
-                            _ea.GetEvent<SuccessfulReadEvent>().Publish(package);
                         }
                         catch (Exception ex)
                         {
@@ -282,21 +283,42 @@ namespace MeasureConsole
             }
             float setpoint = 5 * value / 100;
             //Console.WriteLine($"$v{channel}{setpoint}#");
-            _serialPort.WriteLine($"$v{channel}{setpoint}#");
+            var cmd = $"$v{channel}{setpoint}#";
+            _serialPort.WriteLine(cmd.Replace(',','.'));
         }
 
         public void setHumidity(int value)
         {
             _serialPort.WriteLine($"$h{value}#");
+            var mainWnd = Factory.Container.Resolve<MainWindow>();  
+            foreach (var control in mainWnd.Scheme.Scheme.Controls)
+            {
+                if (control is mfc)
+                {
+                    var _mfc = (mfc)control;
+                    if (_mfc.HumidityRegulator)
+                    {
+                        mainWnd.Dispatcher.Invoke(() =>
+                        {
+                            if (value > 0 && value < 10000)
+                                _mfc.AutomaticMode = true;
+                            else
+                                _mfc.AutomaticMode = false;
+                        });
+                        
+                    }
+                }
+            }
         }
 
         public void setPIDTerms(float c, float p, float i, float d)
         {
-            _serialPort.WriteLine($"$k{c},{p},{i},{d}#");
+            var cmd = $"$k{c},{p},{i},{d}#";
+            _serialPort.WriteLine(cmd.Replace(',','.'));
         }
     }
 
-    public class SuccessfulReadEvent : PubSubEvent<Package>
+    public class SuccessfulReadEvent : PubSubEvent<string>
     {
     
     }

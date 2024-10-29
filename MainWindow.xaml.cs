@@ -15,6 +15,7 @@ using MeasureConsole.Dialogs;
 using System.Windows.Forms.DataVisualization.Charting;
 using System.Collections.Generic;
 using PalmSens.Units;
+using MeasureConsole.Scene;
 // Charts docs here: https://habr.com/ru/post/145343/
 namespace MeasureConsole
 {
@@ -29,17 +30,11 @@ namespace MeasureConsole
         IArduino arduino;
         IPalmsense palmsense;
         IHuber huber;
-        private int currentHuberT = -27300;
-        int ShowOnGraph = 0;
+        private int currentHuberT = -27300;        
         private IEventAggregator _eventAggregator;
         private static IContainer Container = Factory.Container;
-        private static FlowDocument flowDoc = new FlowDocument();
-        Queue<int> axisXData = new Queue<int>();
-        Queue<double> temperatureData = new Queue<double>();
-        Queue<double> temperatureSHTData = new Queue<double>();
-        Queue<double> humidityData = new Queue<double>();
-        Queue<double> humiditySHTData = new Queue<double>();
-        Queue<double> huberData = new Queue<double>();
+        private static FlowDocument flowDoc = new FlowDocument();        
+        Queue<int> axisXData = new Queue<int>();        
         int tick = 0;
         public FlowDocument FlowDoc
         {
@@ -99,14 +94,6 @@ namespace MeasureConsole
         {
             var settings = Container.Resolve<Properties.Settings>();
 
-            Scheme.lGas1.Content = settings.Gas1;
-            Scheme.lGas2.Content = settings.Gas2;
-            Scheme.lGas3.Content = settings.Gas3;
-            Scheme.lGas4.Content = settings.Gas4;
-            Scheme.lGas5.Content = settings.Gas5;
-            Scheme.lGas6.Content = settings.Gas6;
-         
-
             if (settings.AutoConnect)
             {
                 btnConnectLastDevices_Click(null, null);
@@ -127,65 +114,30 @@ namespace MeasureConsole
             _eventAggregator = Container.Resolve<IEventAggregator>();
             _eventAggregator.GetEvent<SuccessfulReadEvent>().Subscribe(OnSuccessfulRead);
             _eventAggregator.GetEvent<HuberTChangeEvent>().Subscribe(OnHuberTempertureChange);
-            _eventAggregator.GetEvent<MethodClickedEvent>().Subscribe(OnMethodClickedEvent);
-            _eventAggregator.GetEvent<MeasureClickedEvent>().Subscribe(OnMeasureClickedEvent);
-            _eventAggregator.GetEvent<SaveClickedEvent>().Subscribe(OnSaveClickedEvent);
             Loaded += OnMainWindowLoaded;
             Console.WriteLine("MainWindow Loaded event handler charged");
-            UpdateApllicationMenu();
-            Scheme.cMfc1.Value = 0;
-            Scheme.cMfc2.Value = 0;
-            chart.ChartAreas.Add(new ChartArea("Default"));
-            // Добавим линию, и назначим ее в ранее созданную область "Default"
-            var settings = Container.Resolve<Properties.Settings>();
-
-            ShowOnGraph = settings.ShowOnGraph;
+            UpdateApllicationMenu();           
+            foreach(var area in Scheme.Scheme.ChartAreas)
+            {                
+                chart.ChartAreas.Add(new System.Windows.Forms.DataVisualization.Charting.ChartArea(area.Label));
+                chart.ChartAreas[area.Label].AxisX.Title = area.xTitle;
+                chart.ChartAreas[area.Label].AxisY.Title = area.yTitle;
+                chart.ChartAreas[area.Label].AxisY2.Title = area.y2Title;
+                foreach (var line in area.Lines)
+                {
+                    chart.Series.Add(new Series(line.Label));
+                    chart.Series[line.Label].ChartType = SeriesChartType.Line;
+                    chart.Series[line.Label].ChartArea = "Default";
+                    chart.Series[line.Label].BorderWidth = 3;
+                    chart.Series[line.Label].ChartArea = area.Label;
+                    if (line.yAxis == "secondary")
+                    {
+                        chart.Series[line.Label].YAxisType = System.Windows.Forms.DataVisualization.Charting.AxisType.Secondary;
+                    }                    
+                }
+                chart.Legends.Add(area.Label);
+            }
             
-            if ((ShowOnGraph & 0x01) != 0)
-            {
-                chart.Series.Add(new Series("Temperature"));
-                chart.Series["Temperature"].ChartArea = "Default";
-                chart.Series["Temperature"].ChartType = SeriesChartType.Line;
-                chart.Series["Temperature"].BorderWidth = 3;
-            }
-            if ((ShowOnGraph & 0x02) != 0)
-            {
-                chart.Series.Add(new Series("Humidity"));
-                chart.Series["Humidity"].ChartArea = "Default";
-                chart.Series["Humidity"].ChartType = SeriesChartType.Line;
-                chart.Series["Humidity"].BorderWidth = 3;
-                chart.Series["Humidity"].YAxisType = System.Windows.Forms.DataVisualization.Charting.AxisType.Secondary;
-            }
-            if ((ShowOnGraph & 0x04) != 0)
-            {
-                chart.Series.Add(new Series("Huber"));
-                chart.Series["Huber"].ChartArea = "Default";
-                chart.Series["Huber"].ChartType = SeriesChartType.Line;
-                chart.Series["Huber"].BorderWidth = 3;
-            }
-            if ((ShowOnGraph & 0x010) != 0)
-            {
-
-                chart.Series.Add(new Series("TemperatureSHT"));
-                chart.Series["TemperatureSHT"].ChartArea = "Default";
-                chart.Series["TemperatureSHT"].ChartType = SeriesChartType.Line;
-                chart.Series["TemperatureSHT"].BorderWidth = 3;
-            }
-            if ((ShowOnGraph & 0x08) != 0)
-            {
-
-                chart.Series.Add(new Series("HumiditySHT"));
-                chart.Series["HumiditySHT"].ChartArea = "Default";
-                chart.Series["HumiditySHT"].ChartType = SeriesChartType.Line;
-                chart.Series["HumiditySHT"].BorderWidth = 3;
-                chart.Series["HumiditySHT"].YAxisType = System.Windows.Forms.DataVisualization.Charting.AxisType.Secondary;
-            }
-            chart.Legends.Add("Legend");
-
-            chart.ChartAreas["Default"].AxisX.Title = "Ticks";
-            chart.ChartAreas["Default"].AxisY.Title = "Temperature, C";
-            chart.ChartAreas["Default"].AxisY2.Title = "Humidity";
-            OnSettingsUpdated();
         }
 
         private void OnMainWindowLoaded(object sender, RoutedEventArgs e)
@@ -205,77 +157,19 @@ namespace MeasureConsole
             var settings = Factory.Container.Resolve<Properties.Settings>();
             if (axisXData.Count >= settings.MaxPointsOnChart)
             {
-                axisXData.Dequeue();
-               
+                axisXData.Dequeue();               
             }
             axisXData.Enqueue(tick);
             tick++;
-
-            if ((ShowOnGraph & 0x01) != 0)
+            foreach(Scene.ChartArea area in Scheme.Scheme.ChartAreas)
+            foreach(ChartLine line in area.Lines)
             {
-                chart.Series["Temperature"].Points.DataBindXY(axisXData, temperatureData);
-            }
-            if ((ShowOnGraph & 0x02) != 0)
-                chart.Series["Humidity"].Points.DataBindXY(axisXData, humidityData);
-            if ((ShowOnGraph & 0x010) != 0)
-                chart.Series["TemperatureSHT"].Points.DataBindXY(axisXData, temperatureSHTData);
-            if ((ShowOnGraph & 0x08) != 0)
-                chart.Series["HumiditySHT"].Points.DataBindXY(axisXData, humiditySHTData);
-            if ((ShowOnGraph & 0x04) != 0)
-                chart.Series["Huber"].Points.DataBindXY(axisXData, huberData);
-        }
-        public void PlotHuber(double temperature)
-        {
-            var settings = Container.Resolve<Properties.Settings>();
-            if (huberData.Count >= settings.MaxPointsOnChart)
-            {
-                huberData.Dequeue();
-            }
-            //Console.WriteLine($"Huber Temperature: {temperature}");
-            huberData.Enqueue(temperature);
-        }
-
-        public void PlotHumidity(double humidity)
-        {
-            var settings = Container.Resolve<Properties.Settings>();
-            if (humidityData.Count >= settings.MaxPointsOnChart)
-            {
-                humidityData.Dequeue();
-            }
-            //Console.WriteLine($"Humidity: {humidity}");
-            humidityData.Enqueue(humidity);
-        }
-        public void PlotSHTHumidity(double shtHumidity)
-        {
-            var settings = Container.Resolve<Properties.Settings>();
-            if (humiditySHTData.Count >= settings.MaxPointsOnChart)
-            {
-                humiditySHTData.Dequeue();
-            }
-            //Console.WriteLine($"SHT Humidity: {shtHumidity}");
-            humiditySHTData.Enqueue(shtHumidity);
-        }
-        public void PlotSHTTemperature(double shtTemperature)
-        {
-            var settings = Container.Resolve<Properties.Settings>();
-            if (temperatureSHTData.Count >= settings.MaxPointsOnChart)
-            {
-                temperatureSHTData.Dequeue();
-            }
-            temperatureSHTData.Enqueue(shtTemperature);
-            //Console.WriteLine($"SHT temp: {shtTemperature}");
-        }
-
-        public void PlotTemperature(double temperature)
-        {
-            var settings = Container.Resolve<Properties.Settings>();
-            if (temperatureData.Count >= settings.MaxPointsOnChart)
-            {
-                temperatureData.Dequeue();
-            }
-            //Console.WriteLine($"Temperature: {temperature}");
-            temperatureData.Enqueue(temperature);
-        }
+                try
+                {
+                    chart.Series[line.Label].Points.DataBindXY(axisXData, line.Data);
+                }catch(Exception){ }
+            }            
+        }        
 
         private void OnHuberTempertureChange(int temperature)
         {
@@ -283,48 +177,32 @@ namespace MeasureConsole
             {
                 currentHuberT = temperature;
                 double t = (double)temperature / 100;
-                Scheme.tbHuberT.Text = $"{t:f}";
+                //Scheme.tbHuberT.Text = $"{t:f}";
             });
         }
-
-        private void OnSuccessfulRead(Package package)
+        
+        private void OnSuccessfulRead(string package)
         {
-            package.huber = currentHuberT;
             this.Dispatcher.Invoke(() =>
-            {
-                var settings = Container.Resolve<Properties.Settings>();
-                Scheme.cValve0.State = ((package.porta & (1 << settings.Valve1IO)) == 0) ? false : true;
-                Scheme.cValve1.State = ((package.porta & (1 << settings.Valve2IO)) == 0) ? false : true;
-                Scheme.cValve2.State = ((package.porta & (1 << settings.Valve3IO)) == 0) ? false : true;
-                Scheme.cValve3.State = ((package.porta & (1 << settings.Valve4IO)) == 0) ? false : true;
-                Scheme.cValve4.State = ((package.porta & (1 << settings.Valve5IO)) == 0) ? false : true;
-                Scheme.cValve5.State = ((package.porta & (1 << settings.Valve6IO)) == 0) ? false : true;
-                
-                Scheme.cMfc1.Value = package.mfc1;
-                Scheme.cMfc2.Value = package.mfc2;
-
-                Scheme.Humidity = ((double)package.humidity / 1000);
-                PlotHumidity((double)package.humidity / 1000);
-                Scheme.Temperature = (double)package.temperature / 100;
-                PlotTemperature((double)package.temperature / 100);
-                
-                Scheme.Pressure = ((double)package.pressure/100);
-
-                Scheme.SHTHumidity = ((double)package.shtHumidity / 1000);
-                PlotSHTHumidity(Scheme.SHTHumidity);
-                Scheme.SHTTemperature = ((double)package.shtTemperature / 100);
-                PlotSHTTemperature(Scheme.SHTTemperature);
-                Scheme.ledHeartBeat.State = true;
-                PlotHuber((double)package.huber/100);
+            {               
+                foreach (ISceneControl control in Scheme.Scheme.Controls)
+                {
+                    control.Update(package);
+                }
+                foreach(Scene.ChartArea area in Scheme.Scheme.ChartAreas)
+                {
+                    foreach (ChartLine line in area.Lines)
+                    {
+                        line.Update(package);
+                    }                    
+                }
                 Plot();
             });
-            
-            Logger.LogToCSV(package);
         }
 
         private void Window_Closing(object sender, System.ComponentModel.CancelEventArgs e)
         {
-
+            arduino.close();
         }
 
         private void Window_Loaded(object sender, RoutedEventArgs e)

@@ -24,6 +24,7 @@
             <RowDefinition Height="Auto"/>
             <RowDefinition Height="Auto"/>
             <RowDefinition Height="Auto"/>
+            <RowDefinition Height="Auto"/>
         </Grid.RowDefinitions>
         <Grid Grid.ColumnSpan="2">
             <Grid.ColumnDefinitions>
@@ -35,7 +36,8 @@
         </Grid>
         <TextBox x:Name="tbValue" Grid.Row="1" Grid.Column="1" Margin="5" VerticalContentAlignment="Center" Text="{Binding Value, ElementName=sValue, FallbackValue=0, Mode=TwoWay, StringFormat=\{0:00\}, TargetNullValue=0, UpdateSourceTrigger=PropertyChanged}"/>
         <Label Content="Value" Grid.Row="1" Grid.Column="0" Margin="5"/>
-        <Button Content="Close Valve" Grid.Column="0" Grid.Row="2" Margin="5" Click="Button_Click_1" Background="{x:Null}" Padding="4,4,4,4"/>
+        <Button Content="Close Valve" Grid.Column="0" Grid.Row="2" x:Name="btnOpenValve" Margin="5" Click="Button_Click_1" Background="{x:Null}" Padding="4,4,4,4"/>
+        <Button Content="Open Valve" Grid.Column="0" Grid.Row="3" x:Name="btnCloseValve" Margin="5"  Background="{x:Null}" Padding="4,4,4,4" Click="btnCloseValve_Click"/>
         <Button Content="Apply" Grid.Column="1" Grid.Row="2" Margin="5" Click="Button_Click" Padding="4,4,4,4" Foreground="Black" BorderBrush="Black" FontSize="{Binding Mode=OneWay, Source={StaticResource BaseFontSize}}" Background="#FFB1F386"/>
 
     </Grid>

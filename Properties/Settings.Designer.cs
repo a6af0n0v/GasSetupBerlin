@@ -145,150 +145,6 @@ namespace MeasureConsole.Properties {
         
         [global::System.Configuration.UserScopedSettingAttribute()]
         [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
-        [global::System.Configuration.DefaultSettingValueAttribute("Gas1")]
-        public string Gas1 {
-            get {
-                return ((string)(this["Gas1"]));
-            }
-            set {
-                this["Gas1"] = value;
-            }
-        }
-        
-        [global::System.Configuration.UserScopedSettingAttribute()]
-        [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
-        [global::System.Configuration.DefaultSettingValueAttribute("Gas2")]
-        public string Gas2 {
-            get {
-                return ((string)(this["Gas2"]));
-            }
-            set {
-                this["Gas2"] = value;
-            }
-        }
-        
-        [global::System.Configuration.UserScopedSettingAttribute()]
-        [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
-        [global::System.Configuration.DefaultSettingValueAttribute("Gas3")]
-        public string Gas3 {
-            get {
-                return ((string)(this["Gas3"]));
-            }
-            set {
-                this["Gas3"] = value;
-            }
-        }
-        
-        [global::System.Configuration.UserScopedSettingAttribute()]
-        [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
-        [global::System.Configuration.DefaultSettingValueAttribute("Gas4")]
-        public string Gas4 {
-            get {
-                return ((string)(this["Gas4"]));
-            }
-            set {
-                this["Gas4"] = value;
-            }
-        }
-        
-        [global::System.Configuration.UserScopedSettingAttribute()]
-        [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
-        [global::System.Configuration.DefaultSettingValueAttribute("Gas5")]
-        public string Gas5 {
-            get {
-                return ((string)(this["Gas5"]));
-            }
-            set {
-                this["Gas5"] = value;
-            }
-        }
-        
-        [global::System.Configuration.UserScopedSettingAttribute()]
-        [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
-        [global::System.Configuration.DefaultSettingValueAttribute("0")]
-        public int Valve1IO {
-            get {
-                return ((int)(this["Valve1IO"]));
-            }
-            set {
-                this["Valve1IO"] = value;
-            }
-        }
-        
-        [global::System.Configuration.UserScopedSettingAttribute()]
-        [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
-        [global::System.Configuration.DefaultSettingValueAttribute("0")]
-        public int Valve2IO {
-            get {
-                return ((int)(this["Valve2IO"]));
-            }
-            set {
-                this["Valve2IO"] = value;
-            }
-        }
-        
-        [global::System.Configuration.UserScopedSettingAttribute()]
-        [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
-        [global::System.Configuration.DefaultSettingValueAttribute("0")]
-        public int Valve3IO {
-            get {
-                return ((int)(this["Valve3IO"]));
-            }
-            set {
-                this["Valve3IO"] = value;
-            }
-        }
-        
-        [global::System.Configuration.UserScopedSettingAttribute()]
-        [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
-        [global::System.Configuration.DefaultSettingValueAttribute("0")]
-        public int Valve4IO {
-            get {
-                return ((int)(this["Valve4IO"]));
-            }
-            set {
-                this["Valve4IO"] = value;
-            }
-        }
-        
-        [global::System.Configuration.UserScopedSettingAttribute()]
-        [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
-        [global::System.Configuration.DefaultSettingValueAttribute("0")]
-        public int Valve5IO {
-            get {
-                return ((int)(this["Valve5IO"]));
-            }
-            set {
-                this["Valve5IO"] = value;
-            }
-        }
-        
-        [global::System.Configuration.UserScopedSettingAttribute()]
-        [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
-        [global::System.Configuration.DefaultSettingValueAttribute("0")]
-        public int Valve6IO {
-            get {
-                return ((int)(this["Valve6IO"]));
-            }
-            set {
-                this["Valve6IO"] = value;
-            }
-        }
-        
-        [global::System.Configuration.UserScopedSettingAttribute()]
-        [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
-        [global::System.Configuration.DefaultSettingValueAttribute("0")]
-        public int Valve7IO {
-            get {
-                return ((int)(this["Valve7IO"]));
-            }
-            set {
-                this["Valve7IO"] = value;
-            }
-        }
-        
-        [global::System.Configuration.UserScopedSettingAttribute()]
-        [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
         [global::System.Configuration.DefaultSettingValueAttribute("N; timestamp; MFC1_Flow; MFC2_Flow; T; rH; P; V0; V1; V2; V3; V4; V5; Huber; SHTr" +
             "H; SHTt")]
         public string CSVColumnNames {
@@ -333,30 +189,6 @@ namespace MeasureConsole.Properties {
             }
             set {
                 this["MaxPointsOnChart"] = value;
-            }
-        }
-        
-        [global::System.Configuration.UserScopedSettingAttribute()]
-        [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
-        [global::System.Configuration.DefaultSettingValueAttribute("Gas6")]
-        public string Gas6 {
-            get {
-                return ((string)(this["Gas6"]));
-            }
-            set {
-                this["Gas6"] = value;
-            }
-        }
-        
-        [global::System.Configuration.UserScopedSettingAttribute()]
-        [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
-        [global::System.Configuration.DefaultSettingValueAttribute("Gas7")]
-        public string Gas7 {
-            get {
-                return ((string)(this["Gas7"]));
-            }
-            set {
-                this["Gas7"] = value;
             }
         }
         
@@ -412,13 +244,13 @@ namespace MeasureConsole.Properties {
         
         [global::System.Configuration.UserScopedSettingAttribute()]
         [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
-        [global::System.Configuration.DefaultSettingValueAttribute("65535")]
-        public int ShowOnGraph {
+        [global::System.Configuration.DefaultSettingValueAttribute("setup4.png")]
+        public string SceneFileName {
             get {
-                return ((int)(this["ShowOnGraph"]));
+                return ((string)(this["SceneFileName"]));
             }
             set {
-                this["ShowOnGraph"] = value;
+                this["SceneFileName"] = value;
             }
         }
     }

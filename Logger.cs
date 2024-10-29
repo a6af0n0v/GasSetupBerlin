@@ -229,14 +229,14 @@ namespace MeasureConsole
             }
 
         }
-        public static void LogToCSV(Package package)
+        public static void LogToCSV(string package)
         {
             var settings = Container.Resolve<Properties.Settings>();
             var path = Path.Combine(settings.CSVFolder, $"{Settings.CSVFileName}_{currentCSVChapterNumber}.csv");
             using (var f = File.Open(path, FileMode.Append))
             using (var writer = new StreamWriter(f))
             {
-                var MFC1_Flow = package.mfc1;//((double)package.adc0 * 132 / 1024).ToString("N1");
+                /*var MFC1_Flow = package.mfc1;//((double)package.adc0 * 132 / 1024).ToString("N1");
                 var MFC2_Flow = package.mfc2;//((double)package.adc1 * 132 / 1024).ToString("N1");
                 
                 double temperature = (double)package.temperature/100;
@@ -274,7 +274,7 @@ namespace MeasureConsole
                     {
                         writer_new.WriteLine(settings.CSVColumnNames);
                     }
-                }
+                }*/
             }            
         }
 

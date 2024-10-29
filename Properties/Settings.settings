@@ -32,42 +32,6 @@
     <Setting Name="DataFolder" Type="System.String" Scope="User">
       <Value Profile="(Default)" />
     </Setting>
-    <Setting Name="Gas1" Type="System.String" Scope="User">
-      <Value Profile="(Default)">Gas1</Value>
-    </Setting>
-    <Setting Name="Gas2" Type="System.String" Scope="User">
-      <Value Profile="(Default)">Gas2</Value>
-    </Setting>
-    <Setting Name="Gas3" Type="System.String" Scope="User">
-      <Value Profile="(Default)">Gas3</Value>
-    </Setting>
-    <Setting Name="Gas4" Type="System.String" Scope="User">
-      <Value Profile="(Default)">Gas4</Value>
-    </Setting>
-    <Setting Name="Gas5" Type="System.String" Scope="User">
-      <Value Profile="(Default)">Gas5</Value>
-    </Setting>
-    <Setting Name="Valve1IO" Type="System.Int32" Scope="User">
-      <Value Profile="(Default)">0</Value>
-    </Setting>
-    <Setting Name="Valve2IO" Type="System.Int32" Scope="User">
-      <Value Profile="(Default)">0</Value>
-    </Setting>
-    <Setting Name="Valve3IO" Type="System.Int32" Scope="User">
-      <Value Profile="(Default)">0</Value>
-    </Setting>
-    <Setting Name="Valve4IO" Type="System.Int32" Scope="User">
-      <Value Profile="(Default)">0</Value>
-    </Setting>
-    <Setting Name="Valve5IO" Type="System.Int32" Scope="User">
-      <Value Profile="(Default)">0</Value>
-    </Setting>
-    <Setting Name="Valve6IO" Type="System.Int32" Scope="User">
-      <Value Profile="(Default)">0</Value>
-    </Setting>
-    <Setting Name="Valve7IO" Type="System.Int32" Scope="User">
-      <Value Profile="(Default)">0</Value>
-    </Setting>
     <Setting Name="CSVColumnNames" Type="System.String" Scope="User">
       <Value Profile="(Default)">N; timestamp; MFC1_Flow; MFC2_Flow; T; rH; P; V0; V1; V2; V3; V4; V5; Huber; SHTrH; SHTt</Value>
     </Setting>
@@ -79,12 +43,6 @@
     </Setting>
     <Setting Name="MaxPointsOnChart" Type="System.Int32" Scope="User">
       <Value Profile="(Default)">100</Value>
-    </Setting>
-    <Setting Name="Gas6" Type="System.String" Scope="User">
-      <Value Profile="(Default)">Gas6</Value>
-    </Setting>
-    <Setting Name="Gas7" Type="System.String" Scope="User">
-      <Value Profile="(Default)">Gas7</Value>
     </Setting>
     <Setting Name="MaxNumberOfLinesInCSV" Type="System.Int32" Scope="User">
       <Value Profile="(Default)">200</Value>
@@ -102,8 +60,8 @@
   &lt;string&gt;last.js&lt;/string&gt;
 &lt;/ArrayOfString&gt;</Value>
     </Setting>
-    <Setting Name="ShowOnGraph" Type="System.Int32" Scope="User">
-      <Value Profile="(Default)">65535</Value>
+    <Setting Name="SceneFileName" Type="System.String" Scope="User">
+      <Value Profile="(Default)">setup4.png</Value>
     </Setting>
   </Settings>
 </SettingsFile>
