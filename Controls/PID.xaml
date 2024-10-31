@@ -8,7 +8,12 @@
              mc:Ignorable="d" 
             >
     <Grid>
-        <Button x:Name="btnShowPIDDialog" Grid.Column="7" Grid.Row="10" Margin="10,15,10,15" Click="btnShowPIDDialog_Click">
+        <Grid.RowDefinitions>
+            <RowDefinition></RowDefinition>
+            <RowDefinition Height="auto"></RowDefinition>
+        </Grid.RowDefinitions>
+        <Label x:Name="lbTargetValue" Grid.Row="1" Foreground="#FFCAF5FC" HorizontalAlignment="Center" HorizontalContentAlignment="Center">-%</Label>
+        <Button x:Name="btnShowPIDDialog" Grid.Column="7" Grid.Row="0" Click="btnShowPIDDialog_Click">
             <Grid>
                 <Image Source="/icons/pid.png"></Image>
             </Grid>

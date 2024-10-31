@@ -34,6 +34,16 @@ namespace MeasureConsole.Controls
                 controLabel.Content = value;
             }
         }
+        public override string CSVValue
+        {
+            get
+            {
+                if (_state)
+                    return "true";
+                else return "false";
+            }
+        }
+
         public override string ToString()
         {
             return $"LED label: {Label}, start: {Start}, length: {Length}";
@@ -70,7 +80,8 @@ namespace MeasureConsole.Controls
             {
                 string sValue = package.Substring(Start, Length);                
                 int iValue = Convert.ToInt32(sValue, 16);             
-                State = (iValue & (1 << Bit)) == 1;
+                State = ((iValue & (1 << Bit)) != 0);
+                //Console.WriteLine($"State {State} bit {Bit} iValue {iValue} sValue {sValue}");
             }
             catch (Exception ex)
             {

@@ -8,6 +8,8 @@ namespace MeasureConsole
         double          Temperature { get;  } 
         bool            isOpen { get; }
         void            setFlow(int channel, float flow);
+        void            setMUX(byte addrValue, byte inputValue);
+        void            enableMUX(bool enable);
         void            openValve(int channel);
         void            closeValve(int channel);
         void            waitForTemp(double temp, double range);

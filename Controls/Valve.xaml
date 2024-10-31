@@ -8,12 +8,18 @@
              mc:Ignorable="d" 
              >
     <Grid >
+       
         <Grid.ColumnDefinitions>
             <ColumnDefinition></ColumnDefinition>
             <ColumnDefinition></ColumnDefinition>
         </Grid.ColumnDefinitions>
-        <Label x:Name="controLabel" Grid.Column="0">Gas 1</Label>
-        <Button Grid.Column="1" x:Name="btn" Click="btn_Click">
+        <StackPanel Grid.Column="0">
+            <Label x:Name="lbChannel" >Ch:</Label>
+            <Label x:Name="controLabel">Gas 1</Label>
+        </StackPanel>
+        
+        
+        <Button Grid.Column="1" x:Name="btn" Click="btn_Click" >
             <Image x:Name="img" Source="/icons/valve_off.png" ></Image>
         </Button>
     </Grid>

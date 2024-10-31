@@ -36,37 +36,49 @@
     <WarningLevel>4</WarningLevel>
   </PropertyGroup>
   <ItemGroup>
-    <Reference Include="Autofac, Version=7.1.0.0, Culture=neutral, PublicKeyToken=17863af14b0044da, processorArchitecture=MSIL">
-      <HintPath>..\packages\Autofac.7.1.0\lib\netstandard2.0\Autofac.dll</HintPath>
+    <Reference Include="Acornima, Version=1.1.0.0, Culture=neutral, PublicKeyToken=496b38436bb9edeb, processorArchitecture=MSIL">
+      <HintPath>packages\Acornima.1.1.0\lib\net462\Acornima.dll</HintPath>
     </Reference>
-    <Reference Include="Esprima, Version=3.0.4.0, Culture=neutral, PublicKeyToken=2e92ba9c8d81157f, processorArchitecture=MSIL">
-      <HintPath>..\packages\Esprima.3.0.4\lib\net462\Esprima.dll</HintPath>
+    <Reference Include="Autofac, Version=8.1.1.0, Culture=neutral, PublicKeyToken=17863af14b0044da, processorArchitecture=MSIL">
+      <HintPath>packages\Autofac.8.1.1\lib\netstandard2.0\Autofac.dll</HintPath>
     </Reference>
-    <Reference Include="Jint, Version=3.0.0.0, Culture=neutral, PublicKeyToken=2e92ba9c8d81157f, processorArchitecture=MSIL">
-      <HintPath>..\packages\Jint.3.0.0-beta-2059\lib\net462\Jint.dll</HintPath>
+    <Reference Include="Esprima, Version=3.0.5.0, Culture=neutral, PublicKeyToken=2e92ba9c8d81157f, processorArchitecture=MSIL">
+      <HintPath>packages\Esprima.3.0.5\lib\net462\Esprima.dll</HintPath>
+    </Reference>
+    <Reference Include="Jint, Version=4.1.0.0, Culture=neutral, PublicKeyToken=2e92ba9c8d81157f, processorArchitecture=MSIL">
+      <HintPath>packages\Jint.4.1.0\lib\net462\Jint.dll</HintPath>
     </Reference>
     <Reference Include="Microsoft.Bcl.AsyncInterfaces, Version=8.0.0.0, Culture=neutral, PublicKeyToken=cc7b13ffcd2ddd51, processorArchitecture=MSIL">
       <HintPath>..\packages\Microsoft.Bcl.AsyncInterfaces.8.0.0\lib\net462\Microsoft.Bcl.AsyncInterfaces.dll</HintPath>
     </Reference>
+    <Reference Include="Microsoft.Extensions.DependencyInjection.Abstractions, Version=8.0.0.1, Culture=neutral, PublicKeyToken=adb9793829ddae60, processorArchitecture=MSIL">
+      <HintPath>packages\Microsoft.Extensions.DependencyInjection.Abstractions.8.0.1\lib\net462\Microsoft.Extensions.DependencyInjection.Abstractions.dll</HintPath>
+    </Reference>
     <Reference Include="Newtonsoft.Json, Version=13.0.0.0, Culture=neutral, PublicKeyToken=30ad4fe6b2a6aeed, processorArchitecture=MSIL">
-      <HintPath>..\packages\Newtonsoft.Json.13.0.3\lib\net45\Newtonsoft.Json.dll</HintPath>
+      <HintPath>packages\Newtonsoft.Json.13.0.3\lib\net45\Newtonsoft.Json.dll</HintPath>
     </Reference>
     <Reference Include="PalmSens.Core">
-      <HintPath>..\..\PalmSens SDK for WPF 5.7\PSLibraries\PalmSens.Core.dll</HintPath>
+      <HintPath>..\PalmSens SDK for WPF 5.7\PSLibraries\PalmSens.Core.dll</HintPath>
     </Reference>
     <Reference Include="PalmSens.Core.Windows">
-      <HintPath>..\..\PalmSens SDK for WPF 5.7\PSLibraries\PalmSens.Core.Windows.dll</HintPath>
+      <HintPath>..\PalmSens SDK for WPF 5.7\PSLibraries\PalmSens.Core.Windows.dll</HintPath>
     </Reference>
-    <Reference Include="Prism, Version=8.1.97.5141, Culture=neutral, PublicKeyToken=40ee6c3a2184dc59, processorArchitecture=MSIL">
-      <HintPath>..\packages\Prism.Core.8.1.97\lib\net47\Prism.dll</HintPath>
+    <Reference Include="Prism, Version=9.0.537.60525, Culture=neutral, PublicKeyToken=40ee6c3a2184dc59, processorArchitecture=MSIL">
+      <HintPath>packages\Prism.Core.9.0.537\lib\net47\Prism.dll</HintPath>
+    </Reference>
+    <Reference Include="Prism.Container.Abstractions, Version=9.0.106.9543, Culture=neutral, PublicKeyToken=40ee6c3a2184dc59, processorArchitecture=MSIL">
+      <HintPath>packages\Prism.Container.Abstractions.9.0.106\lib\net47\Prism.Container.Abstractions.dll</HintPath>
+    </Reference>
+    <Reference Include="Prism.Events, Version=9.0.537.60525, Culture=neutral, PublicKeyToken=40ee6c3a2184dc59, processorArchitecture=MSIL">
+      <HintPath>packages\Prism.Events.9.0.537\lib\net47\Prism.Events.dll</HintPath>
     </Reference>
     <Reference Include="System" />
     <Reference Include="System.Buffers, Version=4.0.3.0, Culture=neutral, PublicKeyToken=cc7b13ffcd2ddd51, processorArchitecture=MSIL">
       <HintPath>..\packages\System.Buffers.4.5.1\lib\net461\System.Buffers.dll</HintPath>
     </Reference>
     <Reference Include="System.Data" />
-    <Reference Include="System.Diagnostics.DiagnosticSource, Version=8.0.0.0, Culture=neutral, PublicKeyToken=cc7b13ffcd2ddd51, processorArchitecture=MSIL">
-      <HintPath>..\packages\System.Diagnostics.DiagnosticSource.8.0.0\lib\net462\System.Diagnostics.DiagnosticSource.dll</HintPath>
+    <Reference Include="System.Diagnostics.DiagnosticSource, Version=8.0.0.1, Culture=neutral, PublicKeyToken=cc7b13ffcd2ddd51, processorArchitecture=MSIL">
+      <HintPath>packages\System.Diagnostics.DiagnosticSource.8.0.1\lib\net462\System.Diagnostics.DiagnosticSource.dll</HintPath>
     </Reference>
     <Reference Include="System.Drawing" />
     <Reference Include="System.Memory, Version=4.0.1.2, Culture=neutral, PublicKeyToken=cc7b13ffcd2ddd51, processorArchitecture=MSIL">
@@ -83,8 +95,8 @@
     <Reference Include="System.Text.Encodings.Web, Version=8.0.0.0, Culture=neutral, PublicKeyToken=cc7b13ffcd2ddd51, processorArchitecture=MSIL">
       <HintPath>..\packages\System.Text.Encodings.Web.8.0.0\lib\net462\System.Text.Encodings.Web.dll</HintPath>
     </Reference>
-    <Reference Include="System.Text.Json, Version=8.0.0.0, Culture=neutral, PublicKeyToken=cc7b13ffcd2ddd51, processorArchitecture=MSIL">
-      <HintPath>..\packages\System.Text.Json.8.0.0\lib\net462\System.Text.Json.dll</HintPath>
+    <Reference Include="System.Text.Json, Version=8.0.0.5, Culture=neutral, PublicKeyToken=cc7b13ffcd2ddd51, processorArchitecture=MSIL">
+      <HintPath>packages\System.Text.Json.8.0.5\lib\net462\System.Text.Json.dll</HintPath>
     </Reference>
     <Reference Include="System.Threading.Tasks.Extensions, Version=4.2.0.1, Culture=neutral, PublicKeyToken=cc7b13ffcd2ddd51, processorArchitecture=MSIL">
       <HintPath>..\packages\System.Threading.Tasks.Extensions.4.5.4\lib\net461\System.Threading.Tasks.Extensions.dll</HintPath>
@@ -378,16 +390,16 @@
     <Resource Include="icons\icon_kill.png" />
   </ItemGroup>
   <ItemGroup>
-    <ProjectReference Include="..\..\MethodSCRIPTExample_C#\MSConsoleExample\MSConsoleExample.csproj">
+    <ProjectReference Include="..\MethodSCRIPTExample_C#\MSConsoleExample\MSConsoleExample.csproj">
       <Project>{672b90e2-2022-4d07-8cbb-c08ff82160ee}</Project>
       <Name>MSConsoleExample</Name>
     </ProjectReference>
-    <ProjectReference Include="..\..\PalmSens SDK for WPF 5.7\PSLibraries\PalmSens.Core.Simplified.WPF\PalmSens.Core.Simplified.WPF.csproj">
+    <ProjectReference Include="..\PalmSens SDK for WPF 5.7\PSLibraries\PalmSens.Core.Simplified.WPF\PalmSens.Core.Simplified.WPF.csproj">
       <Project>{4ab617ed-6e9a-4ab9-8677-05e2253ac840}</Project>
       <Name>PalmSens.Core.Simplified.WPF</Name>
     </ProjectReference>
-    <ProjectReference Include="..\..\PalmSens SDK for WPF 5.7\PSLibraries\PalmSens.Core.Simplified\PalmSens.Core.Simplified.csproj">
-      <Project>{b3be0d1a-f672-48d2-8ebc-cbfe94a63a71}</Project>
+    <ProjectReference Include="..\PalmSens SDK for WPF 5.7\PSLibraries\PalmSens.Core.Simplified\PalmSens.Core.Simplified.csproj">
+      <Project>{68d49330-40f7-4988-9771-e03d2861e97a}</Project>
       <Name>PalmSens.Core.Simplified</Name>
     </ProjectReference>
   </ItemGroup>
@@ -410,14 +422,14 @@
     <Resource Include="Scene\setup4.png" />
   </ItemGroup>
   <ItemGroup>
-    <Resource Include="Scene\Setup4Small.xml" />
-  </ItemGroup>
-  <ItemGroup>
     <Resource Include="icons\mfc_err.png" />
     <Resource Include="icons\mfc_ok.png" />
   </ItemGroup>
   <ItemGroup>
     <Resource Include="Scene\notfound.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <Resource Include="Scene\Setup4SCCM.xml" />
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
 </Project>

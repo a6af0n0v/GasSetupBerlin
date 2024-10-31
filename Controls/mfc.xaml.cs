@@ -3,6 +3,7 @@ using Autofac;
 using MeasureConsole.Bootstrap;
 using MeasureConsole.Dialogs;
 using MeasureConsole.Scene;
+using PalmSens.Comm;
 using System;
 using System.Collections.Generic;
 using System.IO.Packaging;
@@ -38,9 +39,20 @@ namespace MeasureConsole.Controls
             { 27, "N2O" },
             { 4, "Ar" }
         };
+        public Dictionary<int, int> ranges = new Dictionary<int, int>
+        {
+            {13, 500},
+            {15, 500},
+            {7, 150},
+            {1, 200},
+            {28, 200},
+            {27, 200},
+            {4, 200}
+        };
         public mfc()
         {
             InitializeComponent();
+            SCCM = false;
             Debug = false;
             ShowAddress = false;
             ShowGasType = false;
@@ -64,6 +76,27 @@ namespace MeasureConsole.Controls
             } 
         }
         public bool isMFC { get; set; } = true;
+        private bool _sccm = false;
+        public bool SCCM
+        {
+            get
+            {
+                return _sccm;
+            }
+            set
+            {
+                _sccm = value;
+                if (value)
+                {
+                    MaxError = 10;
+                    lbGasRange.Visibility = Visibility.Visible;
+                }else
+                {
+                    MaxError = 1;
+                    lbGasRange.Visibility = Visibility.Collapsed;
+                }
+            }
+        }
         public double Mul { get; set; } = 1;
         public double Div { get; set; } = 1;
         public double Offset { get; set; } = 0;
@@ -73,10 +106,19 @@ namespace MeasureConsole.Controls
             set
             {
                 _automaticMode = value;
-                if (_automaticMode)                
-                    lbSollWert.Visibility = Visibility.Hidden;                
+                if (_automaticMode)
+                {
+                    lbSollWert.Visibility = Visibility.Hidden;
+                    iMFCerr.Visibility = Visibility.Collapsed;
+                    iMFCok.Visibility = Visibility.Collapsed;
+                    iMFC.Visibility = Visibility.Visible;
+                }
                 else
+                {
                     lbSollWert.Visibility = Visibility.Visible;
+                    updatePicture();
+                }
+                SollWert = float.NaN;
             }
             get
             {
@@ -95,6 +137,10 @@ namespace MeasureConsole.Controls
                 if (gases.ContainsKey(gas))
                 {
                     lbGasType.Content = gases[gas] ;
+                }
+                if (ranges.ContainsKey(gas))
+                {
+                    lbGasRange.Content = ranges[gas].ToString() ;
                 }
                 
             }
@@ -149,20 +195,34 @@ namespace MeasureConsole.Controls
             }
             set
             {
-                _sollWert = value;                
-                lbSollWert.Content = _sollWert.ToString("N1");
+                if (value == float.NaN)
+                {
+                    lbSollWert.Content = "-";
+                    return;
+                }
+                if (SCCM)
+                {
+                    _sollWert = value * 1000;
+                    lbSollWert.Content = _sollWert.ToString("N0");
+                }
+                else
+                {
+                    _sollWert = value * 100;
+                    lbSollWert.Content = _sollWert.ToString("N1");
+                }
                 updatePicture();
             }
         }
         private void updatePicture()
         {
-            if (!float.IsNaN(_sollWert))
+            if (!float.IsNaN(_sollWert) && !AutomaticMode)
             {
                 if (Math.Abs(_sollWert - scaledValue) > MaxError)
                 {
                     iMFCerr.Visibility = Visibility.Visible;
                     iMFCok.Visibility = Visibility.Collapsed;
                     iMFC.Visibility = Visibility.Collapsed;
+                    //Console.WriteLine($"soll {_sollWert} ist {scaledValue}");
                 }
                 else
                 {
@@ -178,17 +238,31 @@ namespace MeasureConsole.Controls
                 iMFC.Visibility = Visibility.Visible;
             }
         }
-        public float   Value // in l/min
+        public override string CSVValue
+        {
+            get
+            {
+                string units = "%";
+                if (SCCM)
+                    units = "sccm";
+                return Value.ToString("N2") + units;
+            }
+        }
+
+        public float Value // in l/min
         {
             get
             {
                 return _value;
             }
             set
-            {
-                _value = value;
-                scaledValue = (((double)(_value * Mul) / Div + Offset));
-                lbValue.Content = scaledValue.ToString("N1");
+            {                
+                scaledValue = (((double)(value * Mul) / Div + Offset));
+                if (SCCM)
+                    lbValue.Content = scaledValue.ToString("N0");
+                else 
+                    lbValue.Content = scaledValue.ToString("N1");
+                _value = (float)scaledValue;
                 updatePicture();                
             }
         }
@@ -245,7 +319,10 @@ namespace MeasureConsole.Controls
                 Logger.WriteLine("PID activated. To control valves manually disable PID.");
                 return;
             }
-            MFCDialog dlg = new MFCDialog(isMFC);
+            int gasRange = 100;
+            if(ranges.ContainsKey(Gas) && SCCM)
+                gasRange = ranges[Gas];
+            MFCDialog dlg = new MFCDialog(isMFC, gasRange, SCCM);
             var pos = Mouse.GetPosition(null);
             dlg.Left    = pos.X;
             dlg.Top     = pos.Y;
@@ -264,7 +341,11 @@ namespace MeasureConsole.Controls
                         {
                             if (isMFC)
                             {
-                                setValue = ((float)dlg.Value / 100);
+                                if (!SCCM)
+                                    setValue = ((float)dlg.Value / 100);
+                                else
+                                    setValue = ((float)dlg.Value / 1000);
+                                
                                 arduino.setFlow(Channel, setValue);                                
                             }
                             else //proportional valve
@@ -323,6 +404,9 @@ namespace MeasureConsole.Controls
             if (Attributes.ContainsKey("showgastype"))
                 if (bool.TryParse(Attributes["showgastype"], out bResult))
                     ShowGasType = bResult;
+            if (Attributes.ContainsKey("sccm"))
+                if (bool.TryParse(Attributes["sccm"], out bResult))
+                    SCCM = bResult;
             if (Attributes.ContainsKey("humidityregulator"))
                 if (bool.TryParse(Attributes["humidityregulator"], out bResult))
                     HumidityRegulator = bResult;

@@ -33,8 +33,17 @@ namespace MeasureConsole.Controls
             return $"Valve label: {Label}, channel: {Channel}, start: {Start}, length: {Length}";
         }
         public int Start { get; set; } = 0;
-        public int Length { get; set; } = 0;    
-        public int Channel { get; set; } = 0;
+        public int Length { get; set; } = 0;
+        private int _channel = 0;
+        public int Channel
+        {
+            get { return _channel; }
+            set
+            {
+                _channel = value;
+                lbChannel.Content = $"Ch: {_channel}";
+            }
+        }
         public string Label
         {
             get
@@ -54,7 +63,16 @@ namespace MeasureConsole.Controls
                 _state = value;
                 updateIcon();
             } }
-       
+        public override string CSVValue
+        {
+            get
+            {
+                if (_state)
+                    return "1";
+                else return "0";
+            }
+        }
+
         public override void OnAttributesReadHandler()
         {
             int result = 0;

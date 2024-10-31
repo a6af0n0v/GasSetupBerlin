@@ -113,7 +113,7 @@ namespace MeasureConsole
             palmsense.PSCommSimpleWPF = psCommSimpleWPF;
             _eventAggregator = Container.Resolve<IEventAggregator>();
             _eventAggregator.GetEvent<SuccessfulReadEvent>().Subscribe(OnSuccessfulRead);
-            _eventAggregator.GetEvent<HuberTChangeEvent>().Subscribe(OnHuberTempertureChange);
+            
             Loaded += OnMainWindowLoaded;
             Console.WriteLine("MainWindow Loaded event handler charged");
             UpdateApllicationMenu();           
@@ -171,22 +171,14 @@ namespace MeasureConsole
             }            
         }        
 
-        private void OnHuberTempertureChange(int temperature)
-        {
-            this.Dispatcher.Invoke(() =>
-            {
-                currentHuberT = temperature;
-                double t = (double)temperature / 100;
-                //Scheme.tbHuberT.Text = $"{t:f}";
-            });
-        }
+       
         
         private void OnSuccessfulRead(string package)
         {
             this.Dispatcher.Invoke(() =>
             {               
                 foreach (ISceneControl control in Scheme.Scheme.Controls)
-                {
+                {                    
                     control.Update(package);
                 }
                 foreach(Scene.ChartArea area in Scheme.Scheme.ChartAreas)
@@ -197,6 +189,7 @@ namespace MeasureConsole
                     }                    
                 }
                 Plot();
+                Logger.LogToCSV(package);
             });
         }
 

@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.ComponentModel;
+using System.Data.SqlClient;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
@@ -24,6 +25,7 @@ namespace MeasureConsole.Dialogs
     {
         public DialogResult result { get; set; }
         private int _value = 0;
+        private bool sccm = false;
 
         public int Value {
             get
@@ -36,10 +38,16 @@ namespace MeasureConsole.Dialogs
             } 
         }
 
-        public MFCDialog(bool isMFC)
+        public MFCDialog(bool isMFC, int maxRange=100, bool SCCM= false)
         {
             InitializeComponent();
-            sValue.Maximum = 100;
+            sValue.Maximum = maxRange;            
+            if (SCCM)
+            {
+                sccm = SCCM;
+                lbUnits.Content = "sccm";
+            }
+
             if (isMFC)
             {
                 Title = "MFC";
@@ -66,7 +74,7 @@ namespace MeasureConsole.Dialogs
 
         private void btnCloseValve_Click(object sender, RoutedEventArgs e)
         {
-            Value = 100;
+            Value = (int)sValue.Maximum;
             result = System.Windows.Forms.DialogResult.OK;
             Close();
         }

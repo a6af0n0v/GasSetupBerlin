@@ -41,6 +41,13 @@ namespace MeasureConsole.Controls
         public int Mul { set; get; } = 1;
         public int Div { set; get; } = 1;
 
+        public override string CSVValue
+        {
+            get
+            {
+                return tbValue.Text;
+            }
+        }
         public override void Update(string package)
         {
             try

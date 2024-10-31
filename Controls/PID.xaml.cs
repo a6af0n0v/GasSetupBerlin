@@ -30,6 +30,24 @@ namespace MeasureConsole.Controls
         public string Kp { get; set; } = "0.00005";
         public string Kd { get; set; } = "-0.00001";
         public string Ki { get; set; } = "0.0000001";
+        private double _targetHumidity = 0;
+
+        public double TargetHumidity
+        {
+            get
+            {
+                return _targetHumidity;
+            }
+            set
+            {
+                _targetHumidity = value;
+                if (_targetHumidity > 100)
+                {
+                    lbTargetValue.Content = "-%";
+                }else
+                    lbTargetValue.Content = _targetHumidity.ToString("N1") + "%";
+            }
+        }
         public PID()
         {
             InitializeComponent();
@@ -46,7 +64,14 @@ namespace MeasureConsole.Controls
             return $"PID Control";
         }
 
-        
+        public override string CSVValue
+        {
+            get
+            {
+                return ";";
+            }
+        }
+
         public override void OnAttributesReadHandler()
         {            
             float result = 0;

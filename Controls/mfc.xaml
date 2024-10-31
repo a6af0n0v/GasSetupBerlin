@@ -19,6 +19,7 @@
         </Grid.ColumnDefinitions>
         <Label x:Name="controLabel" Grid.Column="0" Grid.Row="1">Gas 1</Label>
         <Label x:Name="lbGasType" Grid.Row="1" Grid.Column="0" Margin="0,15,0,0">N2</Label>
+        <Label x:Name="lbGasRange" Grid.Row="1" Grid.Column="0" Margin="0,30,0,0">500</Label>
         <Label x:Name="lbRawValue" Grid.Row="1" HorizontalAlignment="Center"  Grid.Column="2"></Label>
         <Label x:Name="lbAddr" Grid.Row="0" HorizontalAlignment="Left"  Grid.Column="1" Margin="0,15,0,0">Addr: </Label>
         <Button Click="Button_Click" Grid.Column="1" Grid.Row="1">

@@ -29,6 +29,12 @@ namespace MeasureConsole.Controls
         }
         public Dictionary<string, string> Attributes { get; set; } = new Dictionary<string, string>();
         public XmlSchema GetSchema() => null;
+        private string _label = string.Empty;
+        public virtual string Label{
+            get{
+                return _label;
+            }
+        }
 
         public virtual void OnAttributesReadHandler()
         {
@@ -49,9 +55,9 @@ namespace MeasureConsole.Controls
             while (reader.NodeType != XmlNodeType.EndElement)
             {
                 string key = reader.Name;
+                string value = "";
                 switch (key)
-                {
-                    case "label":
+                {                    
                     case "x":
                     case "y":
                     case "width":
@@ -76,10 +82,16 @@ namespace MeasureConsole.Controls
                     case "showgastype":
                     case "showaddress":
                     case "type":
+                    case "sccm":
                     case "humidityregulator":
-                        var value = reader.ReadElementContentAsString();
+                        value = reader.ReadElementContentAsString();
                         Attributes.Add(key, value);
                         break;                    
+                    case "label":
+                        value = reader.ReadElementContentAsString();
+                        Attributes.Add(key, value);
+                        _label = $"{value}";
+                        break;
                     default:
                         reader.Skip();
                         break;
@@ -93,6 +105,8 @@ namespace MeasureConsole.Controls
         {
             
         }
+
+        public virtual string CSVValue { get { return null; } }
 
         public void WriteXml(XmlWriter writer)
         {

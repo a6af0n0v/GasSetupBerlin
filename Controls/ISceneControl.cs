@@ -13,5 +13,7 @@ namespace MeasureConsole.Scene
         string  ToString();
         void    Update(string package);
         void    OnAttributesReadHandler();
+        string  CSVValue { get; }
+        string  Label { get; }
     }
 }

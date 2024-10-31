@@ -11,6 +11,7 @@ using Autofac;
 using System.Reflection.Emit;
 using PalmSens.Fitting.Models.Circuits.Elements;
 using Org.BouncyCastle.Crypto.Paddings;
+using System.IO;
 
 
 
@@ -166,7 +167,8 @@ namespace MeasureConsole
             catch (Exception ex)
             {
                 Logger.WriteLine(ex.Message);
-                throw ex;
+                if (!(ex is System.TimeoutException))
+                    throw ex;
             }
         }
 

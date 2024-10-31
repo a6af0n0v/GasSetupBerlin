@@ -7,6 +7,12 @@ using System.Windows.Documents;
 using Autofac;
 using Newtonsoft.Json;
 using EmStatConsoleExample;
+using MeasureConsole.Scene;
+using PalmSens.Units;
+using MeasureConsole.Controls;
+using System.Xaml.Schema;
+using System.Windows.Input;
+
 
 namespace MeasureConsole
 {
@@ -71,8 +77,7 @@ namespace MeasureConsole
         private static int linesInCSVFile = 0;
         private static int currentLogChapterNumber = 0;
         private static int currentCSVChapterNumber = 0;
-        private static IContainer Container = Factory.Container;
-        
+        private static IContainer Container = Factory.Container;       
 
         public class Settings
         {
@@ -89,13 +94,27 @@ namespace MeasureConsole
             {
 
             }
-            path = Path.Combine(settings.CSVFolder, $"{Settings.CSVFileName}_{currentCSVChapterNumber}.csv");
+           
+        }
+        public static void writeCSVTableHeaders()
+        {
+            var settings = Container.Resolve<Properties.Settings>();
+            var path = Path.Combine(settings.CSVFolder, $"{Settings.CSVFileName}_{currentCSVChapterNumber}.csv");
             using (var f = File.Open(path, FileMode.Create))
-            using (var writer = new  StreamWriter(f))
+            using (var writer = new StreamWriter(f))
             {
-                writer.WriteLine(settings.CSVColumnNames);
+                string names = "TimeStamp";
+                var mw = Container.Resolve<MainWindow>();
+                var scheme = mw.Scheme.Scheme;
+                foreach (ISceneControl control in scheme.Controls)
+                {
+                    names += $";{control.Label}";
+                }
+
+                writer.WriteLine(names);
             }
         }
+
         public static void PSSessionToCSV(string pssessionFileName, string output="tmp.csv")
         {
             var json = File.ReadAllText(pssessionFileName);
@@ -233,36 +252,35 @@ namespace MeasureConsole
         {
             var settings = Container.Resolve<Properties.Settings>();
             var path = Path.Combine(settings.CSVFolder, $"{Settings.CSVFileName}_{currentCSVChapterNumber}.csv");
+            var mw = Container.Resolve<MainWindow>();
+            var scheme = mw.Scheme.Scheme;
+            var controlsToSaveInProcessParameters = new Dictionary<string, string>() {
+                        { "mfc1", "MFC1" },
+                        { "mfc2", "MFC2" },
+                        { "t C", "t_sht" },                        
+                        { "rh %", "rh_sht" },
+                        {"Huber", "t_huber" }
+                    };
+            processParametersToSaveInCSV = "";
+            processParametersToSaveInCSV_demonstrator_part = "";
             using (var f = File.Open(path, FileMode.Append))
             using (var writer = new StreamWriter(f))
             {
-                /*var MFC1_Flow = package.mfc1;//((double)package.adc0 * 132 / 1024).ToString("N1");
-                var MFC2_Flow = package.mfc2;//((double)package.adc1 * 132 / 1024).ToString("N1");
-                
-                double temperature = (double)package.temperature/100;
-                var v0 = ((package.porta & (1 << settings.Valve1IO)) == 0) ? 0 : 1;
-                var v1 = ((package.porta & (1 << settings.Valve2IO)) == 0) ? 0 : 1;
-                var v2 = ((package.porta & (1 << settings.Valve3IO)) == 0) ? 0 : 1;
-                var v3 = ((package.porta & (1 << settings.Valve4IO)) == 0) ? 0 : 1;
-                var v4 = ((package.porta & (1 << settings.Valve5IO)) == 0) ? 0 : 1;
-                var v5 = ((package.porta & (1 << settings.Valve6IO)) == 0) ? 0 : 1;
-                //var v6 = ((package.porta & (1 << settings.Valve7IO)) == 0) ? 0 : 1;
-
-                double humidity = (double)package.humidity/1000;
-                double pressure = (double)package.pressure/100;
-                double shtHumidity = ((double)package.shtHumidity)/1000;
-                double shtTemperature = ((double) package.shtTemperature)/100;
-                double huberT = (double)package.huber/100;
-
-                string now = DateTime.Now.ToString("dd-MM-yyyy HH:mm:ss");
-
-                writer.WriteLine($"{package.package_number}; {now}; {MFC1_Flow}; {MFC2_Flow};" +
-                    $" {temperature:N1}; {humidity:N2}; {pressure:N3}; {v0}; {v1}; {v2}; {v3}; {v4}; {v5};"+
-                    $" {huberT:N1}; {package.shtHumidity}; {package.shtTemperature}");
-                processParametersToSaveInCSV = $"MFC1: {MFC1_Flow}; " +
-                    $"MFC2: {MFC2_Flow}; t_huber: {huberT:N2}; t_bme: {temperature:N2};t_sht: {shtTemperature:N2}; h_bme: {humidity:N2}; h_sht: {shtHumidity:N2}; p_bme: {pressure:N3};";
-                processParametersToSaveInCSV_demonstrator_part = $"MFC1: {MFC1_Flow}; " +
-                    $"MFC2: {MFC2_Flow}; t_huber: {huberT:N2};";
+                string now = DateTime.Now.ToString("dd-MM-yyyy HH:mm:ss");                
+                writer.Write($"{now}");
+                foreach (ISceneControl control in scheme.Controls)
+                {
+                    writer.Write($";{control.CSVValue}");
+                    if (controlsToSaveInProcessParameters.ContainsKey(control.Label))
+                    {
+                        var label = control.Label;
+                        controlsToSaveInProcessParameters.TryGetValue(control.Label, out label);
+                        processParametersToSaveInCSV += $"{label}:{control.CSVValue};";
+                        processParametersToSaveInCSV_demonstrator_part += $"{label}:{control.CSVValue};";
+                    }
+                    
+                }
+                writer.WriteLine("");
                 linesInCSVFile++;
                 if (linesInCSVFile > settings.MaxNumberOfLinesInCSV)
                 {
@@ -272,9 +290,15 @@ namespace MeasureConsole
                     using (var f_new = File.Open(new_path, FileMode.Create))
                     using (var writer_new = new StreamWriter(f_new))
                     {
-                        writer_new.WriteLine(settings.CSVColumnNames);
+                        string names = "Timestamp";
+                        foreach (ISceneControl control in scheme.Controls)
+                        {
+                            names += $";{control.Label}";
+                        }
+                        writer_new.WriteLine(names);
+                        
                     }
-                }*/
+                }               
             }            
         }
 

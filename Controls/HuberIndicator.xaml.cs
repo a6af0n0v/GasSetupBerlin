@@ -1,4 +1,7 @@
-﻿using MeasureConsole.Scene;
+﻿using Autofac;
+using MeasureConsole.Bootstrap;
+using MeasureConsole.Scene;
+using Prism.Events;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -22,9 +25,36 @@ namespace MeasureConsole.Controls
 {
     public partial class HuberIndicator : SceneControl
     {
+        private static IContainer Container = Factory.Container;
+        private int currentTemperature = -273;
+        public int CurrentTemperature
+        {
+            set
+            {
+                currentTemperature = value;
+                double t = (double)value / 100;
+                tbHuberT.Text = t.ToString("N1");
+            }
+            get
+            {
+                return currentTemperature;
+            }
+        }
+
+        public override string CSVValue
+        {            
+            get
+            {
+                return tbHuberT.Text;
+            }
+        }
+
         public HuberIndicator()
         {
             InitializeComponent();
+            var _ea = Container.Resolve<IEventAggregator>();
+            _ea.GetEvent<HuberTChangeEvent>().Subscribe(OnHuberTempertureChange);
+
         }
 
         public override string ToString()
@@ -44,6 +74,13 @@ namespace MeasureConsole.Controls
             if (Attributes.ContainsKey("label"))
                 Label = Attributes["label"];
             base.OnAttributesReadHandler();
+        }
+        private void OnHuberTempertureChange(int temperature)
+        {
+            this.Dispatcher.Invoke(() =>
+            {
+                CurrentTemperature = temperature;
+            });
         }
     }
 }

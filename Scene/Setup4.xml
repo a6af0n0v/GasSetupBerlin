@@ -20,7 +20,7 @@
 			<channel>5</channel>
 		</Valve>
 		<Valve>
-			<label>gas3</label>
+			<label>N2</label>
 			<start>3</start>
 			<length>2</length>
 			<x>100</x>
@@ -28,7 +28,7 @@
 			<channel>4</channel>
 		</Valve>
 		<Valve>
-			<label>gas4</label>
+			<label>Air</label>
 			<start>3</start>
 			<length>2</length>
 			<x>100</x>
@@ -61,7 +61,7 @@
 			<mul>1000</mul>
 			<div>327675</div>
 			<offset>-100</offset>
-			<gas>15</gas>
+			<gas>13</gas>
 			<debug>false</debug>
 			<showgastype>true</showgastype>
 			<showaddress>true</showaddress>
@@ -125,9 +125,9 @@
 			<height>20</height>
 		</LED>
 		<LED>
-			<label>DIO1</label>
-			<bit>0</bit>
-			<start>3</start>
+			<label>MUX EN</label>
+			<bit>6</bit>
+			<start>36</start>
 			<length>2</length>
 			<x>650</x>
 			<y>120</y>
@@ -135,7 +135,7 @@
 			<height>20</height>
 		</LED>
 		<Indicator>
-			<label>t, C</label>
+			<label>t C</label>
 			<start>31</start>
 			<length>4</length>
 			<x>650</x>
@@ -144,13 +144,22 @@
 			<div>100</div>
 		</Indicator>
 		<Indicator>
-			<label>rh, %</label>
+			<label>rh %</label>
 			<start>26</start>
 			<length>4</length>
 			<x>650</x>
 			<y>200</y>
 			<div>100</div>
 			<width>110</width>
+		</Indicator>
+		<Indicator>
+			<label>MUX</label>
+			<start>36</start>
+			<length>2</length>
+			<x>650</x>
+			<y>240</y>
+			<width>110</width>
+			<type>string</type>
 		</Indicator>
 		<Indicator>
 			<label>Package</label>
@@ -162,6 +171,7 @@
 			<type>string</type>
 		</Indicator>
 		<Huber>
+			<label>Huber</label>
 			<start>2</start>
 			<length>4</length>
 			<x>690</x>
@@ -170,8 +180,8 @@
 		<PID>
 			<start>2</start>
 			<length>4</length>
-			<x>555</x>
-			<y>500</y>
+			<x>545</x>
+			<y>470</y>
 			<width>50</width>
 			<kc>0</kc>
 			<kp>0.05</kp>

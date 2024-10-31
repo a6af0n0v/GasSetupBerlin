@@ -87,7 +87,7 @@ namespace MeasureConsole
             _serialPort.WriteLine(HandshakeString);
             Console.WriteLine(HandshakeString);
             Logger.WriteLine("System Initialized. All valves closed. MFCs are fully closed. PID is off.");
-            
+            Logger.writeCSVTableHeaders();
         }
 
         public Arduino(IEventAggregator ea)
@@ -145,24 +145,59 @@ namespace MeasureConsole
    
         public void setFlow(int channel, float flow)
         {
-            var cmd = $"$b{channel}{flow}#";
-            _serialPort.WriteLine(cmd.Replace(',', '.'));
-            Console.WriteLine(cmd);
+            
             var mainWnd = Factory.Container.Resolve<MainWindow>();
-           
+            float maxValue = 1;            
             foreach (var control in mainWnd.Scheme.Scheme.Controls)
             {
                 if(control is mfc _mfc && _mfc.Channel == channel)
-                {
+                {                    
                     mainWnd.Dispatcher.Invoke(() =>
-                    {
-                        _mfc.SollWert = flow * 100.0f;
+                    {                        
+                        if (_mfc.SCCM)
+                        {
+                            if (_mfc.ranges.ContainsKey(_mfc.Gas))
+                            {
+                                maxValue = (float)_mfc.ranges[_mfc.Gas] / 1000.0f;
+                                if (flow > maxValue) 
+                                {                                
+                                    flow = maxValue;                                    
+                                    Logger.WriteLine($"Such flow rate is not allowed for channel {channel}. The setpoint will be trimmed.");
+                                }                                    
+                            }
+                           
+                        }
+                        else
+                        {
+                            if (flow > 1)
+                            {                                
+                                flow = 1;
+                                Logger.WriteLine($"Such flow rate is not allowed for channel {channel}. The setpoint will be trimmed.");
+                            }
+                        }
+                        _mfc.SollWert = flow;
                     });
                 }
-            }
-
+            }                                       
+            var cmd = $"$b{channel}{flow}#";
+            Console.WriteLine(cmd);
+            _serialPort.WriteLine(cmd.Replace(',', '.'));
         }
-
+        public void setMUX(byte addrValue, byte inputValue)
+        {
+            _serialPort.WriteLine($"$m{addrValue},{inputValue}#");
+        }
+        public void enableMUX(bool enable)
+        {
+            if (enable)
+            {
+                _serialPort.WriteLine("$e#");
+            }
+            else
+            {
+                _serialPort.WriteLine("$d#");
+            }
+        }
         public void openValve(int channel)
         {
             Console.WriteLine($"$f{channel}#");
@@ -180,7 +215,7 @@ namespace MeasureConsole
             {
                 if (_serialPort.IsOpen)
                 {
-                    int expected_bytes = 36;
+                    int expected_bytes = 36+3;
                     if (_serialPort.BytesToRead >= expected_bytes) 
                     {
                         //Console.WriteLine($"Bytes to read {_serialPort.BytesToRead}");
@@ -199,7 +234,7 @@ namespace MeasureConsole
                                         Console.WriteLine($"extra info: {extra}");
                                     string pckg = message.Substring(pckStart + 1, pckEnd - pckStart-1);
                                     //$FD 01 91B1 801E 7FFF 9256 231D 088A#
-                                    if (pckg.Length == 35)
+                                    if (pckg.Length == expected_bytes-1)
                                         _ea.GetEvent<SuccessfulReadEvent>().Publish(pckg);
                                     else
                                         Console.WriteLine(pckg);
@@ -290,6 +325,7 @@ namespace MeasureConsole
         public void setHumidity(int value)
         {
             _serialPort.WriteLine($"$h{value}#");
+            Console.WriteLine($"$h{value}#");
             var mainWnd = Factory.Container.Resolve<MainWindow>();  
             foreach (var control in mainWnd.Scheme.Scheme.Controls)
             {
@@ -302,11 +338,21 @@ namespace MeasureConsole
                         {
                             if (value > 0 && value < 10000)
                                 _mfc.AutomaticMode = true;
-                            else
+                            else                            
                                 _mfc.AutomaticMode = false;
+                                
+                            
                         });
-                        
                     }
+                }
+                else if (control is PID)
+                {
+                    var pid = (PID)control;
+                    mainWnd.Dispatcher.Invoke(() =>
+                    {
+                        pid.TargetHumidity = value / 100;
+                    });
+                    
                 }
             }
         }

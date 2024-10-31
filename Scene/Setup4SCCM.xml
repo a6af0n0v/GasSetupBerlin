@@ -1,37 +1,37 @@
 ﻿<Scheme>
-	<Name>Setup4 Small</Name>
+	<Name>Setup4 Physical Units</Name>	
 	<Version>1</Version>
-	<Image>../../Scene/setup4small.png</Image>
+	<Image>../../Scene/setup4.png</Image>
 	<Controls >
 		<Valve>
 			<label>gas1</label>
 			<start>3</start>
 			<length>2</length>
-			<x>60</x>
-			<y>-5</y>
+			<x>100</x>
+			<y>30</y>
 			<channel>6</channel>
 		</Valve>
 		<Valve>
 			<label>gas2</label>
 			<start>3</start>
 			<length>2</length>
-			<x>60</x>
-			<y>85</y>
+			<x>100</x>
+			<y>130</y>
 			<channel>5</channel>
 		</Valve>
 		<Valve>
-			<label>gas3</label>
+			<label>N2</label>
 			<start>3</start>
 			<length>2</length>
-			<x>60</x>
-			<y>170</y>
+			<x>100</x>
+			<y>230</y>
 			<channel>4</channel>
 		</Valve>
 		<Valve>
-			<label>gas4</label>
+			<label>Air</label>
 			<start>3</start>
 			<length>2</length>
-			<x>60</x>
+			<x>100</x>
 			<y>330</y>
 			<channel>2</channel>
 		</Valve>
@@ -39,7 +39,7 @@
 			<label>gas5</label>
 			<start>3</start>
 			<length>2</length>
-			<x>60</x>
+			<x>100</x>
 			<y>430</y>
 			<channel>1</channel>
 		</Valve>
@@ -47,7 +47,7 @@
 			<label>gas6</label>
 			<start>3</start>
 			<length>2</length>
-			<x>60</x>
+			<x>100</x>
 			<y>530</y>
 			<channel>0</channel>
 		</Valve>
@@ -55,47 +55,50 @@
 			<label>mfc1</label>
 			<start>6</start>
 			<length>4</length>
-			<x>200</x>
+			<x>230</x>
 			<y>390</y>
 			<channel>0</channel>
-			<mul>1000</mul>
+			<mul>10000</mul>
 			<div>327675</div>
-			<offset>-100</offset>
-			<gas>15</gas>
+			<offset>-1000</offset>
+			<gas>13</gas>
 			<debug>false</debug>
 			<showgastype>true</showgastype>
 			<showaddress>true</showaddress>
+			<sccm>true</sccm>
 		</MFC>
 		<MFC>
 			<label>mfc2</label>
 			<start>11</start>
 			<length>4</length>
-			<x>200</x>
-			<y>50</y>
+			<x>230</x>
+			<y>90</y>
 			<channel>1</channel>
-			<mul>1000</mul>
+			<mul>10000</mul>
 			<div>327675</div>
-			<offset>-100</offset>
+			<offset>-1000</offset>
 			<gas>13</gas>
 			<debug>false</debug>
 			<showgastype>true</showgastype>
 			<showaddress>true</showaddress>
+			<sccm>true</sccm>
 		</MFC>
 		<MFC>
 			<label>dry</label>
 			<start>16</start>
 			<length>4</length>
 			<x>380</x>
-			<y>90</y>			
+			<y>90</y>
 			<channel>2</channel>
-			<mul>1000</mul>
+			<mul>10000</mul>
 			<div>327675</div>
-			<offset>-100</offset>
+			<offset>-1000</offset>
 			<gas>13</gas>
 			<debug>false</debug>
 			<showgastype>true</showgastype>
 			<showaddress>true</showaddress>
 			<humidityregulator>true</humidityregulator>
+			<sccm>true</sccm>
 		</MFC>
 		<MFC>
 			<label>wet</label>
@@ -104,14 +107,15 @@
 			<x>380</x>
 			<y>195</y>
 			<channel>3</channel>
-			<mul>1000</mul>
+			<mul>10000</mul>
 			<div>327675</div>
-			<offset>-100</offset>
+			<offset>-1000</offset>
 			<gas>13</gas>
 			<debug>false</debug>
 			<showgastype>true</showgastype>
 			<showaddress>true</showaddress>
 			<humidityregulator>true</humidityregulator>
+			<sccm>true</sccm>
 		</MFC>
 		<LED>
 			<label>Heartbeat</label>
@@ -125,9 +129,9 @@
 			<height>20</height>
 		</LED>
 		<LED>
-			<label>DIO1</label>
-			<bit>0</bit>
-			<start>3</start>
+			<label>MUX EN</label>
+			<bit>6</bit>
+			<start>36</start>
 			<length>2</length>
 			<x>650</x>
 			<y>120</y>
@@ -135,7 +139,7 @@
 			<height>20</height>
 		</LED>
 		<Indicator>
-			<label>t, C</label>
+			<label>t C</label>
 			<start>31</start>
 			<length>4</length>
 			<x>650</x>
@@ -144,13 +148,22 @@
 			<div>100</div>
 		</Indicator>
 		<Indicator>
-			<label>rh, %</label>
+			<label>rh %</label>
 			<start>26</start>
 			<length>4</length>
 			<x>650</x>
 			<y>200</y>
 			<div>100</div>
 			<width>110</width>
+		</Indicator>
+		<Indicator>
+			<label>MUX</label>
+			<start>36</start>
+			<length>2</length>
+			<x>650</x>
+			<y>240</y>
+			<width>110</width>
+			<type>string</type>
 		</Indicator>
 		<Indicator>
 			<label>Package</label>
@@ -162,6 +175,7 @@
 			<type>string</type>
 		</Indicator>
 		<Huber>
+			<label>Huber</label>
 			<start>2</start>
 			<length>4</length>
 			<x>690</x>
@@ -170,8 +184,8 @@
 		<PID>
 			<start>2</start>
 			<length>4</length>
-			<x>555</x>
-			<y>500</y>
+			<x>545</x>
+			<y>470</y>
 			<width>50</width>
 			<kc>0</kc>
 			<kp>0.05</kp>

@@ -8,7 +8,8 @@
         xmlns:dvc="clr-namespace:System.Windows.Forms.DataVisualization.Charting;assembly=System.Windows.Forms.DataVisualization" 
         xmlns:controls="clr-namespace:MeasureConsole.Controls"
         xmlns:scene="clr-namespace:MeasureConsole.Scene"
-        xmlns:WPF="clr-namespace:PalmSens.Core.Simplified.WPF;assembly=PalmSens.Core.Simplified.WPF" x:Class="MeasureConsole.MainWindow"
+        xmlns:WPF="clr-namespace:PalmSens.Core.Simplified.WPF;assembly=PalmSens.Core.Simplified.WPF" 
+        x:Class="MeasureConsole.MainWindow"
         mc:Ignorable="d"
         Title="Measurement Console" Icon="icons/logo_small.png" Closing="Window_Closing" Loaded="Window_Loaded" MinWidth="800" MinHeight="600" >
     <Grid>
@@ -84,6 +85,7 @@
                 </RibbonGroup>
                 
                 <WPF:PSCommSimpleWPF x:Name="psCommSimpleWPF" Height="100" Width="100"  />
+                
                             </RibbonTab>
             <RibbonTab Header="Huber">
                 <RibbonGroup Header="Setup">
@@ -150,7 +152,7 @@
         <!--==<WPF:PSCommSimpleWPF Grid.Column="1" HorizontalAlignment="Stretch" VerticalAlignment="Stretch" Disconnected="psCommSimpleWPF_Disconnected"  />
         -->
         <GridSplitter Background="Blue" HorizontalAlignment="Stretch" VerticalAlignment="Top" Height="5" Grid.Row="2" Grid.ColumnSpan="2"/>
-        <RichTextBox Margin="2" MaxHeight="500"  x:Name="rtbStatusBar"  Grid.Row="2" Grid.ColumnSpan="2"  MinHeight="90" VerticalScrollBarVisibility="Visible" Block.LineHeight="6">
+        <RichTextBox Margin="2" MaxHeight="100"  x:Name="rtbStatusBar"  Grid.Row="2" Grid.ColumnSpan="2"  MinHeight="90" VerticalScrollBarVisibility="Visible" Block.LineHeight="6">
         </RichTextBox>
        
     </Grid>

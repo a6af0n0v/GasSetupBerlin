@@ -32,7 +32,7 @@
                 <ColumnDefinition Width="auto"/>
             </Grid.ColumnDefinitions>
             <Slider x:Name="sValue" Minimum="0" SmallChange="1" LargeChange="10" Margin="5,0,5,0" VerticalAlignment="Center" />
-            <Label Grid.Column="1" Content="%"></Label>
+            <Label x:Name="lbUnits" Grid.Column="1" Content="%"></Label>
         </Grid>
         <TextBox x:Name="tbValue" Grid.Row="1" Grid.Column="1" Margin="5" VerticalContentAlignment="Center" Text="{Binding Value, ElementName=sValue, FallbackValue=0, Mode=TwoWay, StringFormat=\{0:00\}, TargetNullValue=0, UpdateSourceTrigger=PropertyChanged}"/>
         <Label Content="Value" Grid.Row="1" Grid.Column="0" Margin="5"/>

@@ -63,8 +63,10 @@ namespace MeasureConsole.Scene
         {            
             try
             {
-                string sValue = package.Substring(Start, Length);
-                double value = ((double)(Convert.ToInt32(sValue, 16) * Mul / Div + Offset));
+                string sValue = package.Substring(Start, Length);               
+                double value = (double)Convert.ToInt32(sValue, 16) * Mul / Div;
+                value += Offset;
+               
                 if (Data.Count >= QueueSize)
                 {
                     Data.Dequeue();
